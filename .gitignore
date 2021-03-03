@@ -1,0 +1,31 @@
+######################
+# Compiled Source
+######################
+*.exe
+*.o
+*.mod
+*.so
+*.pyc
+
+######################
+# Temporary Files
+######################
+*.swp
+*.swo
+*~
+\#*
+
+######################
+# LaTeX/BibTeX
+######################
+*.aux
+*.log
+*.dvi
+*.bbl
+*.blg
+*.spl
+
+######################
+# Explicitly ignore PDFs
+######################
+Notes/various_notes.pdf

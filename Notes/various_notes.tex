@@ -1,0 +1,187 @@
+%
+% Ryan Orvedahl Mar 2021
+
+\documentclass[10pt,letterpaper]{article}
+
+% Define new commands (shortcuts):
+\input shortcuts
+
+% allows the \hl{} command to highlight stuff
+\usepackage{color,soul}
+
+\usepackage{bm}
+\usepackage{amsmath,amsfonts,amssymb}
+\usepackage{cancel}
+\usepackage{multirow}
+
+\usepackage[margin=0.75in, letterpaper]{geometry}
+
+% special colors and definitions for framing source code listings
+\usepackage{listings}
+
+\usepackage{tikz}
+\newcommand*\circled[1]{\tikz[baseline=(math.base)]{
+  \node[shape=circle,draw,inner sep=1pt] (math) {\ensuremath{#1}};}}
+
+\definecolor{AntiqueWhite3}{rgb}{0.804,0.753,0.69}
+\definecolor{DarkerAntiqueWhite3}{rgb}{0.659,0.635,0.612}
+\definecolor{orange}{rgb}{1.0,0.65,0.0}
+
+\lstset{%
+  keywordstyle=\color{blue}\ttfamily,%
+  commentstyle=\itshape\color[gray]{0.5},%
+  mathescape=true,%
+  basicstyle=\small\ttfamily,%
+  %frameround=fttt,%
+  frameround=ffff,%
+  %frame=shadowbox,%
+  frame=single,%
+  rulesepcolor=\color{DarkerAntiqueWhite3},%
+  backgroundcolor=\color{AntiqueWhite3},%
+  emph={load,add_slice,save}, emphstyle=\color{blue},%
+  emph={[2]In}, emphstyle=[2]\color{yellow},%
+  emph={[3]Out}, emphstyle=[3]\color{orange},%
+  xleftmargin=1em,
+  xrightmargin=1em,
+  mathescape=false}
+
+%\usepackage{pdflscape} % landscape ability
+%\usepackage{scrextend} % footnote and \footref commands
+
+\begin{document}
+
+%========================================================================
+% create title and author
+%========================================================================
+\title{Various Notes from \shtns\ Library}
+\author{Ryan Orvedahl}
+
+\maketitle
+
+\section{Introduction}
+Real data on a spherical grid can be represented in two main ways. The first
+is to specify the function value at each grid point in physical space,
+made up of radius $r$, co-latitude $\theta$, and longitude $\phi$. An arbitrary
+quantity would appear as
+\begin{equation}
+ \myvec{f}\left(\myvec{r},t\right)
+\end{equation}
+where $t$ is time and $\myvec{f}$ could be a vector or a scalar.
+An alternate way of representing the real function data is in spectral space.
+A scalar field is expanded in terms of spherical harmonics as
+\begin{equation}
+ f\left(\myvec{r},t\right) = \sum\limits_{\ell=0}^{\ell_\mathrm{max}}
+                                 \sum\limits_{m=-\ell}^{\ell}
+                C_\ell^m\left(r,t\right) Y_\ell^m\left(\theta,\phi\right)
+\qquad
+C_\ell^m = \int_\Omega \left(Y_\ell^m\right)^* f\left(\myvec{r},t\right)
+           \,\mathrm{d}\Omega
+\end{equation}
+where the integration is taken over all solid angles. The spherical harmonic
+transform (SHT) converts between representations in spectral space and
+physical space, i.e., it converts between $f\left(\myvec{r},t\right)$
+and $C_\ell^m\left(r,t\right)$. The SHT is generally a very slow process.
+
+\section{\shtns}
+N.~Schaeffer has developed a SHT library that is reported to be very efficient
+and fast compared to other third party SHT libraries. This library is called
+\shtns\footnote{https://nschaeff.bitbucket.io/shtns} and it's properties are
+described below.
+
+\subsection{Definitions}
+The spherical harmonic ``synthesis'' is the evaluation of the sum
+\begin{equation}
+ f\left(\myvec{r},t\right) = \sum\limits_{\ell=0}^{\ell_\mathrm{max}}
+                                 \sum\limits_{m=-\ell}^{\ell}
+                C_\ell^m\left(r,t\right) Y_\ell^m\left(\theta,\phi\right)
+\end{equation}
+which transforms from spectral space to physical space. This is accomplished by
+swapping the order of the sums and expanding the spherical harmonics
+\begin{equation}
+ f\left(\myvec{r},t\right) =
+           \sum\limits_{m=-\ell_{\mathrm{max}}}^{\ell_\mathrm{max}}
+                 \sum\limits_{\ell=|m|}^{\ell_\mathrm{max}}
+                 C_\ell^m Y_\ell^m
+          =
+           \sum\limits_{m=-\ell_{\mathrm{max}}}^{\ell_\mathrm{max}}
+            \left(
+                 \sum\limits_{\ell=|m|}^{\ell_\mathrm{max}}
+                    C_\ell^m A_\ell^m P_\ell^m\left(\cos\theta\right)
+            \right)
+              e^{i m\phi}
+\end{equation}
+where $A_\ell^m$ is the normalization that makes the spherical harmonics orthonormal
+and $P_\ell^m$ are the associated Legendre functions. The above is just a
+regular Fourier transform of the stuff inside the parentheses.
+The only remaining task in the ``synthesis'' step is to evaluate
+\begin{equation}
+ f_m\left(r,\theta,t\right) =
+                 \sum\limits_{\ell=|m|}^{\ell_\mathrm{max}}
+                    C_\ell^m A_\ell^m P_\ell^m\left(\cos\theta\right)
+\end{equation}
+on the given collocation points in co-latitude.
+
+The ``analysis'' step in the SHT is the evaluation of the integral
+\begin{equation}
+  C_\ell^m\left(r,t\right) =
+                  \int_\Omega \left(Y_\ell^m\right)^* f\left(\myvec{r},t\right)
+           \,\mathrm{d}\Omega
+\end{equation}
+which transforms from physical space to spectral space.
+The integral in $\phi$ is a simple Fourier transform
+\begin{equation}
+  C_m\left(r,\theta,t\right) =
+                  \int_0^{2\pi} f\left(\myvec{r},t\right)e^{-i m \phi}
+                  \,\mathrm{d}\phi
+\end{equation}
+and the remaining piece is
+\begin{equation}
+  C_\ell^m\left(r,t\right) =
+                  \int_0^{\pi}
+              C_m\left(r,\theta,t\right)A_\ell^mP_\ell^m\left(\cos\theta\right)
+                  \,\sin\theta\,\mathrm{d}\theta
+\end{equation}
+This becomes a simple sum using the appropriate quadrature rule on the collocation points
+in co-latitude
+\begin{equation}
+  C_\ell^m\left(r,t\right) =
+           \sum\limits_{k=1}^{N_\theta}
+              C_m\left(r,\theta_k,t\right)A_\ell^mP_\ell^m\left(\cos\theta_k\right)
+              w_k
+\end{equation}
+where $w_k$ are the weights evaluated at the $k$-th collocation point.
+
+\subsection{Optimizations}
+\begin{itemize}
+  \item Uniform grid in longitude on the interval $[0,2\pi)$
+  \item Legendre-based grid in latitude on the interval $(0,\pi)$
+  \item FFTW for the Fourier transform
+  \item Complex-conjugate symmetry for real data
+  \item Mirror symmetry: spherical harmonics display symmetry about the equator
+  \item Precomputed $P_\ell^m\left(\cos\theta_k\right)$: save computing power
+        at expense of memory bandwidth. This becomes an issue with very large
+        $\ell_\mathrm{max}$ simulations.
+  \item On-the-fly: evaluate $P_\ell^m\left(\cos\theta_k\right)$ recursively.
+        Greatly reduce memory usage and is required
+        on very large $\ell_\mathrm{max}$ simulations.
+        The recursion coefficients only depend on $\ell$ and $m$ and are
+        precomputed/stored. Vector instructions on modern computers can make this
+        approach faster than the precomputed $P_\ell^m$ method, even for moderate
+        $\ell_\mathrm{max}$.
+  \item Multithreading: make use of OpenMP and multi-threaded FFTW
+\end{itemize}
+The last optimization includes behavior near the poles. Spherical harmonics with
+large $m$ decrease exponentially near the poles. So one of the integrals in the
+``analysis'' step can be reduced to
+\begin{equation}
+  C_\ell^m\left(r,t\right) =
+                  \int_{\theta_0^{\ell m}}^{\pi-\theta_0^{\ell m}}
+              C_m\left(r,\theta,t\right)A_\ell^mP_\ell^m\left(\cos\theta\right)
+                  \,\sin\theta\,\mathrm{d}\theta
+\end{equation}
+where $\theta_0^{\ell m} \geq 0$ is the threshold below which $P_\ell^m$ is considered
+zero. A similar optimization can be made during one of the ``synthesis'' integrals.
+For the best results a threshold that does not depend on $\ell$ should be used. This
+can lead to a 5\%-20\% speed increase depending on desired accuracy and $\ell_\mathrm{max}$.
+        
+\end{document}

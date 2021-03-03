@@ -1,0 +1,18 @@
+
+This is a collection of notes/codes related to the SHTns library.
+
+	website/docs: https://nschaeff.bitbucket.io/shtns
+
+	source code: https://bitbucket.org/nschaeff/shtns/src/master/
+
+The main goal is to port the SHTns library into the Rayleigh code.
+
+	source code: https://github.com/geodynamics/Rayleigh
+
+Many of the test programs will be written in Fortran 2003, and built/compiled
+using my Build-System tool. This tool takes a simple approach to automatically
+determining dependencies and includes an easy way to define new namelist
+parameters with support for specifying their value through command line arguments.
+
+	source code: https://bitbucket.org/orvedahl/build-system/src/master/
+
