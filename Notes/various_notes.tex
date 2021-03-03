@@ -82,13 +82,12 @@ transform (SHT) converts between representations in spectral space and
 physical space, i.e., it converts between $f\left(\myvec{r},t\right)$
 and $C_\ell^m\left(r,t\right)$. The SHT is generally a very slow process.
 
-\section{\shtns}
 N.~Schaeffer has developed a SHT library that is reported to be very efficient
 and fast compared to other third party SHT libraries. This library is called
 \shtns\footnote{https://nschaeff.bitbucket.io/shtns} and it's properties are
 described below.
 
-\subsection{Definitions}
+\section{Definitions}
 The spherical harmonic ``synthesis'' is the evaluation of the sum
 \begin{equation}
  f\left(\myvec{r},t\right) = \sum\limits_{\ell=0}^{\ell_\mathrm{max}}
@@ -151,7 +150,7 @@ in co-latitude
 \end{equation}
 where $w_k$ are the weights evaluated at the $k$-th collocation point.
 
-\subsection{Optimizations}
+\section{Optimizations}
 \begin{itemize}
   \item Uniform grid in longitude on the interval $[0,2\pi)$
   \item Legendre-based grid in latitude on the interval $(0,\pi)$
@@ -183,5 +182,54 @@ where $\theta_0^{\ell m} \geq 0$ is the threshold below which $P_\ell^m$ is cons
 zero. A similar optimization can be made during one of the ``synthesis'' integrals.
 For the best results a threshold that does not depend on $\ell$ should be used. This
 can lead to a 5\%-20\% speed increase depending on desired accuracy and $\ell_\mathrm{max}$.
-        
+
+\section{Installation}
+The install process is a common ``configure-make-make install'' prescription. The
+magic happens in what choices are made during the configure command.
+\subsection{Configure: Installation Location}
+ \begin{itemize}
+  \item ``-{}-prefix=PREFIX'' where to install the architecture-independent
+        files, defaults to /usr/local
+  \item ``-{}-exec-prefix=EPREFIX'' where to install the architecture-dependent
+        files, defaults to PREFIX
+  \item ``-{}-libdir=DIR'' where object code libraries go, defaults to EPREFIX/lib
+  \item ``-{}-includedir=DIR'' where C header files will be, defaults to PREFIX/include
+ \end{itemize}
+\subsection{Configure: Optimizations}
+ \begin{itemize}
+  \item ``-{}-enable-openmp'' enables multi-threading with OpenMP
+  \item ``-{}-enable-knl'' enables compilation for Xeon Phi (KNL)
+  \item ``-{}-enable-cuda[=kepler$|$pascal$|$volta$|$ampere]'' enables compilation for
+        Nvidia GPU, with optional specification of the architecture. This requires
+        a CUDA library, cudart(?) I think
+  \item ``-{}-enable-python'' builds the Python interface
+  \item ``-{}-disable-simd'' will turn off vector extensions (AVX, AVX2, etc.)
+  \item ``-{}-enable-mkl'' will call FFTW through MKL, giving a slight performance boost,
+        BUT it is not thread-safe and the user is responsible for initializing/calling
+        \shtns\ correctly
+ \end{itemize}
+\subsection{Configure: Environment Variables}
+ \begin{itemize}
+  \item PYTHON - the python interpreter, defaults to `python'
+  \item CC - C compiler command
+  \item CFLAGS - C compiler flags
+  \item LDFLAGS - linker flags, e.g., -L$<$lib dir$>$ for a nonstandard library
+  \item LIBS - libraries to pass to the linker
+  \item CPP - C preprocessor
+  \item CPPFLAGS - C/C++ preprocessor flags, e.g., -I$<$include dir$>$ for headers in
+        a nonstandard location
+  \item FC - Fortran compiler command
+  \item FCFLAGS - Fortran compiler flags
+ \end{itemize}
+\subsection{Makefile}
+The configure command will run a bunch of checks and write the appropriate Makefile.
+If the PREFIX was not specified, you can change it in the Makefile now. If a C compiler
+other than gcc was used, you may want to check the Makefile for consistency (this note
+is in the \shtns\ docs, but I use gcc).
+
+When inspecting the Makefile ``install'' instruction, all it was going to do was run
+`python setup.py install'. This must be run as root, to avoid this simply run
+`python setup.py install -{}-user'. Other combinations of configure commands may
+produce a different install operation.
+
 \end{document}
