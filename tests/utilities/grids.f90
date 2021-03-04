@@ -4,10 +4,9 @@
 module grids
 
    use data_types
+   use variables
 
    implicit none
-
-   real(kind=dpt) :: pi = acos(-1.0_dpt)
 
    ! chebyshev grid
    integer :: Nr
@@ -26,21 +25,24 @@ module grids
       Nr = Nradius
       allocate(x_cheb(1:Nr),theta_cheb(1:Nr))
       call init_chebyshev_grid()
+      write(*,*) 'Chebyshev grid initialized with Nr = ',Nr
 
       Nth = Ntheta
       l_max = int(2*Nth/3.0 - 1)
-      allocate(x_leg(1:Nth), theta(1:Nth), weights_leg(1:Nth), Plm(1:Nth,0:lmax,0:lmax))
+      allocate(x_leg(1:Nth), theta(1:Nth), weights_leg(1:Nth), Plm(1:Nth,0:l_max,0:l_max))
       call init_legendre_grid()
+      write(*,*) 'Legendre grid initialized with Nth = ',Nth
 
       Nphi = 2*Nth
       allocate(phi(1:Nphi))
       call init_fourier_grid()
+      write(*,*) 'Fourier grid initialized with Nth = ',Nphi
 
    end subroutine initialize_grids
 
    ! zeros based chebyshev grid
    subroutine init_chebyshev_grid()
-      integer :: i,
+      integer :: i
       real(kind=dpt) :: arg, dtheta
       dtheta = pi/Nr
       arg = 0.5_dpt*dtheta
@@ -54,6 +56,7 @@ module grids
    subroutine init_legendre_grid()
       call legendre_roots(Nth, x_leg, weights_leg)
       call compute_plm(x_leg, Nth, l_max, Plm)
+      theta(:) = acos(x_leg(:))
    end subroutine init_legendre_grid
 
    subroutine init_fourier_grid()
@@ -104,7 +107,7 @@ module grids
       real(kind=dpt), intent(out) :: Pl(1:n,0:lmax,0:lmax) ! size(n, lmax+1, nm)
 
       integer :: i, m, l, mv
-      real(kind=dpt) :: ratio, amp, pi, tmp, xi
+      real(kind=dpt) :: ratio, amp, tmp, xi
 
       Pl(:,:,:) = 0.0_dpt
 
@@ -170,7 +173,7 @@ module grids
 
       integer :: i, n_roots
       logical :: converged
-      real(kind=dpt) :: midpoint, scaling, eps, ith_root(1:1), pi
+      real(kind=dpt) :: midpoint, scaling, eps, ith_root(1:1)
       real(kind=dpt) :: Np_half, new_guess, delta, Pl(1:1), dPldx(1:1)
 
       midpoint = 0.0_dpt
