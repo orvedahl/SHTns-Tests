@@ -1,0 +1,10 @@
+
+Various test cases and utilities to help learn/run SHTns
+
+Some of the python verification codes rely on my NumericalTools and/or RayleighUtils
+packages. Both are available here:
+
+	devel branch of NumericalTools: https://bitbucket.org/orvedahl/numericaltools/src/devel/
+
+	numtools branch of RayleighUtils: https://bitbucket.org/orvedahl/rayleighutils/src/numtools/
+
