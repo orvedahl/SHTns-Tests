@@ -42,7 +42,7 @@ MPIHOME := $(HOME)/Local-Installs/openmpi
 skip_modules :=
 
 # Path to main source code directory
-src_dirs := src ../utilities
+src_dirs := src ../../utilities
 
 # Other Source directories to include (space separated list)
 xtr_src_dirs :=
