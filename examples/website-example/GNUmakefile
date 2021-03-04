@@ -48,7 +48,7 @@ SHT_PREFIX := $(HOME)/cueball/local-software/SHTns
 SHT_LIBS := -lfftw3_omp -lfftw3 -lm 
 
 # Other Include directories (the -I flag is specified here)
-xtr_inc_dirs := -I$(SHT_PREFIX)/include -I$(SHT_PREFIX)/lib
+xtr_inc_dirs := -I$(SHT_PREFIX)/include
 
 # Libraries to load (the -L & -l flags are specified here)
 #xtr_libs := -L<lib dir> -l<lib>
