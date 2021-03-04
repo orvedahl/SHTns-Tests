@@ -21,8 +21,8 @@ program sht_example
     type(c_ptr) :: shtns_c
   
     !integer :: lmax, mmax, mres, nthreads
-    !integer :: nlat, nphi, n_p, lm, l, m, lmStart, lmStop
-    integer :: nthreads, n_p, lm, l, m, lmStart, lmStop
+    integer :: mmax, mres, nthreads
+    integer :: nlat, nphi, n_p, lm, l, m, lmStart, lmStop
     integer :: nlm, norm, nout, layout
     real(dp) :: eps_polar
     real(dp), allocatable :: Sh(:,:)
@@ -33,10 +33,10 @@ program sht_example
   
     !--  Set the size of the transforms
     !lmax = 5
-    !mmax = 3
-    !mres = 1
-    !nphi = 10
-    !nlat = 64
+    mmax = lmax              ! max azimuthal wave number
+    mres = 1                 ! azimuthal periodicity is 2*pi/mres
+    nlat = int(3*(lmax+1)/2) ! number of points in theta
+    nphi = 2*nlat            ! number of points in phi
   
     !-- Polar optimisation threshold
     eps_polar = 1.0e-10_dp
@@ -57,8 +57,8 @@ program sht_example
     call c_f_pointer(cptr=shtns%ct, fptr=costheta, shape=[shtns%nlat])
     call c_f_pointer(cptr=shtns%st, fptr=sintheta, shape=[shtns%nlat])
   
-    print*, 'cosTheta', costheta
-    print*, 'sinTheta', sintheta
+    !print*, 'cosTheta', costheta
+    !print*, 'sinTheta', sintheta
   
     print*, 'NLM=', shtns%nlm
   
@@ -81,19 +81,19 @@ program sht_example
     !-- Spec -> Spat
     call sh_to_spat(shtns_c, slm, sh)
   
-    print*, 'Y(1,0)', sh(1,:) ! It should be sqrt(3/4/pi) * cos(theta)
+    !print*, 'Y(1,0)', sh(1,:) ! It should be sqrt(3/4/pi) * cos(theta)
   
     !-- Spat -> Spec
     call spat_to_sh(shtns_c, sh, slm)
   
     !-- print S(1,0) to check it 1.0 is recovered.
-    print*, 'S(1,0)', slm(lm)
+    !print*, 'S(1,0)', slm(lm)
   
     !-- Legendre only for m=0
     lmstart = shtns_lmidx(shtns_c,0,0)
     lmstop = shtns_lmidx(shtns_c,lmax,0)
     call sh_to_spat_ml(shtns_c, 0, slm(lmstart:lmstop), sht, lmax)
-    print*, 'Legendre only', sht
+    !print*, 'Legendre only', sht
   
     deallocate(sh, slm, sht)
     call shtns_unset_grid(shtns_c)

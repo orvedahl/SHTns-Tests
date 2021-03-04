@@ -2,5 +2,6 @@
 This is the SHT_example.f90 code from the website, modified to write
 various data to files instead of to the screen.
 
-See the makefile for the libraries and compiler flags
+See my makefile for the libraries and compiler flags. These were taken
+from the <SHT INSTALL DIR>/Makefile, look for the "SHT_f90_ex" line.
 
