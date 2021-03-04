@@ -1,0 +1,10 @@
+# This file contains the runtime parameters. It is parsed by 
+# write_io_module.py and uses input_params_template to write 
+# probin.f90 at compile time
+#
+# ----------------------------------------------------------
+# Name           data type       default value
+# ----------------------------------------------------------
+N_radius          integer        32
+ell_max           integer        63
+

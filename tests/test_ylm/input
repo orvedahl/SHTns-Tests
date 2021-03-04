@@ -1,0 +1,4 @@
+&input
+  N_radius = 64
+  ell_max = 127
+/
