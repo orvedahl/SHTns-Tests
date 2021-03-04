@@ -36,7 +36,7 @@ module grids
       Nphi = 2*Nth
       allocate(phi(1:Nphi))
       call init_fourier_grid()
-      write(*,*) 'Fourier grid initialized with Nth = ',Nphi
+      write(*,*) 'Fourier grid initialized with Nphi = ',Nphi
 
    end subroutine initialize_grids
 

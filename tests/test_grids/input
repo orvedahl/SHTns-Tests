@@ -1,4 +1,4 @@
 &input
   N_radius = 64
-  l_max = 127
+  ell_max = 127
 /
