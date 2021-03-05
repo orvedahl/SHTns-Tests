@@ -196,14 +196,16 @@ module grids
                converged = .true.
             endif
 
-            x(i)     = midpoint - scaling*ith_root(1)
-            x(n+1-i) = midpoint + scaling*ith_root(1)
-
-            weights(i)     = 2.0_dpt*scaling/((1.-ith_root(1)*ith_root(1))*dPldx(1)*dPldx(1))
-            weights(n+1-i) = weights(i)
-
             if (converged) exit
          enddo
+
+         ! only save once the convergence has happened
+         x(i)     = midpoint - scaling*ith_root(1)
+         x(n+1-i) = midpoint + scaling*ith_root(1)
+
+         weights(i)     = 2.0_dpt*scaling/((1.-ith_root(1)*ith_root(1))*dPldx(1)*dPldx(1))
+         weights(n+1-i) = weights(i)
+
       enddo
 
    end subroutine legendre_roots

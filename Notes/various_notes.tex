@@ -232,4 +232,107 @@ When inspecting the Makefile ``install'' instruction, all it was going to do was
 `python setup.py install -{}-user'. Other combinations of configure commands may
 produce a different install operation.
 
+\section{Initialization}
+\shtns\ is fairly general and can handle quite a few different truncated transforms.
+There are five main controls to set (\rayleigh\ can get away with one maybe two):
+\begin{itemize}
+ \item ``lmax'' - the maximum spherical harmonic degree
+ \item ``mres'' - the azimuthal periodicity given by $2\pi/$mres
+ \item ``mmax'' - the maximum azimuthal wave number will be mmax*mres
+ \item ``nlat'' - the number of points in latitude
+ \item ``nphi'' - the number of points in latitude
+\end{itemize}
+In \rayleigh, we choose only lmax (and a dealiasing factor). Once that is chosen, we can
+set
+\begin{itemize}
+ \item mmax = lmax
+ \item mres = 1
+ \item nlat = $<$dealias factor$>$ $\times$ (lmax + 1)
+ \item nphi = 2*nlat
+\end{itemize}
+Next we choose the normalization ``sht\_orthonormal'', although others are possible.
+The grid choice comes next, \shtns\ can do different theta grids, but we
+want to choose ``sht\_gauss'' to use the faster Gauss-Legendre quadrature.
+We can further choose ``sht\_phi\_contiguous'' or ``sht\_theta\_contiguous'' to
+direct \shtns\ how to store internal data.
+
+OpenMP threads need to be set before the initialization of the SHT object happens.
+The SHT object is created with a call involving the lmax, mmax, mres, normalization,
+and grid choices. The SHT object is a pointer/structure.
+Next, the grid is built and attached to the SHT object. Here we choose the number
+of latitude/longitude grid points as well as the polar optimization tolerance.
+The options for the tolerance are
+\begin{itemize}
+ \item $\epsilon = 10^{-14}$ is VERY safe
+ \item $\epsilon = 10^{-10}$ is safe
+ \item $\epsilon = 10^{-6}$ is agressive, but still good accuracy
+\end{itemize}
+At this point the SHT has been built and initialized; it is ready to be used.
+
+\subsection{SHT object}
+A brief note about the SHT object as it stores some useful arrays and values. The
+following attributes appear for the SHT object named ``SHT'' (this is not all
+attributes, just the main ones):
+\begin{itemize}
+ \item ``SHT\%lmax'' - maximum spherical harmonic
+ \item ``SHT\%mmax'' - maximum azimuthal wave number
+ \item ``SHT\%mres'' - periodicity in azimuth
+ \item ``SHT\%nlat'' - number of points in latitude
+ \item ``SHT\%nphi'' - number of points in longitude
+ \item ``SHT\%nlm'' - number of (l,m) entries/modes
+ \item ``SHT\%li'' - array of size nlm, gives the degree l for the given mode index
+ \item ``SHT\%mi'' - array of size nlm, gives the order m for the given mode index
+ \item ``SHT\%ct'' - array of size nlat, gives cos(theta)
+ \item ``SHT\%st'' - array of size nphi, gives sin(theta)
+\end{itemize}
+An important note is that the $\cos\theta$ grid is reversed compared to \rayleigh.
+
+\subsection{Useful Helper Functions}
+The integration weights can be found with a subroutine: ``call shtns\_gauss\_wts(SHT, w)''
+where the returned array w is of size nlat.
+
+The mode index of a (l,m) pair can be found with a function:
+``lm = shtns\_lmidx(SHT, l, m)''. The reverse operation gives the degree and order for
+the given mode index: ``l = shtns\_lm2l(SHT, lm)'' and ``m = shtns\_lm2m(SHT, lm)''.
+
+\subsection{Full SHT}
+The full SHT from spectral to physical space appears as a subroutine:
+``call sh\_to\_spat(SHT, spec, phys)'' where spec is an array of size (nlm) and
+phys is an array of size (nphi,nlat).
+
+The full SHT from physical to spectral space appears as a subroutine:
+``call spat\_to\_sh(SHT, phys, spec)'' where spec is an array of size (nlm) and
+phys is an array of size (nphi,nlat).
+
+\subsection{Legendre Transform}
+A Legendre transform from physical to spectral space at fixed order m is a three
+step process:
+\begin{enumerate}
+  \item lm\_start = shtns\_lmidx(SHT, 0, m)
+  \item lm\_stop = shtns\_lmidx(SHT, lmax, m)
+  \item call spat\_to\_sh\_ml(SHT, m, phys, spec(lm\_start:lm\_stop), lmax)
+\end{enumerate}
+Since the Legendre transform can do truncated transforms, we must specify the start/stop
+of the spherical harmonic degree. Of course the azimuthal order m should be the same
+for all three steps. The truncation is specified by lmax in the last argument. Here
+phys is an array of size (nlat) and spec is of size (nlm).
+
+A Legendre transform from spectral to physical space at fixed order m is a three
+step process:
+\begin{enumerate}
+  \item lm\_start = shtns\_lmidx(SHT, 0, m)
+  \item lm\_stop = shtns\_lmidx(SHT, lmax, m)
+  \item call sh\_to\_spat\_ml(SHT, m, spec(lm\_start:lm\_stop), phys, lmax)''
+\end{enumerate}
+The truncation is specified by lmax in the last argument. Here
+phys is an array of size (nlat) and spec is of size (nlm).
+
+This lends itself to a nice interface, similar to what \rayleigh\ uses where both
+forward and reverse transforms both use a call to Legendre\_Transform
+
+
+\subsection{Finalize \shtns}
+To deallocate and free any memory objects, two calls appear:
+``call shtns\_unset\_grid(SHT)'' and ``call shtns\_destroy(SHT)''.
+
 \end{document}

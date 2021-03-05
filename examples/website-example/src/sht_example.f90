@@ -53,7 +53,7 @@ program sht_example
     !   send_threads <= 0 : max number of threads is set to number of processors
     !   send_threads = 1  : disable OpenMP
     nthreads = shtns_use_threads(0)
-    print*, 'nthreads=', nthreads
+    write(*,*) 'nthreads=', nthreads
   
     ! initialize/allocate transforms and build useful arrays
     !   lmax : max SH degree
@@ -92,6 +92,11 @@ program sht_example
   
     ! access various quantities stored in the structure
     write(*,*) 'Total number of modes NLM=', shtns%nlm
+    write(*,*) 'l_max =',shtns%lmax
+    write(*,*) 'Nth =',shtns%nlat
+    write(*,*) 'Nphi =',shtns%nphi
+    write(*,*) 'Nspat =',shtns%nspat
+    write(*,*) 'Nth*Nphi =',shtns%nlat*shtns%nphi
   
     ! allocate space for some stuff to be used later
     !   sh  : Physical representation, size(nphi,nth)
@@ -123,7 +128,7 @@ program sht_example
        write(*,*) '  ', weights(i)
     enddo
   
-    ! transform from Spectral to Physical
+    ! full SHT from Spectral to Physical
     !   slm : size(nphi,nth)
     !   sh  : size(nlm)
     call sh_to_spat(shtns_c, slm, sh)
@@ -131,7 +136,7 @@ program sht_example
     err = maxval(abs(sh(1,:) - sqrt(0.75_dp/pi)*costheta(:)))
     write(*,*) 'Spectral-->Physical max error', err
   
-    ! transform from Physical to Spectral
+    ! full SHT from Physical to Spectral
     !   sh  : size(nlm)
     !   slm : size(nphi,nth)
     call spat_to_sh(shtns_c, sh, slm)
