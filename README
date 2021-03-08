@@ -9,10 +9,12 @@ The main goal is to port the SHTns library into the Rayleigh code.
 
 	source code: https://github.com/geodynamics/Rayleigh
 
-Many of the test programs will be written in Fortran 2003, and built/compiled
-using my Build-System tool. This tool takes a simple approach to automatically
-determining dependencies and includes an easy way to define new namelist
-parameters with support for specifying their value through command line arguments.
+Many of the programs will be written in Fortran 2003, and built/compiled
+using my custom python tool to build Fortran projects effortlessly. This tool
+automatically determines dependencies and writes them to a file that can be
+included into a Makefile. It also includes an easy way to define new
+namelist parameters using a simple template file that is parsed/compiled into
+usable Fortran code at build time.
 
-	source code: https://bitbucket.org/orvedahl/build-system/src/master/
+	source code: https://github.com/orvedahl/fortrandep
 
