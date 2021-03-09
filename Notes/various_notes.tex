@@ -322,7 +322,7 @@ step process:
 \begin{enumerate}
   \item lm\_start = shtns\_lmidx(SHT, 0, m)
   \item lm\_stop = shtns\_lmidx(SHT, lmax, m)
-  \item call sh\_to\_spat\_ml(SHT, m, spec(lm\_start:lm\_stop), phys, lmax)''
+  \item call sh\_to\_spat\_ml(SHT, m, spec(lm\_start:lm\_stop), phys, lmax)
 \end{enumerate}
 The truncation is specified by lmax in the last argument. Here
 phys is an array of size (nlat) and spec is of size (nlm).
@@ -373,7 +373,8 @@ calling interface for the Legendre Transform, possibly done with a wrapper to \s
 Of we could put a preprocessor directive around all calls to the transform?
 
 \subsection{Potential Parallel Issues}
-Presumably, $\theta$ is in-processor when the Legendre transform needs to take place.
+Presumably, $\theta$ is in-processor when the Legendre transform needs to take place. If
+not, that will be quite the head-stumper to figure out.
 \begin{itemize}
   \item Does \rayleigh\ use the same $\ell-m$ mode ordering as \shtns?
         $\ell$-major vs. $m$-major?
