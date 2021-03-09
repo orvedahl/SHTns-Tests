@@ -1,4 +1,11 @@
 &input
   l_max = 31
-  n_theta = 32
+
+  n_threads = 1
+
+  eps_polar = 1.d-10
+
+  on_the_fly = .false.
+
+  verbose = 2
 /

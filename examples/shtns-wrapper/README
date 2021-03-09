@@ -1,7 +1,11 @@
 
-This is the SHT_example.f90 code from the website, modified to write
-various data to files instead of to the screen.
+This is a first pass at reproducing the data layout in Rayleigh and still calling
+the Legendre transform from SHTns.
 
-See my makefile for the libraries and compiler flags. These were taken
-from the <SHT INSTALL DIR>/Makefile, look for the "SHT_f90_ex" line.
+I tried to reproduce the module layout with ProblemSize & Legendre_Polynomials, then
+rewrote Legendre_Transforms to use SHTns.
+
+As a result, it is very kludgy in where things are stored/intialized.
+
+But it works as a proof-of-concept...I guess
 

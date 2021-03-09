@@ -9,9 +9,6 @@
 # the maximum spherical harmonic degree
 l_max             integer         -1
 
-# the number of grid points in latitude
-n_theta           integer         -1
-
 # number of OpenMP threads
 #  >  0 : set max number of threads to use
 #  <= 0 : max number of threads is set to number of processors
