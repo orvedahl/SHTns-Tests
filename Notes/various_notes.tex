@@ -53,7 +53,7 @@
 %========================================================================
 % create title and author
 %========================================================================
-\title{Various Notes from \shtns\ Library}
+\title{Various Notes/Thoughts from \shtns\ Library}
 \author{Ryan Orvedahl}
 
 \maketitle
@@ -335,4 +335,64 @@ forward and reverse transforms both use a call to Legendre\_Transform
 To deallocate and free any memory objects, two calls appear:
 ``call shtns\_unset\_grid(SHT)'' and ``call shtns\_destroy(SHT)''.
 
+\section{Legendre Polynomials/Transforms in \rayleigh}
+The Legendre polynomials module stores all things related to $P_\ell^m$. The main objects
+that it produces are the integration weights and the colocation points. The only
+routines that use this module are
+\begin{itemize}
+  \item ProblemSize: calls the initialization routine and stores the colocation points
+  \item Benchmarking: only uses the integration weights
+  \item Diagnostic Interface: only uses the integration weights
+  \item Legendre Transforms: $P_\ell^m(x)$, colocation points, and others
+\end{itemize}
+The Linear Terms Cart routine has a commented out dependency and Sphere Hybrid Space has
+an explicit use-only, but the used object is never actually used anywhere else.
+
+Here is a list of all the routines that use the Legendre Transforms module:
+\begin{itemize}
+  \item Parallel IO (called once)
+  \item Sphere Hybrid Space (called in three spots)
+  \item Diagnostics Second Derivatives (calls transform in two spots, but never uses module?)
+  \item Spherical IO (explicit `use-only', but never actually used)
+  \item Initial Conditions (explicit `use-only', but never actually used)
+  \item Test SHT (probably really out of date?)
+\end{itemize}
+In all cases, only the Legendre Transform is used from the module.
+
+\subsection{Possible Ideas Towards \shtns}
+Only a very small number of routines actually use the Legendre Polynomials module,
+and the ones that do really only use the integration weights and/or the grid points
+(with the exception of the Legendre Transform module).
+
+This means the \shtns\ library is probably best used as a single module that stores
+both the Legendre Polynomial information as well as the Legendre Transform routines.
+
+A preprocessor directive could be wrapped around all the use Legendre Polynomials and
+the use Legendre Transform calls? Stopping there would require keeping the exact same
+calling interface for the Legendre Transform, possibly done with a wrapper to \shtns.
+Of we could put a preprocessor directive around all calls to the transform?
+
+\subsection{Potential Parallel Issues}
+Presumably, $\theta$ is in-processor when the Legendre transform needs to take place.
+\begin{itemize}
+  \item Does \rayleigh\ use the same $\ell-m$ mode ordering as \shtns?
+        $\ell$-major vs. $m$-major?
+  \item Are all \rayleigh\ Legendre transforms completed in $m$ space?
+  \item \shtns\ does one quantity at a time $\rightarrow$ loop over $r$, $m$, and fields
+\end{itemize}
+
+\subsection{Potential Derivative Issues}
+The $\cos\theta$ grid is reversed, which may cause a giant headache with the spectral
+derivative routines. Or maybe not - write a test case to see how hard it is to
+`un-reverse' the grid, especially when recurence relations are used. There are three
+routines that do spectral derivatives, but only one is actually used by any other
+files: Spectral Derivatives. Here is a list of all routines that use it:
+\begin{itemize}
+  \item ProblemSize: only to initialize the horizontal grid
+  \item Diagnostics Second Derivatives
+  \item Sphere Hybrid Space
+  \item Sphere Physical Space
+\end{itemize}
+
 \end{document}
+
