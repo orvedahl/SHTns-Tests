@@ -395,5 +395,79 @@ files: Spectral Derivatives. Here is a list of all routines that use it:
   \item Sphere Physical Space
 \end{itemize}
 
+\subsection{Current Method}
+Both the forward and reverse Legendre transforms are currently computed using the DGEMM
+matrix-matrix multiply routine from BLAS. DGEMM computes
+\begin{equation}
+  C \leftarrow \alpha \mathrm{op}\left(A\right)\cdot\mathrm{op}\left(B\right) + \beta C
+\end{equation}
+with
+\begin{equation}
+  \mathrm{op}\left(X\right) = X
+  \qquad\mathrm{or}\qquad
+  \mathrm{op}\left(X\right) = X^T
+\end{equation}
+The left arrow indicates that the result is stored in $C$, even though $C$ can be
+an input quantity. The calling sequence in Fortran is
+\begin{equation}
+  \mathrm{Call\ DGEMM}\left(TransA,TransB,m,n,k,\alpha,A,ldA,B,ldB,\beta,C,ldC\right)
+\end{equation}
+and the meaning of the various quantities is
+\begin{itemize}
+  \item $TransA$ : single character, either `N' or `T', to indicate if $A$ should be
+        transposed before multiplication.
+        `N' will produce $\mathrm{op}\left(A\right)=A$
+        and `T' will produce $\mathrm{op}\left(A\right)=A^T$
+  \item $TransB$ : single character, either `N' or `T', to indicate if $B$ should be
+        transposed before multiplication
+        `N' will produce $\mathrm{op}\left(B\right)=B$
+        and `T' will produce $\mathrm{op}\left(B\right)=B^T$
+  \item $m$,$n$,$k$ : describe array shapes,
+        $\mathrm{op}\left(A\right)=(m,k)$,
+        $\mathrm{op}\left(B\right)=(k,n)$,
+        $C=(m,n)$
+  \item $\alpha$ : real multiplicative scalar
+  \item $A$ : storage for the array values of shape $(ldA,lA)$ where $lA=k$ when `N' and
+        $lA=m$ if `T'.
+  \item $ldA$ : first dimension of $A$ as declared/allocated.
+  \item $B$ : storage for the array values of shape $(ldB,lB)$ where $lB=n$ when `N' and
+        $lB=k$ if `T'.
+  \item $ldB$ : first dimension of $B$ as declared/allocated.
+  \item $\beta$ : real multiplicative scalar
+  \item $C$ : storage for the array values of shape $(ldC,n)$, overwritten on exit
+  \item $ldC$ : first dimension of $C$ as declared/allocated.
+\end{itemize}
+
+\subsubsection{Legendre Polynomial Storage Arrays}
+The $P_\ell^m\left(\cos\theta\right)$ are stored by $\ell-m$ mode index (which is really
+just one-to-one with $m$) in an array
+dimensioned: p\_lm(1:n\_lm)\%data(m:l\_max, 1:n\_theta), where the lower bound of the
+first axis is computed based on the mode index lm as m=m\_values(lm). The first dimension
+runs from ``actual azimuthal wavenumber $m$ associated with the current mode index up to
+l\_max''.
+
+The integration weights are folded into the ip\_lm structure, which uses a similar storage
+layout, but dimensions are reversed. ip\_lm(1:n\_lm)\%data(1:n\_theta, m:l\_max).
+There are additional FFT weights folded in, called PTS\_normalization and STP\_normalization.
+
+In either case, the number of actual rows/columns in the `l' dimension is l\_max - m + 1.
+
+\subsubsection{Data Layouts Pre/Post-Transform}
+The only layouts used with the Legendre transform are the `s2a/b' and `p2a/b' configurations.
+The only routines that actually call the transform include
+\begin{itemize}
+ \item Diagnostics\_Second\_Derivatives.F90: p2b$\rightarrow$s2b \& s2a$\rightarrow$p2a
+ \item Parallel\_IO.F90: only p2b$\rightarrow$s2b
+ \item Sphere\_Hybrid\_Space.F90: s2a$\rightarrow$p2a \& p2b$\rightarrow$s2b
+ \item Test\_SHT.F90: s2a$\leftrightarrow$p2a, p2b$\rightarrow$s2a
+\end{itemize}
+The main loop uses the s2a$\rightarrow$p2a followed by a transpose to p3a and a transpose
+to p2b, which is followed by the p2b$\rightarrow$s2b transform. This is modeled in the
+Test\_SHT.F90 routine in the Amp\_Test\_Parallel subroutine.
+
+The s2a/b layout is similar to the p\_lm arrays; 4D arrays orderd by mode index (i.e., $m$).
+The p2a/b layout is a 3D array, used mainly for the Legendre transforms.
+
 \end{document}
+
 
