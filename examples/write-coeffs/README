@@ -1,0 +1,6 @@
+
+A very simple code to write out the physical space grid values for a simple
+function defined by only a few complex coefficients.
+
+The main reason for writing this code was to debug the data layouts of Rayleigh.
+

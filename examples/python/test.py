@@ -30,6 +30,8 @@ def main():
     sinth = Rgrid.sintheta
     theta = Rgrid.theta
     phi = Rgrid.phi
+    nth = Rgrid.nth
+    nphi = Rgrid.nphi
 
     weights = Rgrid.costheta_grid.weights
     Weights = np.reshape(weights, np.shape(weights)+(1,1))
@@ -37,7 +39,7 @@ def main():
     Plm = NT.AlmPlm(lmax, True) # (x,l,m)
     iPlm = 2*np.pi*Weights*Plm
 
-    l = 3; m = 2
+    l = 2; m = 1
     true_phys = np.real(utils.Ylm(l, m, theta, 0.0))
     true_spec = np.zeros((lmax+1,))
     true_spec[l] = 1.0
@@ -59,6 +61,9 @@ def main():
 
     maxerr = np.max(np.abs(physical - true_phys))
     print("m={}, max err in Spec-->Phys: {}".format(m,maxerr))
+
+    for i in range(nth):
+        print(costh[i], true_phys[i])
 
 if __name__ == "__main__":
     main()
