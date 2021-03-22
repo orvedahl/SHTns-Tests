@@ -8,7 +8,6 @@ build_info :=
 
 exe_base := test
 
-verbose := t
 debug :=
 
 f90_comp := gfortran

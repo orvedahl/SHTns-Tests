@@ -2,6 +2,7 @@ program test_grids
   use data_types
   use grids
   use input_params
+  use job_info
 
   implicit none
 

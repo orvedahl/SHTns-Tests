@@ -3,6 +3,7 @@ program test_grids
   use grids
   use input_params
   use spherical_harmonics
+  use job_info
 
   implicit none
 

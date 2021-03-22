@@ -12,7 +12,6 @@ build_info := t
 
 exe_base := main
 
-verbose := t
 debug :=
 
 f90_comp := gfortran

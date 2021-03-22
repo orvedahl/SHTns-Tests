@@ -8,7 +8,8 @@ build_info := t
 
 exe_base := test
 
-verbose := t
+find_GPackage_files :=
+
 debug :=
 
 f90_comp := gfortran
