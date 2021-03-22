@@ -14,7 +14,7 @@ exe_base := main
 
 debug :=
 
-f90_comp := gfortran
+f90_compiler := gfortran
 
 f90_flags :=
 OMP := t

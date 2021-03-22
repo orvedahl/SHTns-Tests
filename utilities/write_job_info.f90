@@ -31,10 +31,10 @@ module job_info
     character (len=256) :: out_name, cwd
     character (len=16) :: date_in, time_in
     integer, dimension(8) :: values
-    integer :: stat, io = 34
+    integer :: stat, io = 34, length
 
     call date_and_time(date_in, time_in, VALUES=values)
-    stat = getcwd(cwd)
+    call get_environment_variable("PWD", cwd, length, stat)
     if (stat /= 0) then
        write(*,*)
        write(*,*) "ERROR: could not get cwd in write_job_info.f90"
