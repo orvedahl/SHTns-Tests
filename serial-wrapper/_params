@@ -1,0 +1,31 @@
+# This file contains the runtime parameters. It is parsed by 
+# write_io_module.py and uses input_params_template to write 
+# probin.f90 at compile time
+#
+# ----------------------------------------------------------
+# Name           data type       default value
+# ----------------------------------------------------------
+
+# radial grid
+n_r               integer         16
+
+# the maximum spherical harmonic degree
+ell_max           integer         -1
+
+# number of OpenMP threads
+#  >  0 : set max number of threads to use
+#  <= 0 : max number of threads is set to number of processors
+#  =  1 : disable OpenMP
+n_threads         integer         1
+
+# polar optimization
+eps_polar         real            1.d-10
+
+# do on-the-fly transforms
+on_the_fly        logical         .false.
+
+# output level: 0=none, 1=some, 2=debug
+verbose           integer         2
+
+# what test to run
+ntest             integer         1

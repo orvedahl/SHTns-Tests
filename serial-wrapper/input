@@ -1,0 +1,15 @@
+&input
+  n_r = 10
+
+  ell_max = 31
+
+  n_threads = 1
+
+  eps_polar = 1.d-10
+
+  on_the_fly = .false.
+
+  verbose = 2
+
+  ntest = 1
+/
