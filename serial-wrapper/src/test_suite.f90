@@ -1,10 +1,10 @@
 
 Module test_suite
 
-   use grids ! holds x_cheb(1:nr), l_max, Nr, Nth, Nphi, and others
+   use cheb_grids ! holds radial grids
 
    Use Structures
-   Use Legendre_Polynomials, only: m_values, n_m
+   Use Legendre_Polynomials
 #ifdef USE_SHTns
    Use Legendre_Transforms_SHTns, only: Legendre_Transform, LT_ToPhysical, LT_ToSpectral, &
                                         SHTns_lm_index, SHTns
@@ -13,6 +13,10 @@ Module test_suite
 #endif
 
    implicit none
+
+   real*8 :: pi = acos(-1.0d0)
+
+   real*8, allocatable :: costheta(:)
 
    contains
 
@@ -53,6 +57,9 @@ Module test_suite
       integer :: mp, l, r, f, imi, m, nfields, stat, nq, mind
       real*8 :: diff1, diff2, diff3, diff, mxdiff
 
+      allocate(costheta(1:n_theta))
+      costheta(:) = coloc(:)
+
       write(*,*)
       write(*,*) '============================'
       write(*,*) 'Using the Rayleigh interface'
@@ -76,7 +83,7 @@ Module test_suite
       enddo
 
       nq = 2*nr*nfields
-      allocate(physical(1:nth,1:nq,1:n_m), stat=stat, errmsg=msg)
+      allocate(physical(1:n_theta,1:nq,1:n_m), stat=stat, errmsg=msg)
       if (stat .ne. 0) then
          write(*,*) 'allocate physical failed'
          write(*,*) msg
@@ -96,16 +103,16 @@ Module test_suite
                spectral(mp)%data(l,:,:,:) = 0.0d0
                if ((l .eq. 2) .and. (m .eq. 1)) then
                   do r = 1, nr ! radius
-                     spectral(mp)%data(l,r,1,1) = 1.0d0*x_cheb(r) ! x_cheb = radius
-                     spectral(mp)%data(l,r,2,2) = 2.0d0*x_cheb(r)**2
-                     spectral(mp)%data(l,r,2,3) = 5.0d0*x_cheb(r)**3
+                     spectral(mp)%data(l,r,1,1) = 1.0d0*radius(r)
+                     spectral(mp)%data(l,r,2,2) = 2.0d0*radius(r)**2
+                     spectral(mp)%data(l,r,2,3) = 5.0d0*radius(r)**3
                   enddo
                endif
             enddo
          enddo
 
-         allocate(true_phys(1:nth)) ! build expected answer
-         call Y_2m(x_leg, true_phys, 1)
+         allocate(true_phys(1:n_theta)) ! build expected answer
+         call Y_2m(costheta, true_phys, 1)
 
          ! move to physical space
          write(*,*) 'S-->P'
@@ -113,7 +120,7 @@ Module test_suite
 
          ! check error
          !write(*,*) 'expected         Rayleigh'
-         !do f=1,nth
+         !do f=1,n_theta
          !   write(*,*) true_phys(f), physical(f,:,mind)
          !enddo
 
@@ -133,9 +140,9 @@ Module test_suite
             m = m_values(mp)
             do l = m, l_max
                if ((l .eq. 2) .and. (m .eq. 1)) then
-                   diff1 = maxval(abs(1.0d0*x_cheb(:) - spectral(mp)%data(l,:,1,1)))
-                   diff2 = maxval(abs(2.0d0*x_cheb(:)**2 - spectral(mp)%data(l,:,2,2)))
-                   diff3 = maxval(abs(5.0d0*x_cheb(:)**3 - spectral(mp)%data(l,:,2,3)))
+                   diff1 = maxval(abs(1.0d0*radius(:) - spectral(mp)%data(l,:,1,1)))
+                   diff2 = maxval(abs(2.0d0*radius(:)**2 - spectral(mp)%data(l,:,2,2)))
+                   diff3 = maxval(abs(5.0d0*radius(:)**3 - spectral(mp)%data(l,:,2,3)))
                    diff = max(diff1,diff2,diff3)
                else
                    diff = maxval(abs(spectral(mp)%data(l,:,:,:)))
@@ -156,6 +163,8 @@ Module test_suite
       enddo
       deallocate(spectral, physical)
 
+      deallocate(costheta)
+
    end subroutine test_LT
 
 #ifdef USE_SHTns
@@ -169,6 +178,10 @@ Module test_suite
       integer :: l, m, lm, i
       real*8 :: diff, diff1, diff2, mxdiff
       real*8, allocatable :: true_phys(:)
+
+      allocate(costheta(1:n_theta))
+      costheta(:) = coloc(:)
+
       write(*,*)
       write(*,*) '============================'
       write(*,*) 'Using the SHTns interface'
@@ -194,7 +207,7 @@ Module test_suite
          write(*,*) 'Spec-->Phys max error',maxval(abs(real(physical) - true_phys))
 
          write(*,*) 'expected   SHTns'
-         do i=1,nth
+         do i=1,n_theta
             write(*,*) true_phys(i), real(physical(i))
          enddo
 
@@ -217,6 +230,8 @@ Module test_suite
 
       ! cleanup
       deallocate(spectral, physical)
+
+      deallocate(costheta)
 
    end subroutine test_SHTns
 #endif

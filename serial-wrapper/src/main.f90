@@ -1,6 +1,6 @@
 program sht_example
 
-   use grids, only: initialize_grids, cleanup_grids
+   use cheb_grids, only: initialize_grids, cleanup_grids
    use input_params ! namelist quantities
 
    ! Rayleigh modules
@@ -34,7 +34,7 @@ program sht_example
 
    m_max = ell_max ! not stored in Legendre_Polynomials. ProblemSize, I think
 
-   call initialize_grids(n_r, ntheta) ! intialize my chebyshev/legendre grids
+   call initialize_grids(n_r) ! intialize my chebyshev grids
 
    ! initialize Legendre polynomials with parity
    call Initialize_Legendre(ntheta, ell_max, mval, .true.)
