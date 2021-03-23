@@ -48,9 +48,9 @@ Module test_suite
       integer, intent(in) :: ntest
 
       type(rmcontainer4d), allocatable :: spectral(:)
-      real*8, allocatable :: physical(:,:,:)
+      real*8, allocatable :: physical(:,:,:), true_phys(:)
       character(len=128) :: msg
-      integer :: mp, l, r, f, imi, m, nfields, stat, nq
+      integer :: mp, l, r, f, imi, m, nfields, stat, nq, mind
       real*8 :: diff1, diff2, diff3, diff, mxdiff
 
       write(*,*)
@@ -85,10 +85,12 @@ Module test_suite
       !--------------------
       ! setup/run the test
       !--------------------
-      if (ntest .eq. 1) then ! 3 fields, all Y_2^1
+      if (ntest .eq. 1) then
 
+         mind = -1
          do mp = 1, n_m ! modes
             m = m_values(mp)
+            if (m .eq. 1) mind = mp
             do l = m, l_max ! \ell values
 
                spectral(mp)%data(l,:,:,:) = 0.0d0
@@ -102,9 +104,18 @@ Module test_suite
             enddo
          enddo
 
+         allocate(true_phys(1:nth)) ! build expected answer
+         call Y_2m(x_leg, true_phys, 1)
+
          ! move to physical space
          write(*,*) 'S-->P'
          call Legendre_Transform(spectral, physical)
+
+         ! check error
+         !write(*,*) 'expected         Rayleigh'
+         !do f=1,nth
+         !   write(*,*) true_phys(f), physical(f,:,mind)
+         !enddo
 
          ! move back to spectral space
          write(*,*) 'P-->S'
@@ -134,6 +145,7 @@ Module test_suite
          enddo
          write(*,*) 'Spec-->Phys-->Spec max error',mxdiff
 
+         deallocate(true_phys)
       else
          write(*,*) 'Test number not written yet, ntest=',ntest
       endif

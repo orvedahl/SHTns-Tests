@@ -991,8 +991,6 @@ Subroutine StP_4d_dgp2(data_in, data_out)
     rmn = LBOUND(data_in(1)%data,2)
     rmx = UBOUND(data_in(1)%data,2)
 
-    write(*,*) ddims
-    write(*,*) shape(p_lm_even(1)%data)
 
 
     alpha = 1.0d0
