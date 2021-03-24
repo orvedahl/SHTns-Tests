@@ -29,3 +29,7 @@
 # Explicitly ignore PDFs
 ######################
 Notes/various_notes.pdf
+
+#####################
+# Makefiles
+GNUmakefile
