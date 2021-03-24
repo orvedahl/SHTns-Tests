@@ -40,7 +40,15 @@ SHT_INC := -I$(SHT_PREFIX)/include
 SHT_LIB := -L$(SHT_PREFIX)/lib -lfftw3_omp -lfftw3 -lm -lshtns_omp
 
 DGEMM_INC := -I$(MKLROOT)/include
-DGEMM_LIB := -L$(MKLROOT)/lib/intel64 -lmkl_intel_ilp64 -lmkl_sequential -lmkl_core
+ifeq ($(findstring intel, $(f90_compiler)), intel)
+  xtr_f90_flags += -mkl
+else
+  # this is for GNU & not conda:
+  DGEMM_LIB := -L$(MKLROOT)/lib/intel64 -Wl,--no-as-needed -lmkl_gf_lp64 -lmkl_sequential -lmkl_core -lpthread -lm -ldl
+
+  # this is for GNU & conda:
+  #DGEMM_LIB := -L$(MKLROOT)/lib -Wl,--no-as-needed -lmkl_gf_lp64 -lmkl_sequential -lmkl_core -lpthread -lm -ldl
+endif
 
 include_flags := $(DGEMM_INC)
 library_flags := $(DGEMM_LIB)
