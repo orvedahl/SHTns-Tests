@@ -13,7 +13,7 @@ f90_compiler := gfortran
 # what to build, what to ignore
 src_dirs := src
 skip_modules := iso_c_binding iso_fortran_env
-find_GPackage_files := t
+find_GPackage_files := t # this allows conditionally including files
 build_probin :=
 build_info :=
 

@@ -121,9 +121,9 @@ Module test_suite
 
          ! check error
          write(*,*) 'expected         Rayleigh'
-         do i=1,n_theta
-            write(*,*) true_phys(i), physical(i,:,mind)
-         enddo
+         !do i=1,n_theta
+         !   write(*,*) true_phys(i), physical(i,:,mind)
+         !enddo
 
          ! move back to spectral space
          write(*,*) 'P-->S'
