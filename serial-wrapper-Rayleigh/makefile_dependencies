@@ -1,0 +1,39 @@
+#
+# manually built dependency lists
+#
+
+# object list
+objs := Structures.o Legendre_Polynomials.o cheb_grids.o probin.o Legendre_Transforms.o test_suite.o main.o
+objects := $(addprefix $(odir)/, $(objs))
+
+#: src/Structures.F90
+_build/o/Structures.o : src/Structures.F90
+
+#: src/probin.f90
+_build/o/probin.o : src/probin.f90
+
+#: src/Legendre_Polynomials.F90
+_build/o/Legendre_Polynomials.o : src/Legendre_Polynomials.F90
+
+#: src/cheb_grids.f90
+_build/o/cheb_grids.o : src/cheb_grids.f90
+
+#: src/Legendre_Transforms.F90
+_build/o/Legendre_Transforms.o : _build/o/Legendre_Polynomials.o
+_build/o/Legendre_Transforms.o : _build/o/Structures.o
+_build/o/Legendre_Transforms.o : src/Legendre_Transforms.F90
+
+#: src/test_suite.f90
+_build/o/test_suite.o : _build/o/Legendre_Polynomials.o
+_build/o/test_suite.o : _build/o/Legendre_Transforms.o
+_build/o/test_suite.o : _build/o/Structures.o
+_build/o/test_suite.o : _build/o/cheb_grids.o
+_build/o/test_suite.o : src/test_suite.f90
+
+#: src/main.f90
+_build/o/main.o : _build/o/Legendre_Polynomials.o
+_build/o/main.o : _build/o/cheb_grids.o
+_build/o/main.o : _build/o/probin.o
+_build/o/main.o : _build/o/test_suite.o
+_build/o/main.o : src/main.f90
+

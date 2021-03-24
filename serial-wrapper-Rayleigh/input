@@ -1,0 +1,18 @@
+&input
+  ! radial grid points, i.e., can be used to change Nrhs
+  n_r = 10
+
+  ! max spherical harmonic
+  ell_max = 31
+
+  ! OnpenMP threads
+  n_threads = 1
+
+  ! SHTns directives
+  eps_polar = 1.d-10
+  on_the_fly = .false.
+  verbose = 2
+
+  ! which test to run (currently only one exists)
+  ntest = 1
+/
