@@ -1,3 +1,11 @@
+#
+#============
+# Important:
+#============
+#	be sure you generate a file called "makefile_SHT_prefix"
+#	with the following single line in it:
+#
+#		SHT_PREFIX := /path/to/prefix/location/for/SHTns
 
 # change this to be any non-empty value to enable debugging flags
 debug :=
