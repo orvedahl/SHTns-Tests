@@ -26,8 +26,6 @@ ifdef shtns
 f90_flags += -DUSE_SHTns
 endif
 
-f90_compile := $(f90_flags)
-
 all: xmain
 
 Legendre_Polynomials.o: src/Legendre_Polynomials.F90
@@ -45,7 +43,7 @@ else
 test_suite.o: Structures.o cheb_grids.o Legendre_Polynomials.o Legendre_Transforms.o src/test_suite.f90
 endif
 ifdef shtns
-main.o: probin.o test_suite.o Legendre_Polynomials.o cheb_grids.o Legendre_Transform_SHTns.o src/main.f90
+main.o: probin.o test_suite.o Legendre_Polynomials.o cheb_grids.o Legendre_Transforms_SHTns.o src/main.f90
 else
 main.o: probin.o test_suite.o Legendre_Polynomials.o cheb_grids.o src/main.f90
 endif
@@ -59,11 +57,11 @@ endif
 objects += test_suite.o main.o
 
 xmain: $(objects)
-	$(f90_comp) $(f90_compile) $(library_flags) $(include_flags) $(objects) -o xmain
+	$(f90_comp) $(f90_flags) $(library_flags) $(include_flags) $(objects) -o xmain
 %.o: src/%.f90
-	$(f90_comp) $(f90_compile) -c $< -o $@ $(include_flags)
+	$(f90_comp) $(f90_flags) -c $< -o $@ $(include_flags)
 %.o: src/%.F90
-	$(f90_comp) $(f90_compile) -c $< -o $@ $(include_flags)
+	$(f90_comp) $(f90_flags) -c $< -o $@ $(include_flags)
 
 .PHONY: clean distclean realclean purge
 clean:
@@ -74,3 +72,4 @@ distclean: clean
 realclean: distclean
 purge : distclean
 
+print-%: ; @echo $* is $($*)
