@@ -2,3 +2,7 @@
 Simple stand-alone serial code to use Rayleigh Legendre polynomial/transform libraries.
 Eventually SHTns support will be included.
 
+GNUmakefile --- "main" makefile
+
+Makefile.FortranDep --- relies on the FortranDep external build system
+

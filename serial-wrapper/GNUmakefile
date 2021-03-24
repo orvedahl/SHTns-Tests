@@ -1,63 +1,145 @@
 
-# user options
-# ------------------
-#   sht          -- build using the SHTns library
-#   debug        -- compile with debugging flags
-#   f90_compiler -- what compiler to use [intel or gfortran]
+# change this to be any non-empty value to enable debugging flags
+debug :=
+
+# change this to be any non-empty value to build the SHTns version
 shtns :=
-debug := t
-f90_compiler := gfortran
 
-#################################################################
+# either INTEL or GNU
+compiler := GNU
 
-# what to build, what to ignore
-src_dirs := src
-skip_modules := iso_c_binding iso_fortran_env
-find_GPackage_files := t
-build_probin :=
-build_info :=
+include makefile_SHT_prefix
 
-exe_base := main
+#######################################################################
+# where to find source files
+source_dir := src
 
-OMP := t
+#----------------------------------------------------------------------
+# where to put built modules/objects
+tdir := _build
+mdir := $(tdir)/m
+odir := $(tdir)/o
 
-# compiler-dependent preprocessor stuff
-ifeq ($(findstring intel, $(f90_compiler)), intel)
-  xtr_f90_flags := -DINTEL_COMPILER -fpp
-  pp_macros := INTEL_COMPILER=1
-else
-  xtr_f90_flags := -DGNU_COMPILER -cpp
-  pp_macros := GNU_COMPILER=1
-endif
+#----------------------------------------------------------------------
+# some basic macros
+RM := -rm
+bold   = `tput bold`
+normal = `tput sgr0`
+red    = `tput setaf 1`
+green  = `tput setaf 2`
 
-#SHTns stuff
-ifdef shtns
-  xtr_f90_flags += -DUSE_SHTns
-  pp_macros += USE_SHTns=1
-endif
-SHT_PREFIX := $(HOME)/cueball/local-software/SHTns
-SHT_INC := -I$(SHT_PREFIX)/include
-SHT_LIB := -L$(SHT_PREFIX)/lib -lfftw3_omp -lfftw3 -lm -lshtns_omp
-
+#----------------------------------------------------------------------
+# DGEMM include/library flags
 DGEMM_INC := -I$(MKLROOT)/include
-ifeq ($(findstring intel, $(f90_compiler)), intel)
-  xtr_f90_flags += -mkl
-else
-  # this is for GNU & not conda:
-  DGEMM_LIB := -L$(MKLROOT)/lib/intel64 -Wl,--no-as-needed -lmkl_gf_lp64 -lmkl_sequential -lmkl_core -lpthread -lm -ldl
-
-  # this is for GNU & conda:
-  #DGEMM_LIB := -L$(MKLROOT)/lib -Wl,--no-as-needed -lmkl_gf_lp64 -lmkl_sequential -lmkl_core -lpthread -lm -ldl
-endif
+DGEMM_LIB := -L$(MKLROOT)/lib/intel64 -lmkl_intel_ilp64 -lmkl_sequential -lmkl_core
 
 include_flags := $(DGEMM_INC)
 library_flags := $(DGEMM_LIB)
-ifdef shtns
-  include_flags += $(SHT_INC)
-  library_flags += $(SHT_LIB)
+
+#----------------------------------------------------------------------
+# compiler FLAGS
+ifeq ($(findstring INTEL, $(compiler)), INTEL)
+  f90_comp := ifort
+  comp_suf := .intel
+
+  ifdef debug
+    f90_flags = -FR -r8 -O0 -traceback -g -check all -noinline -debug all -warn all
+  else
+    f90_flags := -FR -r8 -O3
+  endif
+
+  f90_flags += -DINTEL_COMPILER -fpp -shared-intel -qopenmp -module $(mdir) -I$(mdir)
+
+  # MKL
+  include_flags := -I$(MKLROOT)/include
+  library_flags := -mkl
+else
+  ifeq ($(findstring GNU, $(compiler)), GNU)
+    f90_comp := gfortran
+    comp_suf := .gfortran
+
+    ifdef debug
+      dbg1 = -g -fno-range-check -O0 -fbounds-check -fbacktrace -Wuninitialized -Wunused
+      dbg2 = -ffpe-trap=invalid,zero,overflow -finit-real=nan -finit-integer=nan
+      f90_flags := $(dbg1) $(dbg2)
+    else
+      f90_flags := -O3
+    endif
+
+    f90_flags += -DGNU_COMPILER -cpp -ffixed-line-length-132 -fopenmp -J$(mdir) -I$(mdir)
+
+    # MKL
+    include_flags := -I$(MKLROOT)/include
+    libs := -lmkl_gf_lp64 -lmkl_sequential -lmkl_core -lpthread -lm -ldl
+    library_flags := -L$(MKLROOT)/lib/intel64 -Wl,--no-as-needed $(libs)
+  else
+    $(error "Compiler must be either INTEL or GNU")
+  endif
 endif
 
-# main makefile stuff
-MAKEFILE_HOME_DIR := $(HOME)/Programs/FortranDep/Makefiles
-include $(MAKEFILE_HOME_DIR)/GMain.mak
+ifdef shtns
+  f90_flags += -DUSE_SHTns
+  include_flags += -I$(SHT_PREFIX)/include
+  library_flags += -L$(SHT_PREFIX)/lib -lfftw3_omp -lfftw3 -lm -lshtns_omp
+  SHT_suf := .SHTns
+endif
+
+ifdef debug
+  debug_suf := .debug
+endif
+
+suf := $(shell uname)$(comp_suf)$(SHT_suf)$(debug_suf)
+
+exe := xmain.$(suf).exe
+
+#----------------------------------------------------------------------
+# what to build and where to look for source files
+all: $(exe)
+
+vpath %.f90 $(source_dir)
+vpath %.F90 $(source_dir)
+
+#----------------------------------------------------------------------
+# dependencies
+include makefile_dependencies
+
+#----------------------------------------------------------------------
+# link the executable
+$(exe): $(objects)
+	@echo "${bold}Linking $@ ...${normal}"
+	$(f90_comp) $(f90_flags) -o $(exe) $(objects) $(library_flags) $(include_flags)
+	@echo
+	@echo "${bold}${green}SUCCESS${normal}"
+	@echo
+
+#----------------------------------------------------------------------
+# compile object files
+$(odir)/%.o: %.f90
+	@if [ ! -d $(odir) ]; then mkdir -p $(odir); fi
+	@if [ ! -d $(mdir) ]; then mkdir -p $(mdir); fi
+	@echo "${bold}Building $< ...${normal}"
+	$(f90_comp) $(f90_flags) -c $< -o $@ $(include_flags)
+
+$(odir)/%.o: %.F90
+	@if [ ! -d $(odir) ]; then mkdir -p $(odir); fi
+	@if [ ! -d $(mdir) ]; then mkdir -p $(mdir); fi
+	@echo "${bold}Building $< ...${normal}"
+	$(f90_comp) $(f90_flags) -c $< -o $@ $(include_flags)
+
+#----------------------------------------------------------------------
+# clean up
+.PHONY: clean distclean realclean purge
+clean:
+	$(RM) -f ./*.o $(odir)/*.o
+	$(RM) -f ./*.mod $(mdir)/*.mod
+realclean: clean
+	$(RM) -f $(exe)
+distclean: realclean
+	$(RM) -rf $(tdir)
+	$(RM) -f ./*.exe
+purge: distclean
+
+#----------------------------------------------------------------------
+# debugging tool: "make print-objects" will print the value of $(objects)
+print-%: ; @echo $* is $($*)
 

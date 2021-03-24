@@ -1,0 +1,63 @@
+
+# user options
+# ------------------
+#   sht          -- build using the SHTns library
+#   debug        -- compile with debugging flags
+#   f90_compiler -- what compiler to use [intel or gfortran]
+shtns :=
+debug := t
+f90_compiler := gfortran
+
+#################################################################
+
+# what to build, what to ignore
+src_dirs := src
+skip_modules := iso_c_binding iso_fortran_env
+find_GPackage_files := t
+build_probin :=
+build_info :=
+
+exe_base := main
+
+OMP := t
+
+# compiler-dependent preprocessor stuff
+ifeq ($(findstring intel, $(f90_compiler)), intel)
+  xtr_f90_flags := -DINTEL_COMPILER -fpp
+  pp_macros := INTEL_COMPILER=1
+else
+  xtr_f90_flags := -DGNU_COMPILER -cpp
+  pp_macros := GNU_COMPILER=1
+endif
+
+#SHTns stuff
+ifdef shtns
+  xtr_f90_flags += -DUSE_SHTns
+  pp_macros += USE_SHTns=1
+endif
+SHT_PREFIX := $(HOME)/cueball/local-software/SHTns
+SHT_INC := -I$(SHT_PREFIX)/include
+SHT_LIB := -L$(SHT_PREFIX)/lib -lfftw3_omp -lfftw3 -lm -lshtns_omp
+
+DGEMM_INC := -I$(MKLROOT)/include
+ifeq ($(findstring intel, $(f90_compiler)), intel)
+  xtr_f90_flags += -mkl
+else
+  # this is for GNU & not conda:
+  DGEMM_LIB := -L$(MKLROOT)/lib/intel64 -Wl,--no-as-needed -lmkl_gf_lp64 -lmkl_sequential -lmkl_core -lpthread -lm -ldl
+
+  # this is for GNU & conda: (but the above also works???)
+  #DGEMM_LIB := -L$(MKLROOT)/lib -Wl,--no-as-needed -lmkl_gf_lp64 -lmkl_sequential -lmkl_core -lpthread -lm -ldl
+endif
+
+include_flags := $(DGEMM_INC)
+library_flags := $(DGEMM_LIB)
+ifdef shtns
+  include_flags += $(SHT_INC)
+  library_flags += $(SHT_LIB)
+endif
+
+# main makefile stuff
+MAKEFILE_HOME_DIR := $(HOME)/Programs/FortranDep/Makefiles
+include $(MAKEFILE_HOME_DIR)/GMain.mak
+
