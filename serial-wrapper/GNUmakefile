@@ -3,7 +3,7 @@
 # ------------------
 #   sht          -- build using the SHTns library
 #   debug        -- compile with debugging flags
-#   f90_compiler -- what compiler to use jintel or gfortran]
+#   f90_compiler -- what compiler to use [intel or gfortran]
 shtns :=
 debug :=
 f90_compiler := gfortran

@@ -6,8 +6,8 @@ Module test_suite
    Use Structures
    Use Legendre_Polynomials
 #ifdef USE_SHTns
-   Use Legendre_Transforms_SHTns, only: Legendre_Transform, LT_ToPhysical, LT_ToSpectral, &
-                                        SHTns_lm_index, SHTns
+   Use Legendre_Transforms_SHTns, only: Legendre_Transform, LT_ToPhysical_single, &
+                                        LT_ToSpectral_single, SHTns_lm_index, SHTns
 #else
    Use Legendre_Transforms, only: Legendre_Transform
 #endif
@@ -16,7 +16,7 @@ Module test_suite
 
    real*8 :: pi = acos(-1.0d0)
 
-   real*8, allocatable :: costheta(:)
+   real*8, allocatable :: costheta(:) ! ideally, this comes in from ProblemSize
 
    contains
 
@@ -54,10 +54,10 @@ Module test_suite
       type(rmcontainer4d), allocatable :: spectral(:)
       real*8, allocatable :: physical(:,:,:), true_phys(:)
       character(len=128) :: msg
-      integer :: mp, l, r, f, imi, m, nfields, stat, nq, mind
+      integer :: mp, l, r, m, nfields, stat, nq, mind, i
       real*8 :: diff1, diff2, diff3, diff, mxdiff
 
-      allocate(costheta(1:n_theta))
+      allocate(costheta(1:n_theta)) ! only necessary b/c coloc=real*16
       costheta(:) = coloc(:)
 
       write(*,*)
@@ -88,6 +88,7 @@ Module test_suite
          write(*,*) 'allocate physical failed'
          write(*,*) msg
       endif
+      physical(:,:,:) = 0.0d0
 
       !--------------------
       ! setup/run the test
@@ -112,17 +113,17 @@ Module test_suite
          enddo
 
          allocate(true_phys(1:n_theta)) ! build expected answer
-         call Y_2m(costheta, true_phys, 1)
+         call Y_2m(costheta, true_phys, 1) ! "1" is m value as used in above initialization
 
          ! move to physical space
          write(*,*) 'S-->P'
          call Legendre_Transform(spectral, physical)
 
          ! check error
-         !write(*,*) 'expected         Rayleigh'
-         !do f=1,n_theta
-         !   write(*,*) true_phys(f), physical(f,:,mind)
-         !enddo
+         write(*,*) 'expected         Rayleigh'
+         do i=1,n_theta
+            write(*,*) true_phys(i), physical(i,:,mind)
+         enddo
 
          ! move back to spectral space
          write(*,*) 'P-->S'
@@ -179,7 +180,7 @@ Module test_suite
       real*8 :: diff, diff1, diff2, mxdiff
       real*8, allocatable :: true_phys(:)
 
-      allocate(costheta(1:n_theta))
+      allocate(costheta(1:n_theta)) ! only necessary b/c coloc=real*16
       costheta(:) = coloc(:)
 
       write(*,*)
@@ -198,10 +199,10 @@ Module test_suite
          spectral(lm) = (1.0d0, 0.0d0)
 
          allocate(true_phys(1:SHTns%nlat)) ! build expected answer
-         call Y_2m(x_leg, true_phys, m)
+         call Y_2m(costheta, true_phys, m)
 
          ! move to physical space
-         call LT_ToPhysical(spectral, physical, m)
+         call LT_ToPhysical_single(spectral, physical, m)
 
          ! check error
          write(*,*) 'Spec-->Phys max error',maxval(abs(real(physical) - true_phys))
@@ -213,7 +214,7 @@ Module test_suite
 
          ! move back to spectral space
          spectral(:) = 0.0d0 ! reset
-         call LT_ToSpectral(physical, spectral, m)
+         call LT_ToSpectral_single(physical, spectral, m)
 
          ! check error
          diff = abs(spectral(lm) - 1.0d0)

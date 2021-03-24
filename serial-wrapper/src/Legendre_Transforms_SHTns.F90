@@ -109,10 +109,12 @@ Contains
        ! apply some m-dependent FFT normalizations during the Legendre Transforms
        Allocate(PTS_normalization(0:l_max), STP_normalization(0:l_max))
 
-       PTS_normalization(0) = 1.0d0/n_phi  ! m=0
-       STP_normalization(0) = 1.0d0
-       PTS_normalization(1:) = 1.0d0/n_theta ! m/=0
-       STP_normalization(1:) = 0.5d0
+       !PTS_normalization(0) = 1.0d0/n_phi    ! m=0
+       !STP_normalization(0) = 1.0d0
+       !PTS_normalization(1:) = 1.0d0/n_theta ! m/=0
+       !STP_normalization(1:) = 0.5d0
+       PTS_normalization(:) = 1.0d0
+       STP_normalization(:) = 1.0d0
 
    End Subroutine SHTns_Initialize
 
@@ -125,26 +127,24 @@ Contains
    Subroutine SHTns_ToSpectral(data_in, data_out)
        Real*8, Intent(In) :: data_in(:,:,:)
        Type(rmcontainer4d), Intent(InOut) :: data_out(1:)
-
+       ! ingoing data has shape:
+       !   data_out(th,nrhs,lm)
+       !       th = theta (in-processor)
+       !     nrhs = number of RHS elements, stacked over: radius/real/imag/nfields
+       !       lm = mode index (distributed)
+       !
+       ! outgoing data has shape:
+       !   data_out(lm)%data(l,r,imi,nf)
+       !       lm = mode index (distributed)
+       !        l = spherical harmonic (in-processor)
+       !        r = radius (distributed)
+       !      imi = real/imag parts
+       !       nf = number of fields
        Complex*16, Allocatable :: temp_in(:,:,:), temp_out(:,:,:,:)
        Integer :: m, f, imi, r, mode
        Integer :: ddims(3), oddims(4)
        Integer :: n_m, nrhs, nfield, rmn, rmx, lme, lms
        Real*8 :: norm
-
-       ! incoming data has shape:
-       !   data_out(lm)%data(th,r,r/i,nfields)
-       !       lm = mode index
-       !       th = theta coordinate (in-processor)
-       !        r = radius (distributed)
-       !      r/i = real/imag parts
-       !     nfields = number of fields
-       !
-       ! outgoing data has shape:
-       !   data_out(:,nrhs,lm)
-       !       lm = mode index
-       !     nrhs = number of RHS elements
-       !     1st index = the theta & real/imag data is stacked
 
        ! find lower/upper bounds of incoming/outgoing data
        oddims = shape(data_out(1)%data)
@@ -159,14 +159,7 @@ Contains
        ! repackage the in/output data as complex arrays for SHTns
        ! SHTns input is 1d data of size (nth), output is size(nlm)
        !
-       Allocate(temp_in(2,3,4), temp_out(2,3,4,5))
-
-       ! old way:
-       ! do m=1,n_m
-       !    nl = l_max - m_values(m) + 1
-       !    Call DGEMM('T', 'N', nl, nrhs, nth, 1.0, iP_lm(m)%data, nth, data_in(:,:,m),
-       !               nth, 0.0, data_out(m)%data, nl)
-       ! enddo
+       Allocate(temp_in(2,3,4), temp_out(2,3,4,5)) ! numbers are random so it compiles
 
        Do mode = 1, n_m ! loop over lm modes
 
@@ -195,33 +188,47 @@ Contains
    Subroutine SHTns_ToPhysical(data_in, data_out)
        Type(rmcontainer4D), Intent(In) :: data_in(1:)
        Real*8, Intent(InOut) :: data_out(:,:,:)
-
+       ! ingoing data has shape:
+       !   data_out(lm)%data(l,r,imi,nf)
+       !       lm = mode index (distributed)
+       !        l = spherical harmonic (in-processor)
+       !        r = radius (distributed)
+       !      imi = real/imag parts
+       !       nf = number of fields
+       !
+       ! outgoing data has shape:
+       !   data_out(th,nrhs,lm)
+       !       th = theta (in-processor)
+       !     nrhs = number of RHS elements, stacked over: radius/real/imag/nfields
+       !       lm = mode index (distributed)
        Complex*16, Allocatable :: temp_phys(:), temp_spec(:)
        Complex*16 :: ai, ar
        Real*8, Allocatable :: rpart(:), ipart(:)
-       Integer :: ddims(3), n_m, nrhs
-       Integer :: oddims(4), nfield, rmn, rmx
-       Integer :: mode, m, f, r, ind
+       Integer :: odims(3), nm, nrhs, my_Nr
+       Integer :: idims(4), nfield, rmn, rmx
+       Integer :: mode, m, f, r, indi, indr
        Real*8 :: norm
 
        ai = (0.0d0, 1.0d0) ! imaginary unit
        ar = (1.0d0, 0.0d0) ! regular one
 
-       ddims = shape(data_out)
-       n_m = ddims(3)
-       nrhs = ddims(2)
+       odims = shape(data_out)
+       nm = odims(3)
+       nrhs = odims(2)
 
-       oddims = shape(data_in(1)%data)
-       nfield = oddims(4)
+       idims = shape(data_in(1)%data)
+       nfield = idims(4)
        rmn = LBOUND(data_in(1)%data,2)
        rmx = UBOUND(data_in(1)%data,2)
+
+       my_Nr = rmx - rmn + 1
 
        ! build temporary storage spaces
        allocate(temp_phys(1:n_theta), temp_spec(0:l_max))
        allocate(rpart(1:n_theta), ipart(1:n_theta))
        temp_phys(:) = (0.0d0, 0.0d0)
 
-       Do mode = 1, n_m ! loop over lm modes
+       Do mode = 1, nm ! loop over lm modes
 
            m = m_values(mode) ! extract actual m value
 
@@ -235,14 +242,18 @@ Contains
                   temp_spec(m:l_max) = ar*data_in(mode)%data(m:l_max,r,1,f) &
                                      + ai*data_in(mode)%data(m:l_max,r,2,f)
 
+                  ! Legendre transform at fixed m
                   Call sh_to_spat_ml(SHTns_c, m, temp_spec, temp_phys, l_max)
 
-                  rpart(:) = norm*temp_phys(1:n_theta)
-                  ipart(:) = norm*temp_phys(1:n_theta)
+                  rpart(:) = norm*real(temp_phys(:))
+                  ipart(:) = norm*aimag(temp_phys(:))
 
-                  ! store the output somewhere
-              !    ind = something that stripes the data?
-              !    data_out(1:n_theta,ind,mode) = rpart or ipart
+                  ! 1-based indexing, except for radius, ordered: radius-real-imag-field
+                  !     index = (r-rlo+1) + (imi-1)*Nr + (f-1)*Nr*2
+                  indr = (r-rmn+1) + (f-1)*my_Nr*2         ! real part for this r/field
+                  indi = (r-rmn+1) + my_Nr + (f-1)*my_Nr*2 ! imag part for this r/field
+                  data_out(:,indr,mode) = rpart(:)
+                  data_out(:,indi,mode) = ipart(:)
 
                Enddo
            Enddo
@@ -252,7 +263,7 @@ Contains
    End Subroutine SHTns_ToPhysical
 
    ! Legrendre Transform, i.e., no FFT at a given m value: Physical-->Spectral
-   subroutine LT_ToSpectral(data_in, data_out, m_val)
+   subroutine LT_ToSpectral_single(data_in, data_out, m_val)
       integer, intent(in) :: m_val
       complex*16, intent(inout) :: data_in(1:n_theta)
       complex*16, intent(inout) :: data_out(1:SHTns%nlm)
@@ -263,10 +274,10 @@ Contains
       lmstop  = SHTns_lmidx(SHTns_c, l_max, m_val)
       call spat_to_sh_ml(shtns_c, m_val, data_in, data_out(lmstart:lmstop), l_max)
 
-   end subroutine LT_ToSpectral
+   end subroutine LT_ToSpectral_single
 
     ! Legendre transform, i.e., no FFT at a given m value: Spectral-->Physical
-   subroutine LT_ToPhysical(data_in, data_out, m_val)
+   subroutine LT_ToPhysical_single(data_in, data_out, m_val)
       integer, intent(in) :: m_val
       complex*16, intent(inout) :: data_in(1:SHTns%nlm)
       complex*16, intent(inout) :: data_out(1:n_theta)
@@ -277,7 +288,7 @@ Contains
       lmstop  = SHTns_lmidx(SHTns_c, l_max, m_val)
       call sh_to_spat_ml(shtns_c, m_val, data_in(lmstart:lmstop), data_out, l_max)
 
-   end subroutine LT_ToPhysical
+   end subroutine LT_ToPhysical_single
 
 End Module Legendre_Transforms_SHTns
 
