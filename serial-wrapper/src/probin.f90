@@ -7,9 +7,9 @@ module input_params
    public :: runtime_init
 
    ! To set a new namelist element:
-   !    1) declare the variable
-   !    2) give it a default value
-   !    3) add the variable to the "namelist" line
+   !    1) declare the variable and give it a default value
+   !    2) add the variable to the "namelist" line
+   !    3) optional: add variable to parse_command_line_options subroutine
    !
    integer, save, public :: n_r = 16
    integer, save, public :: ell_max = -1
@@ -23,7 +23,25 @@ module input_params
                     eps_polar, on_the_fly, verbose, &
                     ntest
 
+   interface Read_CMD_Line
+      module procedure Read_CMD_Integer, Read_CMD_Double
+      module procedure Read_CMD_Logical, Read_CMD_String
+   end interface Read_CMD_Line
+
    contains
+
+   !====================================================================
+   ! Parse the command line for suitable values
+   !====================================================================
+   subroutine parse_command_line_options()
+      call Read_CMD_Line("--nr", n_r)
+      call Read_CMD_Line("--lmax", ell_max)
+      call Read_CMD_Line("--n-threads", n_threads)
+      call Read_CMD_Line("--eps-polar", eps_polar)
+      call Read_CMD_Line("--on-the-fly", on_the_fly)
+      call Read_CMD_Line("--verbose", verbose)
+      call Read_CMD_Line("--ntest", ntest)
+   end subroutine parse_command_line_options
 
    !====================================================================
    ! Read the namelist
@@ -68,11 +86,118 @@ module input_params
 
       call read_namelist(namelist_filename)
 
-      ! parse command line
-      !
-      ! ...coming soon...
-      !
+      call parse_command_line_options()
 
    end subroutine runtime_init
+
+   !====================================================================
+   ! Command line interface routines all named Read_CMD_<type>
+   ! arguments are assumed to be of the format:
+   !     ./a.out vname1 value1 vname2 value2 vname3 1 vname4 0 ...
+   ! every variable must be assigned a value, even logicals (which use 0,1)
+   !
+   ! The calling sequence is the same for each routine:
+   !
+   !     Read_CMD_Line(search_string, variable)
+   !
+   !     where search_string is what will appear on the command line
+   !     and variable is the actual variable that will take on the
+   !     given value. for example:
+   !          ...
+   !          real(kind=dpt) :: tolerance
+   !          integer :: magnetic_init_type
+   !          ...
+   !          call Read_CMD_Line("--tol", tolerance)
+   !          call Read_CMD_Line("--mag-init", magnetic_init_type)
+   !          ...
+   !====================================================================
+   subroutine Read_CMD_String(search_string, variable)
+      character(*), intent(in) :: search_string
+      character(*), intent(inout) :: variable
+      integer :: i,n
+      character(len=1024) :: argname, argval, argshift
+
+      n = command_argument_count()
+
+      do i=1,n,2 ! loop over all arguments, count by 2
+
+         call get_command_argument(i, argname)  ! name of specified variable
+         call get_command_argument(i+1, argval) ! value of variable
+
+         if (trim(search_string) .eq. trim(argname)) then
+             variable = trim(adjustl(argval)) ! remove space infront and trailing
+         endif
+
+      enddo
+   end subroutine Read_CMD_String
+
+   subroutine Read_CMD_Logical(search_string, variable)
+      character(*), intent(in) :: search_string
+      logical, intent(inout) :: variable
+      integer :: i,n,itemp
+      character(len=1024) :: argname, argval, argshift
+      n = command_argument_count()
+
+      do i=1,n,2 ! loop over all arguments, count by 2
+
+         call get_command_argument(i, argname)  ! name of specified variable
+         call get_command_argument(i+1, argval) ! value of variable
+
+         if (search_string .eq. argname) then
+             argshift = trim(adjustl(argval)) ! remove space infront and trailing
+
+             read(argshift,*) itemp ! read from argshift, store value in itemp
+
+             if (itemp .eq. 1) then
+                 variable = .true.
+             else
+                 variable = .false.
+             endif
+         endif
+
+      enddo
+   end subroutine Read_CMD_Logical
+
+   subroutine Read_CMD_Integer(search_string, variable)
+      character(*), intent(in) :: search_string
+      integer, intent(inout) :: variable
+      integer :: i,n
+      character(len=1024) :: argname, argval, argshift
+      n = command_argument_count()
+
+      do i=1,n,2 ! loop over all arguments, count by 2
+
+         call get_command_argument(i, argname)  ! name of specified variable
+         call get_command_argument(i+1, argval) ! value of variable
+
+         if (search_string .eq. argname) then
+             argshift = trim(adjustl(argval)) ! remove space infront and trailing
+
+             read(argshift,*) variable ! read from argshift, store value in variable
+         endif
+
+      enddo
+   end subroutine Read_CMD_Integer
+
+   subroutine Read_CMD_Double(search_string, variable)
+      character(*), intent(in) :: search_string
+      real*8, intent(inout) :: variable
+      integer :: i,n
+      character(len=1024) :: argname, argval, argshift
+      n = command_argument_count()
+
+      do i=1,n,2 ! loop over all arguments, count by 2
+
+         call get_command_argument(i, argname)  ! name of specified variable
+         call get_command_argument(i+1, argval) ! value of variable
+
+         if (search_string .eq. argname) then
+             argshift = trim(adjustl(argval)) ! remove space infront and trailing
+
+             read(argshift,*) variable ! read from argshift, store value in variable
+         endif
+
+      enddo
+   end subroutine Read_CMD_Double
 
 end module input_params
