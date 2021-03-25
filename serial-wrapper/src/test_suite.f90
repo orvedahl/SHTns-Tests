@@ -54,7 +54,7 @@ Module test_suite
       type(rmcontainer4d), allocatable :: spectral(:)
       real*8, allocatable :: physical(:,:,:), true_phys(:)
       character(len=128) :: msg
-      integer :: mp, l, r, m, nfields, stat, nq, mind, i
+      integer :: mp, l, r, m, nfields, stat, nq, mind, i, f, imi, rlo, rhi
       real*8 :: diff1, diff2, diff3, diff, mxdiff
 
       allocate(costheta(1:n_theta)) ! only necessary b/c coloc=real*16
@@ -120,12 +120,19 @@ Module test_suite
          call Legendre_Transform(spectral, physical)
 
          ! check error
-         write(*,*) 'expected         Rayleigh'
-         !do i=1,n_theta
-         !   write(*,*) true_phys(i), physical(i,:,mind)
-         !enddo
+         imi = 2
+         f = 2
+         rlo = 1 + (imi-1)*nr + (f-1)*nr*2  ! index = (r-rlo+1) + (imi-1)*Nr + (f-1)*Nr*2
+         rhi = nr + (imi-1)*nr + (f-1)*nr*2
+         mxdiff = -1.0d0
+         do i=1,n_theta
+            diff = maxval(abs(physical(i,rlo:rhi,mind)-true_phys(i)*2*radius(:)**2))
+            if (diff .gt. mxdiff) mxdiff = diff
+         enddo
+         write(*,*) 'Spec-->Phys max error',mxdiff
 
          ! move back to spectral space
+         write(*,*)
          write(*,*) 'P-->S'
          call Legendre_Transform(physical, spectral)
 

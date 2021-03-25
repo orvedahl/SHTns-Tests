@@ -3,9 +3,14 @@ module input_params
 
    implicit none
 
+   private
    public :: runtime_init
 
-   ! declarations/set default values
+   ! To set a new namelist element:
+   !    1) declare the variable
+   !    2) give it a default value
+   !    3) add the variable to the "namelist" line
+   !
    integer, save, public :: n_r = 16
    integer, save, public :: ell_max = -1
    integer, save, public :: n_threads = 1
@@ -14,7 +19,9 @@ module input_params
    integer, save, public :: verbose = 2
    integer, save, public :: ntest = 1
 
-   namelist /input/ n_r, ell_max, n_threads, eps_polar, on_the_fly, verbose, ntest
+   namelist /input/ n_r, ell_max, n_threads, &
+                    eps_polar, on_the_fly, verbose, &
+                    ntest
 
    contains
 
@@ -54,14 +61,17 @@ module input_params
    subroutine runtime_init()
 
       integer :: narg, farg, ind, ind2
-      character(len=256) :: fname, namelist_name
+      character(len=256) :: namelist_filename
       logical :: found_inputs = .false.
 
-      ! read namelist
-      namelist_name = "input"
-      call read_namelist(namelist_name)
+      namelist_filename = "input"
+
+      call read_namelist(namelist_filename)
 
       ! parse command line
+      !
+      ! ...coming soon...
+      !
 
    end subroutine runtime_init
 

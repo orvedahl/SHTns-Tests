@@ -8,7 +8,7 @@
 #		SHT_PREFIX := /path/to/prefix/location/for/SHTns
 
 # change this to be any non-empty value to enable debugging flags
-debug :=
+debug := t
 
 # change this to be any non-empty value to build the SHTns version
 shtns :=
@@ -146,6 +146,8 @@ distclean: realclean
 	$(RM) -rf $(tdir)
 	$(RM) -f ./*.exe
 purge: distclean
+rebuild: clean
+	@$(MAKE) --no-print-directory all
 
 #----------------------------------------------------------------------
 # debugging tool: "make print-objects" will print the value of $(objects)
