@@ -78,9 +78,7 @@ module input_params
    !====================================================================
    subroutine runtime_init()
 
-      integer :: narg, farg, ind, ind2
       character(len=256) :: namelist_filename
-      logical :: found_inputs = .false.
 
       namelist_filename = "input"
 
@@ -115,7 +113,7 @@ module input_params
       character(*), intent(in) :: search_string
       character(*), intent(inout) :: variable
       integer :: i,n
-      character(len=1024) :: argname, argval, argshift
+      character(len=1024) :: argname, argval
 
       n = command_argument_count()
 
