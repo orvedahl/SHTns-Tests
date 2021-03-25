@@ -80,7 +80,6 @@ Contains
        m_res = 1 ! 2*pi/m_res is the azimuthal periodicity, m_max*m_res is max azimuthal order
 
        ! choose grid, data layout, and Y_l^m normalization --- be consistent with Rayleigh
-       norm = SHT_orthonormal
        If (SHTns_on_the_fly) Then
            layout = SHT_gauss_fly
        Else
@@ -91,6 +90,9 @@ Contains
        ! Rayleigh has x in (-1,1) & theta in (pi,0) ---> so south pole is first
        layout = layout + SHT_phi_contiguous + SHT_scalar_only + SHT_south_pole_first
 
+       ! Rayleigh uses the very sane choice of orthonormal Y_l^m
+       norm = SHT_orthonormal
+
        Call SHTns_verbose(SHTns_information) ! set how much information SHTns will display
 
        SHTns_nthreads = SHTns_use_threads(n_threads) ! set OpenMP threads
@@ -98,7 +100,7 @@ Contains
        ! initialize/allocate transforms and build useful arrays
        SHTns_c = SHTns_create(l_max, m_max, m_res, norm)
 
-       ! attach a grid to the SHT object
+       ! attach a grid to the SHT object & determine optimal algorithm
        Call SHTns_set_grid(SHTns_c, layout, SHTns_polar_threshold, n_theta, n_phi)
 
        ! map the C SHTns structure to the Fortran one

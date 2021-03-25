@@ -6,8 +6,7 @@ Module test_suite
    Use Structures
    Use Legendre_Polynomials
 #ifdef USE_SHTns
-   Use Legendre_Transforms_SHTns, only: Legendre_Transform, LT_ToPhysical_single, &
-                                        LT_ToSpectral_single, SHTns_lm_index, SHTns
+   Use Legendre_Transforms_SHTns
 #else
    Use Legendre_Transforms, only: Legendre_Transform
 #endif
@@ -19,6 +18,27 @@ Module test_suite
    real*8, allocatable :: costheta(:) ! ideally, this comes in from ProblemSize
 
    contains
+
+   ! Y_l^m for l=1, does not include the e^(i*m*phi) part
+   subroutine Y_1m(costh, Yout, m)
+      integer, intent(in) :: m
+      real*8, intent(in) :: costh(:)
+      real*8, intent(inout) :: Yout(:)
+
+      real*8 :: A
+
+      if (m .eq. 0) then
+         A = sqrt(3.0d0 / (4.0d0*pi))
+         Yout(:) = A*costh(:)
+
+      elseif (m .eq. 1) then
+         A = sqrt(3.0d0 / (4.0d0*pi*2.0d0))
+         Yout(:) = -A*sqrt(1.0d0-costh(:)*costh(:))
+
+      else
+         Yout(:) = -1.0d0
+      endif
+   end subroutine Y_1m
 
    ! Y_l^m for l=2, does not include the e^(i*m*phi) part
    subroutine Y_2m(costh, Yout, m)
@@ -183,7 +203,7 @@ Module test_suite
       integer, intent(in) :: ntest
 
       complex*16, allocatable :: spectral(:), physical(:)
-      integer :: l, m, lm, i
+      integer :: l, m, lm, i, lval, mval
       real*8 :: diff, diff1, diff2, mxdiff
       real*8, allocatable :: true_phys(:)
 
@@ -200,7 +220,42 @@ Module test_suite
       spectral(:) = 0.0d0
       physical(:) = 0.0d0
 
-      if (ntest .eq. 1) then
+      if (ntest .eq. 0) then
+         l = 1; m = 1
+         lm = SHTns_lm_index(l,m)
+
+         allocate(true_phys(1:SHTns%nlat)) ! build expected answer
+         if (l .eq. 2) then
+            call Y_2m(costheta, true_phys, m)
+         else
+            call Y_1m(costheta, true_phys, m)
+         endif
+
+         physical(:) = true_phys(:) ! neede to convert from real to complex
+
+         ! move to spectral
+         call LT_ToSpectral_single(physical, spectral, m)
+
+         ! check error
+         diff = -1.0d0; mxdiff = -1.0d0
+         do i=1,SHTns%nlm
+            lval = SHTns_l_value(i)
+            mval = SHTns_m_value(i)
+            if ((lval .eq. l) .and. (mval .eq. m)) then
+               diff = max(diff, abs(spectral(i)-1.0d0))
+            else
+               mxdiff = max(mxdiff, abs(spectral(i)))
+            endif
+            if (abs(spectral(i)) .gt. 1e-10) then
+               write(*,*) i, lval, mval, spectral(i)
+            endif
+         enddo
+         write(*,*) 'Phys-->Spec max error of expected mode  ',diff
+         write(*,*) 'Phys-->Spec max error of all other modes',mxdiff
+
+         deallocate(true_phys)
+
+      elseif (ntest .eq. 1) then
          l = 2; m = 1
          lm = SHTns_lm_index(l,m)
          spectral(lm) = (1.0d0, 0.0d0)
@@ -211,13 +266,13 @@ Module test_suite
          ! move to physical space
          call LT_ToPhysical_single(spectral, physical, m)
 
+         !write(*,*) 'expected   SHTns'
+         do i=1,n_theta
+            write(*,*) true_phys(i), physical(i)
+         enddo
+
          ! check error
          write(*,*) 'Spec-->Phys max error',maxval(abs(real(physical) - true_phys))
-
-         write(*,*) 'expected   SHTns'
-         do i=1,n_theta
-            write(*,*) true_phys(i), real(physical(i))
-         enddo
 
          ! move back to spectral space
          spectral(:) = 0.0d0 ! reset
