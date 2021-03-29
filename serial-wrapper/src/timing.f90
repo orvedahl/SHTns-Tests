@@ -1,15 +1,13 @@
 
 module Timing
 
-   use data_types
-
    implicit none
 
    ! a single timer
    type timer
-      real(kind=dpt) :: time    ! current time, i.e., "start" the stopwatch
-      real(kind=dpt) :: delta   ! elapsed time from previous "start", i.e., "stop" the stopwatch and record it
-      real(kind=dpt) :: elapsed ! total elapsed time, including multiple start/stops
+      real*8 :: time    ! current time, i.e., "start" the stopwatch
+      real*8 :: delta   ! elapsed time from previous "start", i.e., "stop" the stopwatch and record it
+      real*8 :: elapsed ! total elapsed time, including multiple start/stops
 
       contains
 
@@ -33,11 +31,11 @@ module Timing
 
    ! generic routine to get current time in seconds
    subroutine get_current_time(t)
-      real(kind=dpt), intent(inout) :: t
+      real*8, intent(inout) :: t
       integer(kind=i8_t) :: rate, cnts
 
       call system_clock(cnts, rate)
-      t = real(cnts, kind=dpt)/real(rate, kind=dpt)
+      t = real(cnts)/real(rate)
    end subroutine get_current_time
 
    ! allocate a collection of timers
@@ -45,7 +43,7 @@ module Timing
       integer :: i
       allocate(stopwatch(1:ntimers))
       do i=1,ntimers
-         stopwatch(i)%init()
+         call stopwatch(i)%init()
       enddo
    end subroutine initialize_timers
 
@@ -56,9 +54,9 @@ module Timing
    ! initialize components to zero
    subroutine initialize_timer(self)
       class(timer) :: self
-      self%elapsed = 0.0_dpt
-      self%time = 0.0_dpt
-      self%delta = 0.0_dpt
+      self%elapsed = 0.0d0
+      self%time = 0.0d0
+      self%delta = 0.0d0
    end subroutine initialize_timer
 
    ! call current time and store it
@@ -70,7 +68,7 @@ module Timing
    ! call current time and store the elapsed time from previous call to startclock
    subroutine stopclock(self)
       class(timer) :: self
-      real(kind=dpt) :: t
+      real*8 :: t
       call get_current_time(t)
       self%delta = t - self%time
    end subroutine stopclock
