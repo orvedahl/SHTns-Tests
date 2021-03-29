@@ -202,9 +202,11 @@ Module test_suite
    subroutine test_SHTns(ntest)
       integer, intent(in) :: ntest
 
+      type(rmcontainer4d), allocatable :: Rspectral(:)
+      real*8, allocatable :: Rphysical(:,:,:)
       complex*16, allocatable :: spectral(:), physical(:)
-      integer :: l, m, lm, i, lval, mval
-      real*8 :: diff, diff1, diff2, mxdiff
+      integer :: l, m, lm, i, lval, mval, f, imi, mp, nfields, r, rhi, rlo, mind, nq
+      real*8 :: diff, diff1, diff2, diff3, mxdiff
       real*8, allocatable :: true_phys(:)
 
       allocate(costheta(1:n_theta)) ! only necessary b/c coloc=real*16
@@ -231,10 +233,19 @@ Module test_suite
             call Y_1m(costheta, true_phys, m)
          endif
 
-         physical(:) = true_phys(:) ! neede to convert from real to complex
+         physical(:) = true_phys(:) ! need to convert from real to complex
 
          ! move to spectral
          call LT_ToSpectral_single(physical, spectral, m)
+
+         ! zero out lmax mode
+         do i=1,SHTns%nlm
+            lval = SHTns_l_value(i)
+            if (lval .eq. l_max) then
+               mval = SHTns_m_value(i)
+               spectral(i) = 0.0d0
+            endif
+         enddo
 
          ! check error
          diff = -1.0d0; mxdiff = -1.0d0
@@ -286,6 +297,91 @@ Module test_suite
          write(*,*) 'Spec-->Phys-->Spec max error',mxdiff
 
          deallocate(true_phys)
+
+      elseif (ntest .eq. 2) then
+
+         nfields = 3
+
+         allocate(Rspectral(1:n_m))
+         do mp=1,n_m
+            m = m_values(mp)
+            allocate(Rspectral(mp)%data(m:l_max,1:nr,1:2,nfields))
+         enddo
+
+         nq = 2*nr*nfields
+         allocate(Rphysical(1:n_theta,1:nq,1:n_m))
+
+         mind = -1
+         do mp = 1, n_m ! modes
+            m = m_values(mp)
+            if (m .eq. 1) mind = mp
+            do l = m, l_max ! \ell values
+
+               Rspectral(mp)%data(l,:,:,:) = 0.0d0
+               if ((l .eq. 2) .and. (m .eq. 1)) then
+                  do r = 1, nr ! radius
+                     Rspectral(mp)%data(l,r,1,1) = 1.0d0*radius(r)
+                     Rspectral(mp)%data(l,r,2,2) = 2.0d0*radius(r)**2
+                     Rspectral(mp)%data(l,r,2,3) = 5.0d0*radius(r)**3
+                  enddo
+               endif
+            enddo
+         enddo
+
+         allocate(true_phys(1:n_theta)) ! build expected answer
+         call Y_2m(costheta, true_phys, 1) ! "1" is m value as used in above initialization
+
+         ! move to physical space
+         write(*,*) 'S-->P'
+         call Legendre_Transform(Rspectral, Rphysical)
+
+         ! check error
+         imi = 2
+         f = 2
+         rlo = 1 + (imi-1)*nr + (f-1)*nr*2  ! index = (r-rlo+1) + (imi-1)*Nr + (f-1)*Nr*2
+         rhi = nr + (imi-1)*nr + (f-1)*nr*2
+         mxdiff = -1.0d0
+         do i=1,n_theta
+            diff = maxval(abs(Rphysical(i,rlo:rhi,mind)-true_phys(i)*2*radius(:)**2))
+            if (diff .gt. mxdiff) mxdiff = diff
+         enddo
+         write(*,*) 'Spec-->Phys max error',mxdiff
+
+         ! move back to spectral space
+         write(*,*)
+         write(*,*) 'P-->S'
+         call Legendre_Transform(Rphysical, Rspectral)
+
+         ! zero out l_max mode
+         do mp=1,n_m
+            Rspectral(mp)%data(l_max,:,:,:) = 0.0d0
+         enddo
+
+         ! compute error
+         diff = -1.0d0
+         mxdiff = -1.0d0
+         do mp = 1, n_m
+            m = m_values(mp)
+            do l = m, l_max
+               if ((l .eq. 2) .and. (m .eq. 1)) then
+                   diff1 = maxval(abs(1.0d0*radius(:) - Rspectral(mp)%data(l,:,1,1)))
+                   diff2 = maxval(abs(2.0d0*radius(:)**2 - Rspectral(mp)%data(l,:,2,2)))
+                   diff3 = maxval(abs(5.0d0*radius(:)**3 - Rspectral(mp)%data(l,:,2,3)))
+                   diff = max(diff1,diff2,diff3)
+               else
+                   diff = maxval(abs(Rspectral(mp)%data(l,:,:,:)))
+               endif
+               if (diff .gt. mxdiff) mxdiff = diff
+            enddo
+         enddo
+         write(*,*) 'Spec-->Phys-->Spec max error',mxdiff
+
+         ! cleanup
+         deallocate(true_phys)
+         do mp=1,n_m
+            deallocate(Rspectral(mp)%data)
+         enddo
+         deallocate(Rspectral, Rphysical)
 
       else
          write(*,*) 'Test number not written yet, ntest=',ntest

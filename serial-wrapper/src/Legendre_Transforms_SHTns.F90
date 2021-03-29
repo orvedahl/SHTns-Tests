@@ -134,6 +134,8 @@ Contains
        !       th = theta (in-processor)
        !     nrhs = number of RHS elements, stacked over: radius/real/imag/nfields
        !       lm = mode index (distributed)
+       ! nrhs axis is 1-based indexing, except for radius, ordered: radius-real-imag-field
+       !     index = (r-rlo+1) + (imi-1)*Nr + (f-1)*Nr*2
        !
        ! outgoing data has shape:
        !   data_out(lm)%data(l,r,imi,nf)
@@ -142,11 +144,15 @@ Contains
        !        r = radius (distributed)
        !      imi = real/imag parts
        !       nf = number of fields
-       Complex*16, Allocatable :: temp_in(:,:,:), temp_out(:,:,:,:)
+       Complex*16, Allocatable :: temp_spec(:), temp_phys(:)
+       Complex*16 :: ai, ar
        Integer :: m, f, imi, r, mode
        Integer :: ddims(3), oddims(4)
-       Integer :: n_m, nrhs, nfield, rmn, rmx, lme, lms
+       Integer :: n_m, nrhs, nfield, rmn, rmx, my_Nr, indr, indi, lind
        Real*8 :: norm
+
+       ai = (0.0d0, 1.0d0) ! imaginary unit
+       ar = (1.0d0, 0.0d0) ! regular one
 
        ! find lower/upper bounds of incoming/outgoing data
        oddims = shape(data_out(1)%data)
@@ -154,14 +160,13 @@ Contains
        rmn = LBOUND(data_out(1)%data,2)
        rmx = UBOUND(data_out(1)%data,2)
 
+       my_Nr = rmx - rmn + 1
+
        ddims = shape(data_in)
        n_m = ddims(3)
        nrhs = ddims(2)
 
-       ! repackage the in/output data as complex arrays for SHTns
-       ! SHTns input is 1d data of size (nth), output is size(nlm)
-       !
-       Allocate(temp_in(2,3,4), temp_out(2,3,4,5)) ! numbers are random so it compiles
+       Allocate(temp_spec(1:l_max+1), temp_phys(1:n_theta)) ! SHTns expects complex arrays
 
        Do mode = 1, n_m ! loop over lm modes
 
@@ -169,21 +174,28 @@ Contains
 
            norm = PTS_normalization(m) ! extract FFT normalizations, based on m
 
-           lms = SHTns_lmidx(SHTns_c, 0, m)     ! mode index for (l,m)=(0,m)
-           lme = SHTns_lmidx(SHTns_c, l_max, m) ! mode index for (l,m)=(lmax,m)
+           lind = l_max - m + 1 ! number of modes for this m-value
 
            Do f = 1, nfield ! number of fields
-               Do imi = 1, 2 ! real/imag part
-                   Do r = rmn, rmx ! radius
-                      !Call spat_to_sh_ml(SHTns_c, m, temp_in, temp_out(lms:lme), l_max)
-                   Enddo
+               Do r = rmn, rmx ! radius
+
+                   ! package incoming data into complex array at this radius/field
+                   indr = (r-rmn+1) + (f-1)*my_Nr*2
+                   indi = (r-rmn+1) + my_Nr + (f-1)*my_Nr*2
+                   temp_phys(:) = ar*data_in(:,indr,mode) + ai*data_in(:,indi,mode)
+
+                   temp_spec(:) = 0.0d0 ! spectral output is of size (lmax-m+1)
+                   Call spat_to_sh_ml(SHTns_c, m, temp_phys, temp_spec(1:lind), l_max)
+
+                   ! extract results and store in output array
+                   data_out(mode)%data(m:l_max,r,1,f) = norm*real(temp_spec(1:lind))
+                   data_out(mode)%data(m:l_max,r,2,f) = norm*aimag(temp_spec(1:lind))
+
                Enddo
            Enddo
        Enddo
 
-       ! un-complex the data into the output format
-
-       DeAllocate(temp_in, temp_out)
+       DeAllocate(temp_spec, temp_phys)
 
    End Subroutine SHTns_ToSpectral
 
@@ -205,10 +217,8 @@ Contains
        !       lm = mode index (distributed)
        Complex*16, Allocatable :: temp_phys(:), temp_spec(:)
        Complex*16 :: ai, ar
-       Real*8, Allocatable :: rpart(:), ipart(:)
        Integer :: odims(3), nm, nrhs, my_Nr
-       Integer :: idims(4), nfield, rmn, rmx
-       Integer :: mode, m, f, r, indi, indr
+       Integer :: idims(4), nfield, rmn, rmx, mode, m, f, r, ind, lind
        Real*8 :: norm
 
        ai = (0.0d0, 1.0d0) ! imaginary unit
@@ -226,9 +236,7 @@ Contains
        my_Nr = rmx - rmn + 1
 
        ! build temporary storage spaces
-       allocate(temp_phys(1:n_theta), temp_spec(0:l_max))
-       allocate(rpart(1:n_theta), ipart(1:n_theta))
-       temp_phys(:) = (0.0d0, 0.0d0)
+       allocate(temp_phys(1:n_theta), temp_spec(1:l_max+1)) ! SHTns expects complex arrays
 
        Do mode = 1, nm ! loop over lm modes
 
@@ -236,31 +244,31 @@ Contains
 
            norm = STP_normalization(m) ! extract FFT normalizations, based on m
 
+           lind = l_max - m + 1 ! number of modes for this m-value
+
            Do f = 1, nfield ! number of fields
                Do r = rmn, rmx ! radius
 
-                  ! package the input data into a larger array of size(0:l_max)
+                  ! package the input data into a complex array of size lmax-m+1
                   temp_spec(:) = (0.0d0, 0.0d0)
-                  temp_spec(m:l_max) = ar*data_in(mode)%data(m:l_max,r,1,f) &
-                                     + ai*data_in(mode)%data(m:l_max,r,2,f)
+                  temp_spec(1:lind) = ar*data_in(mode)%data(m:l_max,r,1,f) &
+                                    + ai*data_in(mode)%data(m:l_max,r,2,f)
 
-                  ! Legendre transform at fixed m
-                  Call sh_to_spat_ml(SHTns_c, m, temp_spec, temp_phys, l_max)
-
-                  rpart(:) = norm*real(temp_phys(:))
-                  ipart(:) = norm*aimag(temp_phys(:))
+                  temp_phys(:) = (0.0d0, 0.0d0)
+                  Call sh_to_spat_ml(SHTns_c, m, temp_spec(1:lind), temp_phys, l_max)
 
                   ! 1-based indexing, except for radius, ordered: radius-real-imag-field
                   !     index = (r-rlo+1) + (imi-1)*Nr + (f-1)*Nr*2
-                  indr = (r-rmn+1) + (f-1)*my_Nr*2         ! real part for this r/field
-                  indi = (r-rmn+1) + my_Nr + (f-1)*my_Nr*2 ! imag part for this r/field
-                  data_out(:,indr,mode) = rpart(:)
-                  data_out(:,indi,mode) = ipart(:)
+                  ind = (r-rmn+1) + (f-1)*my_Nr*2         ! real part for this r/field
+                  data_out(1:n_theta,ind,mode) = norm*real(temp_phys(1:n_theta))
+
+                  ind = (r-rmn+1) + my_Nr + (f-1)*my_Nr*2 ! imag part for this r/field
+                  data_out(1:n_theta,ind,mode) = norm*aimag(temp_phys(1:n_theta))
 
                Enddo
            Enddo
        Enddo
-       deallocate(temp_phys, temp_spec, rpart, ipart)
+       deallocate(temp_phys, temp_spec)
 
    End Subroutine SHTns_ToPhysical
 
@@ -272,7 +280,7 @@ Contains
 
       integer :: lmstart, lmstop
 
-      lmstart = SHTns_lmidx(SHTns_c, 0, m_val)
+      lmstart = SHTns_lmidx(SHTns_c, m_val, m_val)
       lmstop  = SHTns_lmidx(SHTns_c, l_max, m_val)
       call spat_to_sh_ml(shtns_c, m_val, data_in, data_out(lmstart:lmstop), l_max)
 
@@ -286,7 +294,7 @@ Contains
 
       integer :: lmstart, lmstop
 
-      lmstart = SHTns_lmidx(SHTns_c, 0, m_val)
+      lmstart = SHTns_lmidx(SHTns_c, m_val, m_val)
       lmstop  = SHTns_lmidx(SHTns_c, l_max, m_val)
       call sh_to_spat_ml(shtns_c, m_val, data_in(lmstart:lmstop), data_out, l_max)
 

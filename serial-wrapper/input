@@ -13,6 +13,6 @@
   on_the_fly = .false.
   verbose = 2
 
-  ! which test to run (currently only one exists)
-  ntest = 1
+  ! which test to run (currently: Rayleigh=0, SHTns=0,1,2)
+  ntest = 2
 /

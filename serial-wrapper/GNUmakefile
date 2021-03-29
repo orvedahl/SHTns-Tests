@@ -11,7 +11,7 @@
 debug := t
 
 # change this to be any non-empty value to build the SHTns version
-shtns :=
+shtns := t
 
 # either INTEL or GNU
 compiler := GNU
@@ -37,12 +37,9 @@ red    = `tput setaf 1`
 green  = `tput setaf 2`
 
 #----------------------------------------------------------------------
-# DGEMM include/library flags
-DGEMM_INC := -I$(MKLROOT)/include
-DGEMM_LIB := -L$(MKLROOT)/lib/intel64 -lmkl_intel_ilp64 -lmkl_sequential -lmkl_core
-
-include_flags := $(DGEMM_INC)
-library_flags := $(DGEMM_LIB)
+# include/library flags
+include_flags :=
+library_flags :=
 
 #----------------------------------------------------------------------
 # compiler FLAGS
@@ -58,9 +55,11 @@ ifeq ($(findstring INTEL, $(compiler)), INTEL)
 
   f90_flags += -DINTEL_COMPILER -fpp -shared-intel -qopenmp -module $(mdir) -I$(mdir)
 
-  # MKL
-  include_flags := -I$(MKLROOT)/include
-  library_flags := -mkl
+  # MKL is only used when SHTns is not
+  ifndef shtns
+    include_flags += -I$(MKLROOT)/include
+    library_flags += -mkl
+  endif
 else
   ifeq ($(findstring GNU, $(compiler)), GNU)
     f90_comp := gfortran
@@ -76,10 +75,12 @@ else
 
     f90_flags += -DGNU_COMPILER -cpp -ffixed-line-length-132 -fopenmp -J$(mdir) -I$(mdir)
 
-    # MKL
-    include_flags := -I$(MKLROOT)/include
-    libs := -lmkl_gf_lp64 -lmkl_sequential -lmkl_core -lpthread -lm -ldl
-    library_flags := -L$(MKLROOT)/lib/intel64 -Wl,--no-as-needed $(libs)
+    # MKL is only used when SHTns is not
+    ifndef shtns
+      include_flags += -I$(MKLROOT)/include
+      libs := -lmkl_gf_lp64 -lmkl_sequential -lmkl_core -lpthread -lm -ldl
+      library_flags += -L$(MKLROOT)/lib/intel64 -Wl,--no-as-needed $(libs)
+    endif
   else
     $(error "Compiler must be either INTEL or GNU")
   endif
@@ -141,9 +142,9 @@ clean:
 	$(RM) -f ./*.o $(odir)/*.o
 	$(RM) -f ./*.mod $(mdir)/*.mod
 realclean: clean
+	$(RM) -rf $(tdir)
 	$(RM) -f $(exe)
 distclean: realclean
-	$(RM) -rf $(tdir)
 	$(RM) -f ./*.exe
 purge: distclean
 rebuild: clean
