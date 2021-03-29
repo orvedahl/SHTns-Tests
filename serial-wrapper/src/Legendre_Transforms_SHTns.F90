@@ -146,7 +146,7 @@ Contains
        !       nf = number of fields
        Complex*16, Allocatable :: temp_spec(:), temp_phys(:)
        Complex*16 :: ai, ar
-       Integer :: m, f, imi, r, mode
+       Integer :: m, f, r, mode
        Integer :: ddims(3), oddims(4)
        Integer :: n_m, nrhs, nfield, rmn, rmx, my_Nr, indr, indi, lind
        Real*8 :: norm
@@ -218,7 +218,7 @@ Contains
        Complex*16, Allocatable :: temp_phys(:), temp_spec(:)
        Complex*16 :: ai, ar
        Integer :: odims(3), nm, nrhs, my_Nr
-       Integer :: idims(4), nfield, rmn, rmx, mode, m, f, r, ind, lind
+       Integer :: idims(4), nfield, rmn, rmx, mode, m, f, r, ind
        Real*8 :: norm
 
        ai = (0.0d0, 1.0d0) ! imaginary unit
@@ -236,7 +236,7 @@ Contains
        my_Nr = rmx - rmn + 1
 
        ! build temporary storage spaces
-       allocate(temp_phys(1:n_theta), temp_spec(1:l_max+1)) ! SHTns expects complex arrays
+       allocate(temp_phys(1:n_theta), temp_spec(0:l_max))
 
        Do mode = 1, nm ! loop over lm modes
 
@@ -244,18 +244,16 @@ Contains
 
            norm = STP_normalization(m) ! extract FFT normalizations, based on m
 
-           lind = l_max - m + 1 ! number of modes for this m-value
-
            Do f = 1, nfield ! number of fields
                Do r = rmn, rmx ! radius
 
                   ! package the input data into a complex array of size lmax-m+1
                   temp_spec(:) = (0.0d0, 0.0d0)
-                  temp_spec(1:lind) = ar*data_in(mode)%data(m:l_max,r,1,f) &
-                                    + ai*data_in(mode)%data(m:l_max,r,2,f)
+                  temp_spec(m:l_max) = ar*data_in(mode)%data(m:l_max,r,1,f) &
+                                     + ai*data_in(mode)%data(m:l_max,r,2,f)
 
                   temp_phys(:) = (0.0d0, 0.0d0)
-                  Call sh_to_spat_ml(SHTns_c, m, temp_spec(1:lind), temp_phys, l_max)
+                  Call sh_to_spat_ml(SHTns_c, m, temp_spec(m:l_max), temp_phys, l_max)
 
                   ! 1-based indexing, except for radius, ordered: radius-real-imag-field
                   !     index = (r-rlo+1) + (imi-1)*Nr + (f-1)*Nr*2
