@@ -96,6 +96,9 @@ Contains
        Call SHTns_verbose(SHTns_information) ! set how much information SHTns will display
 
        SHTns_nthreads = SHTns_use_threads(n_threads) ! set OpenMP threads
+       if (SHTns_nthreads .gt. 1) then
+          write(*,*) 'SHTns is using OpenMP threads:',SHTns_nthreads
+       endif
 
        ! initialize/allocate transforms and build useful arrays
        SHTns_c = SHTns_create(l_max, m_max, m_res, norm)

@@ -13,15 +13,24 @@ module input_params
    !
    integer, save, public :: n_r = 16
    integer, save, public :: ell_max = -1
+
    integer, save, public :: n_threads = 1
+
    real*8, save, public :: eps_polar = 1.d-10
    logical, save, public :: on_the_fly = .false.
    integer, save, public :: verbose = 2
+
    integer, save, public :: ntest = 1
+
+   integer, save, public :: nfields = 100
+   logical, save, public :: run_timing = .false.
+   integer, save, public :: nloops = 100
+   character(len=1024), save, public :: timing_file = "timing.out"
 
    namelist /input/ n_r, ell_max, n_threads, &
                     eps_polar, on_the_fly, verbose, &
-                    ntest
+                    ntest, &
+                    nfields, run_timing, nloops, timing_file
 
    interface Read_CMD_Line
       module procedure Read_CMD_Integer, Read_CMD_Double
@@ -41,6 +50,10 @@ module input_params
       call Read_CMD_Line("--on-the-fly", on_the_fly)
       call Read_CMD_Line("--verbose", verbose)
       call Read_CMD_Line("--ntest", ntest)
+      call Read_CMD_Line("--run-timing", run_timing)
+      call Read_CMD_Line("--nloops", nloops)
+      call Read_CMD_Line("--nfields", nfields)
+      call Read_CMD_Line("--output", timing_file)
    end subroutine parse_command_line_options
 
    !====================================================================

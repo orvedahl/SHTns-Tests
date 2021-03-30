@@ -15,4 +15,10 @@
 
   ! which test to run (currently: Rayleigh=0, SHTns=0,1,2)
   ntest = 2
+
+  ! run timing trials
+  run_timing = .true.
+  timing_file = "timing.out"
+  nloops = 100
+  nfields = 20
 /

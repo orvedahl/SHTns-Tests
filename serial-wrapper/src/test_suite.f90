@@ -10,6 +10,7 @@ Module test_suite
 #else
    Use Legendre_Transforms, only: Legendre_Transform
 #endif
+   use timing
 
    implicit none
 
@@ -394,6 +395,127 @@ Module test_suite
 
    end subroutine test_SHTns
 #endif
+
+   !-------------------------
+   ! Timing information
+   !-------------------------
+   subroutine test_timing(nloops, nfields, timing_file)
+      integer, intent(in) :: nloops, nfields
+      character(len=1024), intent(in) :: timing_file
+
+      type(rmcontainer4d), allocatable :: spectral(:)
+      real*8, allocatable :: physical(:,:,:)
+      real*8 :: diff, diff1, diff2, mxdiff, amp
+      integer :: i, l, m, mp, nq, r, f, lval, mval, io=17
+      logical :: fexists
+
+      allocate(costheta(1:n_theta)) ! only necessary b/c coloc=real*16
+      costheta(:) = coloc(:)
+
+      allocate(spectral(1:n_m))
+      do mp=1,n_m
+         m = m_values(mp)
+         allocate(spectral(mp)%data(m:l_max,1:nr,1:2,1:nfields))
+      enddo
+
+      nq = 2*nr*nfields
+      allocate(physical(1:n_theta,1:nq,1:n_m))
+
+      ! initialize spectral data
+      lval = 7; mval = 4
+      do mp = 1, n_m ! modes
+         m = m_values(mp)
+         do l = m, l_max ! \ell values
+
+            spectral(mp)%data(l,:,:,:) = 0.0d0
+            if ((l .eq. lval) .and. (m .eq. mval)) then
+               do r = 1, nr ! radius
+                  do f = 1, nfields
+                     spectral(mp)%data(l,r,1,f) = (2.0d0*f+1.0d0)*radius(r)
+                     spectral(mp)%data(l,r,2,f) = -(3.0d0*f*f+2.0d0)*radius(r)**2
+                  enddo
+               enddo
+            endif
+         enddo
+      enddo
+
+      call stopwatch(loop_time)%startclock()
+      do i=1,nloops ! simulate the main timestepping loop
+
+         ! move to physical space
+         call stopwatch(to_physical)%startclock()
+         call Legendre_Transform(spectral, physical)
+         call stopwatch(to_physical)%increment()
+
+         ! move back to spectral space
+         call stopwatch(to_spectral)%startclock()
+         call Legendre_Transform(physical, spectral)
+         call stopwatch(to_spectral)%increment()
+
+         ! zero out l_max mode
+         do mp=1,n_m
+            spectral(mp)%data(l_max,:,:,:) = 0.0d0
+         enddo
+      enddo
+      call stopwatch(loop_time)%increment()
+
+      ! compute error
+      diff = -1.0d0
+      mxdiff = -1.0d0
+      do mp = 1, n_m
+         m = m_values(mp)
+         do l = m, l_max
+            if ((l .eq. lval) .and. (m .eq. mval)) then
+                do f = 1, nfields
+                   amp = 2.0d0*f + 1.0d0
+                   diff1 = maxval(abs(amp*radius(:) - spectral(mp)%data(l,:,1,f)))
+
+                   amp = -(3.0d0*f*f + 2.0d0)
+                   diff2 = maxval(abs(amp*radius(:)**2 - spectral(mp)%data(l,:,2,f)))
+
+                   diff = max(diff1,diff2)
+                enddo
+            else
+                diff = maxval(abs(spectral(mp)%data(l,:,:,:)))
+            endif
+            if (diff .gt. mxdiff) mxdiff = diff
+         enddo
+      enddo
+      write(*,*)
+      write(*,*) 'Loop Spec->Phys->Spec->Phys... max error',mxdiff
+      write(*,*)
+      write(*,*) 'Total loop time', stopwatch(loop_time)%elapsed
+      write(*,*) 'ToPhysical time', stopwatch(to_physical)%elapsed
+      write(*,*) 'ToSpectral time', stopwatch(to_spectral)%elapsed
+
+      ! write data to file
+      inquire(file=trim(timing_file), exist=fexists)
+      if (fexists) then
+         open(unit=io, file=trim(timing_file), status='old', position='append', &
+              form='formatted', action='write')
+      else
+         open(unit=io, file=trim(timing_file), status='new', &
+              form='formatted', action='write')
+
+         write(io,*) '#'
+         write(io,*) '# l_max    Nr    Nfields    Nloops    MaxError    TotalTime    ToPhysicalTime    ToSpectralTime'
+         write(io,*) '#----------------------------------------------------------------------------------------------'
+      endif
+
+      write(io,*) l_max, nr, nfields, nloops, mxdiff, &
+                  stopwatch(loop_time)%elapsed, stopwatch(to_physical)%elapsed, &
+                  stopwatch(to_spectral)%elapsed
+      close(io)
+
+      ! cleanup
+      do mp=1,n_m
+         deallocate(spectral(mp)%data)
+      enddo
+      deallocate(spectral, physical)
+
+      deallocate(costheta)
+
+   end subroutine test_timing
 
 End Module test_suite
 

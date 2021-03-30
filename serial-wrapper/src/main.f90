@@ -2,13 +2,14 @@ program sht_example
 
    use cheb_grids, only: initialize_grids, cleanup_grids
    use input_params ! namelist quantities
+   use timing
 
    ! Rayleigh modules
 #ifdef USE_SHTns
-   use test_suite, only: test_SHTns
+   use test_suite, only: test_SHTns, test_timing
    use Legendre_Transforms_SHTns, only: SHTns_Initialize, SHTns_Finalize
 #else
-   use test_suite, only: test_LT
+   use test_suite, only: test_LT, test_timing
 #endif
    use Legendre_Polynomials, only: Initialize_Legendre, Finalize_Legendre
 
@@ -17,7 +18,11 @@ program sht_example
    integer :: ntheta, n_phi, nm, m_max, i
    integer, allocatable :: mval(:)
 
+   call initialize_timers() ! initialize timers
+   call stopwatch(wall_time)%startclock()
+
    !=================================================================
+   call stopwatch(initialization_time)%startclock()
    write(*,*)
    write(*,*) 'Begin initialization ...'
    write(*,*)
@@ -46,15 +51,20 @@ program sht_example
 
    write(*,*)
    write(*,*) 'Initialization complete'
+   call stopwatch(initialization_time)%increment()
 
    !=================================================================
    write(*,*)
    write(*,*) 'Setup/running tests ...'
+   if (run_timing) then
+      call test_timing(nloops, nfields, timing_file)
+   else
 #ifdef USE_SHTns
-   call test_SHTns(ntest)
+      call test_SHTns(ntest)
 #else
-   call test_LT(ntest)
+      call test_LT(ntest)
 #endif
+   endif
 
    !=================================================================
    write(*,*)
@@ -68,6 +78,8 @@ program sht_example
 #ifdef USE_SHTns
    call SHTns_Finalize()
 #endif
+
+   call finalize_timers()
 
    write(*,*)
    write(*,*) '--- Complete ---'

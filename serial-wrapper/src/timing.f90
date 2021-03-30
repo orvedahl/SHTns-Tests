@@ -18,21 +18,23 @@ module Timing
    end type timer
 
    ! specify number of timers and indices for each one
-   integer, parameter :: ntimes = 3
-   integer, parameter :: initialization_time = 1
-   integer, parameter :: loop_time = 2
-   integer, parameter :: output_time = 3
-   type(timer), allocatable :: stopwatch(:) ! a collection of times
+   integer, parameter, public :: ntimers = 5
+   integer, parameter, public :: wall_time = 1
+   integer, parameter, public :: initialization_time = 2
+   integer, parameter, public :: loop_time = 3
+   integer, parameter, public :: to_physical = 4
+   integer, parameter, public :: to_spectral = 5
+   type(timer), allocatable :: stopwatch(:) ! a collection of timers
 
    private
-   public :: timer
+   public :: timer, stopwatch, initialize_timers, finalize_timers
 
    contains
 
    ! generic routine to get current time in seconds
    subroutine get_current_time(t)
       real*8, intent(inout) :: t
-      integer(kind=i8_t) :: rate, cnts
+      integer :: rate, cnts
 
       call system_clock(cnts, rate)
       t = real(cnts)/real(rate)
