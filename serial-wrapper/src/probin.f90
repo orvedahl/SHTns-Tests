@@ -10,6 +10,7 @@ module input_params
    !    1) declare the variable and give it a default value
    !    2) add the variable to the "namelist" line
    !    3) optional: add variable to parse_command_line_options subroutine
+   !    4) optional: add variable to check_for_help subroutine
    !
    integer, save, public :: n_r = 16
    integer, save, public :: ell_max = -1
@@ -26,11 +27,12 @@ module input_params
    logical, save, public :: run_timing = .false.
    integer, save, public :: nloops = 100
    character(len=1024), save, public :: timing_file = "timing.out"
+   real*8, save, public :: max_walltime = 3600.0 ! seconds
 
    namelist /input/ n_r, ell_max, n_threads, &
                     eps_polar, on_the_fly, verbose, &
                     ntest, &
-                    nfields, run_timing, nloops, timing_file
+                    nfields, run_timing, nloops, timing_file, max_walltime
 
    interface Read_CMD_Line
       module procedure Read_CMD_Integer, Read_CMD_Double
@@ -43,6 +45,13 @@ module input_params
    ! Parse the command line for suitable values
    !====================================================================
    subroutine parse_command_line_options()
+      ! write out help message
+      call Check_for_help("--help")
+      call Check_for_help("-help")
+      call Check_for_help("--h")
+      call Check_for_help("-h")
+
+      ! parse command line options
       call Read_CMD_Line("--nr", n_r)
       call Read_CMD_Line("--lmax", ell_max)
       call Read_CMD_Line("--n-threads", n_threads)
@@ -54,7 +63,50 @@ module input_params
       call Read_CMD_Line("--nloops", nloops)
       call Read_CMD_Line("--nfields", nfields)
       call Read_CMD_Line("--output", timing_file)
+      call Read_CMD_Line("--walltime", max_walltime)
    end subroutine parse_command_line_options
+
+   !====================================================================
+   ! Parse command line for a help flag and write help message
+   !====================================================================
+   subroutine Check_for_help(search_string)
+      character(*), intent(in) :: search_string
+      integer :: i,n,itemp
+      character(len=1024) :: argname, argval, argshift
+      n = command_argument_count()
+
+      do i=1,n ! loop over all arguments
+
+         call get_command_argument(i, argname)  ! name of specified variable
+
+         if (trim(search_string) .eq. trim(argname)) then
+            write(*,*)
+            write(*,*) 'Test/time the Legendre Transform library in Rayleigh against SHTns'
+            write(*,*)
+            write(*,*) 'Usage:'
+            write(*,*) '    ./xmain [options]'
+            write(*,*)
+            write(*,*) 'Options (every option must be given a value):'
+            write(*,*) '    -h,--h,--help     Display this help message'
+            write(*,*) '    --nr <x>          Set radial grid resolution'
+            write(*,*) '    --lmax <x>        Choose maximum spherical harmonic'
+            write(*,*) '    --n-threads <x>   Set number of OpenMP threads'
+            write(*,*) '    --eps-polar <x>   Choose polar optimization value'
+            write(*,*) '    --on-the-fly <x>  Use the on-the-fly algorithm (1) or not (0)'
+            write(*,*) '    ---verbose <x>    Choose level of information to print (0,1,2)'
+            write(*,*) '    --ntest <x>       What test to run, no effect when run-timing=1'
+            write(*,*) '    --run-timing <x>  Run the timing test (1) or not (0)'
+            write(*,*) '    --nloops <x>      How many loops of Spec->Phys to complete'
+            write(*,*) '    --nfields <x>     Number of fields to use'
+            write(*,*) '    --output <x>      Name of file to store timing results'
+            write(*,*) '    --walltime <x>    Stop the main loop after <x> seconds'
+            write(*,*)
+
+            stop
+
+         endif
+      enddo
+   end subroutine Check_for_help
 
    !====================================================================
    ! Read the namelist
@@ -63,7 +115,19 @@ module input_params
    
       character(len=256), intent(in) :: namelist_file
       integer :: io=34, ierr, ierr2
-   
+      logical :: fexists
+
+      inquire(file=trim(namelist_file), exist=fexists)
+      if (.not. fexists) then
+         write(*,*)
+         write(*,*) "Namelist file does not exist: "//trim(namelist_file)
+         write(*,*)
+         write(*,*) "Using default values"
+         write(*,*)
+         return
+      endif
+
+      ! file exists: exit if unsuccessful
       open(unit=io, file=trim(namelist_file), status='old', action='read', &
            delim='apostrophe', iostat=ierr)
 
@@ -154,7 +218,7 @@ module input_params
          call get_command_argument(i, argname)  ! name of specified variable
          call get_command_argument(i+1, argval) ! value of variable
 
-         if (search_string .eq. argname) then
+         if (trim(search_string) .eq. trim(argname)) then
              argshift = trim(adjustl(argval)) ! remove space infront and trailing
 
              read(argshift,*) itemp ! read from argshift, store value in itemp
@@ -181,7 +245,7 @@ module input_params
          call get_command_argument(i, argname)  ! name of specified variable
          call get_command_argument(i+1, argval) ! value of variable
 
-         if (search_string .eq. argname) then
+         if (trim(search_string) .eq. trim(argname)) then
              argshift = trim(adjustl(argval)) ! remove space infront and trailing
 
              read(argshift,*) variable ! read from argshift, store value in variable
@@ -202,7 +266,7 @@ module input_params
          call get_command_argument(i, argname)  ! name of specified variable
          call get_command_argument(i+1, argval) ! value of variable
 
-         if (search_string .eq. argname) then
+         if (trim(search_string) .eq. trim(argname)) then
              argshift = trim(adjustl(argval)) ! remove space infront and trailing
 
              read(argshift,*) variable ! read from argshift, store value in variable

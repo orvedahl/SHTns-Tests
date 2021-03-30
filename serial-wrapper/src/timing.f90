@@ -34,7 +34,7 @@ module Timing
    ! generic routine to get current time in seconds
    subroutine get_current_time(t)
       real*8, intent(inout) :: t
-      integer :: rate, cnts
+      integer*8 :: rate, cnts
 
       call system_clock(cnts, rate)
       t = real(cnts)/real(rate)

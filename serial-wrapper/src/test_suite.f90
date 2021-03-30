@@ -399,14 +399,15 @@ Module test_suite
    !-------------------------
    ! Timing information
    !-------------------------
-   subroutine test_timing(nloops, nfields, timing_file)
+   subroutine test_timing(nloops, nfields, timing_file, max_walltime)
       integer, intent(in) :: nloops, nfields
       character(len=1024), intent(in) :: timing_file
+      real*8, intent(in) :: max_walltime
 
       type(rmcontainer4d), allocatable :: spectral(:)
       real*8, allocatable :: physical(:,:,:)
       real*8 :: diff, diff1, diff2, mxdiff, amp
-      integer :: i, l, m, mp, nq, r, f, lval, mval, io=17
+      integer :: i, l, m, mp, nq, r, f, lval, mval, io=17, ncompleted
       logical :: fexists
 
       allocate(costheta(1:n_theta)) ! only necessary b/c coloc=real*16
@@ -456,6 +457,17 @@ Module test_suite
          do mp=1,n_m
             spectral(mp)%data(l_max,:,:,:) = 0.0d0
          enddo
+
+         ncompleted = i
+
+         ! stop if time is too long
+         call stopwatch(wall_time)%stopclock()
+         if (stopwatch(wall_time)%delta .gt. max_walltime) then
+            write(*,*)
+            write(*,*) 'Taking too long, breaking loop'
+            write(*,*)
+            exit
+         endif
       enddo
       call stopwatch(loop_time)%increment()
 
@@ -497,14 +509,24 @@ Module test_suite
          open(unit=io, file=trim(timing_file), status='new', &
               form='formatted', action='write')
 
-         write(io,*) '#'
-         write(io,*) '# l_max    Nr    Nfields    Nloops    MaxError    TotalTime    ToPhysicalTime    ToSpectralTime'
-         write(io,*) '#----------------------------------------------------------------------------------------------'
+101 format ("# ",a,4x,a,4x,a,4x,a,4x,a,4x,a,4x,a,4x,a,4x,a,4x,a)
+102 format (i4,4x,i3,4x,i2,4x,i,4x,e10.4,4x,e10.4,4x,e10.4,4x,e10.4,4x,a)
+
+         write(io,'(a1)') '#'
+         write(io,101) "l_max", "Nr", "Nfields", "Nloops", "MaxError", "TotalTime", &
+                       "ToPhysTime", "ToSpecTime", "Rayleigh/SHTns"
+         write(io,'(a)') '#----------------------------------------------------------------------------------------------'
       endif
 
-      write(io,*) l_max, nr, nfields, nloops, mxdiff, &
+#ifdef USE_SHTns
+      write(io,102) l_max, nr, nfields, ncompleted, mxdiff, &
                   stopwatch(loop_time)%elapsed, stopwatch(to_physical)%elapsed, &
-                  stopwatch(to_spectral)%elapsed
+                  stopwatch(to_spectral)%elapsed, "SHTns"
+#else
+      write(io,102) l_max, nr, nfields, ncompleted, mxdiff, &
+                  stopwatch(loop_time)%elapsed, stopwatch(to_physical)%elapsed, &
+                  stopwatch(to_spectral)%elapsed, "Rayleigh"
+#endif
       close(io)
 
       ! cleanup
