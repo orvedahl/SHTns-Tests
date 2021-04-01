@@ -31,7 +31,8 @@ program sht_example
   
     !-- Normalization and layout for SHTs
     norm = sht_orthonormal
-    layout = sht_gauss + sht_phi_contiguous + sht_scalar_only + sht_south_pole_first
+    layout = sht_gauss + sht_theta_contiguous + sht_scalar_only + sht_south_pole_first
+    !layout = sht_gauss + sht_phi_contiguous + sht_scalar_only + sht_south_pole_first
 
     call shtns_verbose(2)
     nthreads = shtns_use_threads(0)
