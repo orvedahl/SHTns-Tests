@@ -2,12 +2,13 @@
 Plot Legendre transform timing between Rayleigh and SHTns
 
 Usage:
-    plot_timing.py [options] <timing_data>
+    plot_timing.py [options] <SHT_timing_data> <Rayleigh_timing_data>
 
 Options:
     --dpi=<d>        Resolution of images [default: 250]
     --output=<o>     Set the output basename for images [default: timing]
     --vs-lmax        Plot data versus l-max, default is N-rhs [default: False]
+    --plot-all       Make individiual plots too [default: False]
 
 """
 
@@ -60,27 +61,27 @@ def MakeUnique(data, il, iNr, iNf, ierr, itime, itophys, itospec):
     out = np.array(out) # (l,rhs,err,time,ToPhys,ToSpec)
     return out
 
-def main(datafile, dpi, output, vs_lmax):
+def main(Sdatafile, Rdatafile, dpi, basename, vs_lmax, all_plots):
 
     ilmax = 0; iNr = 1; iNf = 2; iNl = 3
     ierr = 4; itime = 5; itophys = 6; itospec = 7; icode = 8
 
     # (rows, columns)
-    data = np.loadtxt(datafile, dtype=np.float64, comments="#",
+    Rdata = np.loadtxt(Rdatafile, dtype=np.float64, comments="#",
                       delimiter=None, skiprows=0, usecols=None,
                       converters={icode:convert_name})
-
     # convert times to time/loop or time/call
-    data[:,itime]   = data[:,itime]/data[:,iNl]
-    data[:,itophys] = data[:,itophys]/data[:,iNl]
-    data[:,itospec] = data[:,itospec]/data[:,iNl]
+    Rdata[:,itime]   = Rdata[:,itime]/Rdata[:,iNl]
+    Rdata[:,itophys] = Rdata[:,itophys]/Rdata[:,iNl]
+    Rdata[:,itospec] = Rdata[:,itospec]/Rdata[:,iNl]
 
-    # split into Rayleigh data and SHTns data
-    ind = np.where(data[:,icode] == 1)[0]
-    Rdata = data[ind,:-1]
-
-    ind = np.where(data[:,icode] == 0)[0]
-    Sdata = data[ind,:-1]
+    Sdata = np.loadtxt(Sdatafile, dtype=np.float64, comments="#",
+                      delimiter=None, skiprows=0, usecols=None,
+                      converters={icode:convert_name})
+    # convert times to time/loop or time/call
+    Sdata[:,itime]   = Sdata[:,itime]/Sdata[:,iNl]
+    Sdata[:,itophys] = Sdata[:,itophys]/Sdata[:,iNl]
+    Sdata[:,itospec] = Sdata[:,itospec]/Sdata[:,iNl]
 
     # convert variables from (lmax, Nr, Nf, err, times,...) to (lmax, Nrhs, err, times,...)
     Rdata = MakeUnique(Rdata, ilmax, iNr, iNf, ierr, itime, itophys, itospec)
@@ -92,60 +93,108 @@ def main(datafile, dpi, output, vs_lmax):
     #######################################################
 
     # total time
-    ylabel = "Walltime (sec)"
-    ys = [Rdata[:,itime], Sdata[:,itime]]
+    if (all_plots):
+        ylabel = "Walltime (sec)"
+        ys = [Rdata[:,itime], Sdata[:,itime]]
+        labels = ["Rayleigh", "SHTns"]
+        ls = ['-', ':']; cols = ['r', 'b']; marks = ['o', 'd']
+        if (vs_lmax):
+            xs = [Rdata[:,ilmax], Sdata[:,ilmax]]
+            title  = r"Total Time vs $\ell_\mathrm{max}$"
+            xlabel = r"$\ell_\mathrm{max}$"
+            tag = "_total_time_vs_lmax.png"
+        else:
+            xs = [Rdata[:,iNrhs], Sdata[:,iNrhs]]
+            title  = r"Total Time vs $N_\mathrm{rhs}$"
+            xlabel = r"$N_\mathrm{rhs}$"
+            tag = "_total_time_vs_Nrhs.png"
+
+        output = basename + tag
+        MakePlot(xs, ys, labels, title, xlabel, ylabel, output, ls, cols, marks, legend=True)
+
+        # to-physical time
+        ylabel = "Walltime (sec)"
+        ys = [Rdata[:,itophys], Sdata[:,itophys]]
+        labels = ["Rayleigh", "SHTns"]
+        ls = ['-', ':']; cols = ['r', 'b']; marks = ['o', 'd']
+        if (vs_lmax):
+            xs = [Rdata[:,ilmax], Sdata[:,ilmax]]
+            title  = r"To Physical Time vs $\ell_\mathrm{max}$"
+            xlabel = r"$\ell_\mathrm{max}$"
+            tag = "_tophysical_time_vs_lmax.png"
+        else:
+            xs = [Rdata[:,iNrhs], Sdata[:,iNrhs]]
+            title  = r"To Physical Time vs $N_\mathrm{rhs}$"
+            xlabel = r"$N_\mathrm{rhs}$"
+            tag = "_tophysical_time_vs_Nrhs.png"
+
+        output = basename + tag
+        MakePlot(xs, ys, labels, title, xlabel, ylabel, output, ls, cols, marks, legend=True)
+
+        # to-spectral time
+        ylabel = "Walltime (sec)"
+        ys = [Rdata[:,itospec], Sdata[:,itospec]]
+        labels = ["Rayleigh", "SHTns"]
+        ls = ['-', ':']; cols = ['r', 'b']; marks = ['o', 'd']
+        if (vs_lmax):
+            xs = [Rdata[:,ilmax], Sdata[:,ilmax]]
+            title  = r"To Spectral Time vs $\ell_\mathrm{max}$"
+            xlabel = r"$\ell_\mathrm{max}$"
+            tag = "_tospectral_time_vs_lmax.png"
+        else:
+            xs = [Rdata[:,iNrhs], Sdata[:,iNrhs]]
+            title  = r"To Spectral Time vs $N_\mathrm{rhs}$"
+            xlabel = r"$N_\mathrm{rhs}$"
+            tag = "_tospectral_time_vs_Nrhs.png"
+
+        output = basename + tag
+        MakePlot(xs, ys, labels, title, xlabel, ylabel, output, ls, cols, marks, legend=True)
+
+    # errors
+    ylabel = "Absolute Error"
+    ys = [Rdata[:,ierr], Sdata[:,ierr]]
     labels = ["Rayleigh", "SHTns"]
     ls = ['-', ':']; cols = ['r', 'b']; marks = ['o', 'd']
     if (vs_lmax):
         xs = [Rdata[:,ilmax], Sdata[:,ilmax]]
-        title  = r"Total Time vs $\ell_\mathrm{max}$"
+        title  = r"Max Error vs $\ell_\mathrm{max}$"
         xlabel = r"$\ell_\mathrm{max}$"
-        tag = "_total_time_vs_lmax.png"
+        tag = "_error_vs_lmax.png"
     else:
         xs = [Rdata[:,iNrhs], Sdata[:,iNrhs]]
-        title  = r"Total Time vs $N_\mathrm{rhs}$"
+        title  = r"Max Error vs $N_\mathrm{rhs}$"
         xlabel = r"$N_\mathrm{rhs}$"
-        tag = "_total_time_vs_Nrhs.png"
+        tag = "_error_vs_Nrhs.png"
 
-    output = output + tag
+    output = basename + tag
     MakePlot(xs, ys, labels, title, xlabel, ylabel, output, ls, cols, marks, legend=True)
 
-    # to-physical time
+    # all times
     ylabel = "Walltime (sec)"
-    ys = [Rdata[:,itophys], Sdata[:,itophys]]
-    labels = ["Rayleigh", "SHTns"]
-    ls = ['-', ':']; cols = ['r', 'b']; marks = ['o', 'd']
+    ys = [Rdata[:,itime], Sdata[:,itime],
+          Rdata[:,itophys], Sdata[:,itophys],
+          Rdata[:,itospec], Sdata[:,itospec]]
+    labels = ["Rayleigh Total", "SHTns Total",
+              "Rayleigh ToPhys", "SHTns ToPhys",
+              "Rayleigh ToSpec", "SHTns ToSpec"]
+    ls = ['-', '-', ':', ':', '--', '--']; cols = ['r', 'b', 'r', 'b', 'r', 'b']
+    marks = ['d', 'd', 'o', 'o', '*', '*']
     if (vs_lmax):
-        xs = [Rdata[:,ilmax], Sdata[:,ilmax]]
-        title  = r"To Physical Time vs $\ell_\mathrm{max}$"
+        xs = [Rdata[:,ilmax], Sdata[:,ilmax],
+              Rdata[:,ilmax], Sdata[:,ilmax],
+              Rdata[:,ilmax], Sdata[:,ilmax]]
+        title  = r"Walltime vs $\ell_\mathrm{max}$"
         xlabel = r"$\ell_\mathrm{max}$"
-        tag = "_tophysical_time_vs_lmax.png"
+        tag = "_times_vs_lmax.png"
     else:
-        xs = [Rdata[:,iNrhs], Sdata[:,iNrhs]]
-        title  = r"To Physical Time vs $N_\mathrm{rhs}$"
+        xs = [Rdata[:,iNrhs], Sdata[:,iNrhs],
+              Rdata[:,iNrhs], Sdata[:,iNrhs],
+              Rdata[:,iNrhs], Sdata[:,iNrhs]]
+        title  = r"Walltime vs $N_\mathrm{rhs}$"
         xlabel = r"$N_\mathrm{rhs}$"
-        tag = "_tophysical_time_vs_Nrhs.png"
+        tag = "_times_vs_Nrhs.png"
 
-    output = output + tag
-    MakePlot(xs, ys, labels, title, xlabel, ylabel, output, ls, cols, marks, legend=True)
-
-    # to-spectral time
-    ylabel = "Walltime (sec)"
-    ys = [Rdata[:,itospec], Sdata[:,itospec]]
-    labels = ["Rayleigh", "SHTns"]
-    ls = ['-', ':']; cols = ['r', 'b']; marks = ['o', 'd']
-    if (vs_lmax):
-        xs = [Rdata[:,ilmax], Sdata[:,ilmax]]
-        title  = r"To Spectral Time vs $\ell_\mathrm{max}$"
-        xlabel = r"$\ell_\mathrm{max}$"
-        tag = "_tospectral_time_vs_lmax.png"
-    else:
-        xs = [Rdata[:,iNrhs], Sdata[:,iNrhs]]
-        title  = r"To Spectral Time vs $N_\mathrm{rhs}$"
-        xlabel = r"$N_\mathrm{rhs}$"
-        tag = "_tospectral_time_vs_Nrhs.png"
-
-    output = output + tag
+    output = basename + tag
     MakePlot(xs, ys, labels, title, xlabel, ylabel, output, ls, cols, marks, legend=True)
 
 def MakePlot(xs, ys, labels, title, xlabel, ylabel, output,
@@ -213,10 +262,12 @@ if __name__ == "__main__":
     from docopt import docopt
     args = docopt(__doc__)
 
-    datafile = args['<timing_data>']
+    Sdatafile = args['<SHT_timing_data>']
+    Rdatafile = args['<Rayleigh_timing_data>']
     dpi      = float(args['--dpi'])
-    output   = args['--output'])
+    output   = args['--output']
     vs_lmax  = args['--vs-lmax']
+    all_plots = args['--plot-all']
 
-    main(datafile, dpi, output, vs_lmax)
+    main(Sdatafile, Rdatafile, dpi, output, vs_lmax, all_plots)
 
