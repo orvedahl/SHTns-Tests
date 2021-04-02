@@ -10,7 +10,8 @@
 
   ! SHTns directives
   eps_polar = 1.d-10
-  on_the_fly = .false.
+  on_the_fly = .true.
+  theta_contiguous = .true.
   verbose = 2
 
   ! which test to run (currently: Rayleigh=0, SHTns=0,1,2)

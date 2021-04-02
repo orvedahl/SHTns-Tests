@@ -70,9 +70,9 @@ Contains
 
    Subroutine SHTns_Initialize(n_threads, SHTns_on_the_fly, &
                             SHTns_information, SHTns_polar_threshold, &
-                            n_phi, m_max)
+                            n_phi, m_max, theta_contiguous)
        Integer, intent(in) :: n_threads, SHTns_information, n_phi, m_max
-       Logical, intent(in) :: SHTns_on_the_fly
+       Logical, intent(in) :: SHTns_on_the_fly, theta_contiguous
        Real*8, intent(in) :: SHTns_polar_threshold
 
        Integer :: norm, layout, m_res
@@ -85,11 +85,14 @@ Contains
        Else
            layout = SHT_gauss
        Endif
-       ! theta_contiguous does not work?
        ! we only need the scalar transforms
        ! Rayleigh has x in (-1,1) & theta in (pi,0) ---> so south pole is first
-       layout = layout + SHT_phi_contiguous + SHT_scalar_only + SHT_south_pole_first
-       !layout = layout + SHT_theta_contiguous + SHT_scalar_only + SHT_south_pole_first
+       layout = layout + SHT_scalar_only + SHT_south_pole_first
+       if (theta_contiguous) then
+          layout = layout + SHT_theta_contiguous
+       else
+          layout = layout + SHT_phi_contiguous
+       endif
 
        ! Rayleigh uses the very sane choice of orthonormal Y_l^m
        norm = SHT_orthonormal

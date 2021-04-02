@@ -19,6 +19,7 @@ module input_params
 
    real*8, save, public :: eps_polar = 1.d-10
    logical, save, public :: on_the_fly = .false.
+   logical, save, public :: theta_contiguous = .false.
    integer, save, public :: verbose = 2
 
    integer, save, public :: ntest = 1
@@ -30,7 +31,7 @@ module input_params
    real*8, save, public :: max_walltime = 3600.0 ! seconds
 
    namelist /input/ n_r, ell_max, n_threads, &
-                    eps_polar, on_the_fly, verbose, &
+                    eps_polar, on_the_fly, verbose, theta_contiguous, &
                     ntest, &
                     nfields, run_timing, nloops, timing_file, max_walltime
 
@@ -57,6 +58,7 @@ module input_params
       call Read_CMD_Line("--n-threads", n_threads)
       call Read_CMD_Line("--eps-polar", eps_polar)
       call Read_CMD_Line("--on-the-fly", on_the_fly)
+      call Read_CMD_Line("--theta-cont", theta_contiguous)
       call Read_CMD_Line("--verbose", verbose)
       call Read_CMD_Line("--ntest", ntest)
       call Read_CMD_Line("--run-timing", run_timing)
@@ -93,7 +95,8 @@ module input_params
             write(*,*) '    --n-threads <x>   Set number of OpenMP threads'
             write(*,*) '    --eps-polar <x>   Choose polar optimization value'
             write(*,*) '    --on-the-fly <x>  Use the on-the-fly algorithm (1) or not (0)'
-            write(*,*) '    ---verbose <x>    Choose level of information to print (0,1,2)'
+            write(*,*) '    --theta-cont <x>  Make theta (1) or phi (0) contiguous in memory'
+            write(*,*) '    --verbose <x>     Choose level of information to print (0,1,2)'
             write(*,*) '    --ntest <x>       What test to run, no effect when run-timing=1'
             write(*,*) '    --run-timing <x>  Run the timing test (1) or not (0)'
             write(*,*) '    --nloops <x>      How many loops of Spec->Phys to complete'

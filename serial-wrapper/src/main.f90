@@ -46,7 +46,8 @@ program sht_example
 
    ! intialize Legendre transforms
 #ifdef USE_SHTns
-   call SHTns_Initialize(n_threads, on_the_fly, verbose, eps_polar, n_phi, m_max)
+   call SHTns_Initialize(n_threads, on_the_fly, verbose, eps_polar, &
+                         n_phi, m_max, theta_contiguous)
 #endif
 
    write(*,*)
