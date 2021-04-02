@@ -510,7 +510,7 @@ Module test_suite
               form='formatted', action='write')
 
 101 format ("# ",a,4x,a,4x,a,4x,a,4x,a,4x,a,4x,a,4x,a,4x,a,4x,a)
-102 format (i4,4x,i3,4x,i2,4x,i,4x,e10.4,4x,e10.4,4x,e10.4,4x,e10.4,4x,a)
+102 format (i4,4x,i3,4x,i2,4x,i8,4x,e10.4,4x,e10.4,4x,e10.4,4x,e10.4,4x,a)
 
          write(io,'(a1)') '#'
          write(io,101) "l_max", "Nr", "Nfields", "Nloops", "MaxError", "TotalTime", &
