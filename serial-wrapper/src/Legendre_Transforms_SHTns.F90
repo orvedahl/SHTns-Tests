@@ -89,6 +89,7 @@ Contains
        ! we only need the scalar transforms
        ! Rayleigh has x in (-1,1) & theta in (pi,0) ---> so south pole is first
        layout = layout + SHT_phi_contiguous + SHT_scalar_only + SHT_south_pole_first
+       !layout = layout + SHT_theta_contiguous + SHT_scalar_only + SHT_south_pole_first
 
        ! Rayleigh uses the very sane choice of orthonormal Y_l^m
        norm = SHT_orthonormal

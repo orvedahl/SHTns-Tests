@@ -8,24 +8,25 @@ run_it() {
    nloops=$4
    nthread=$5
    out=$6
-   ./xmain.Linux.intel.Rayleigh.exe --run-timing 1 --nr ${nr} --lmax ${lmax} --nfields ${nf} --nloops ${nloops} --output "${out}" --n-threads ${nthread} --walltime 600.0
+   ./xmain.Linux.gfortran.Rayleigh.exe --run-timing 1 --nr ${nr} --lmax ${lmax} --nfields ${nf} --nloops ${nloops} --output "${out}" --n-threads ${nthread} --walltime 600.0
    #./xmain.Linux.intel.SHTns.exe --run-timing 1 --nr ${nr} --lmax ${lmax} --nfields ${nf} --nloops ${nloops} --output "${out}" --n-threads ${nthread} --walltime 600.0
 }
 
+output=timing-results/Rayleigh-Reference-gcc-10.2.0
 
 lvals=( 15 31 63 127 255 511 1023)
 for l in "${lvals[@]}"; do
-   run_it ${l} 16 10 30 1 timing_fixed_Nrhs_320.Rayleigh.out
+   run_it ${l} 16 10 30 1 ${output}/timing_fixed_Nrhs_320.Rayleigh.out
 done
 
 Nrs=( 2 4 8 16 32 64 128 256)
 for Nr in "${Nrs[@]}"; do
-   run_it 63 ${Nr} 10 30 1 timing_fixed_lmax_63.Rayleigh.out
+   run_it 63 ${Nr} 10 30 1 ${output}/timing_fixed_lmax_63.Rayleigh.out
 done
 
 Nfs=( 2 4 8 16 32 64 128 256)
 for Nf in "${Nfs[@]}"; do
-   run_it 63 16 ${Nf} 30 1 timing_fixed_lmax63_Nr32.Rayleigh.out
+   run_it 63 16 ${Nf} 30 1 ${output}/timing_fixed_lmax63_Nr32.Rayleigh.out
 done
 
 
