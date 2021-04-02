@@ -211,6 +211,8 @@ def MakePlot(xs, ys, labels, title, xlabel, ylabel, output,
     font = 'large'; label = 'large'
 
     #----------------------------------------------------------------
+    x = np.array(xs); xlim = (0.5*np.min(x), 2*np.max(x))
+    ax.set_xlim(xlim)
     ax.set_xscale('log')
     ax.set_xlabel(xlabel, fontsize=font)
 
@@ -226,6 +228,8 @@ def MakePlot(xs, ys, labels, title, xlabel, ylabel, output,
     ax.tick_params(axis='x', which='minor', width=w, length=h)
 
     #----------------------------------------------------------------
+    y = np.array(ys); ylim = (0.5*np.min(y), 2*np.max(y))
+    ax.set_ylim(ylim)
     ax.set_yscale('log')
     ax.set_ylabel(ylabel, fontsize=font)
 
