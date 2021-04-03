@@ -8,13 +8,16 @@
 #		SHT_PREFIX := /path/to/prefix/location/for/SHTns
 
 # change this to be any non-empty value to enable debugging flags
-debug := t
+debug :=
 
 # change this to be any non-empty value to build the SHTns version
-shtns := t
+shtns :=
 
 # either INTEL or GNU
-compiler := GNU
+compiler := INTEL
+
+# run with openmp support --- seems to be necessary???
+omp := t
 
 include makefile_SHT_prefix
 
@@ -53,7 +56,10 @@ ifeq ($(findstring INTEL, $(compiler)), INTEL)
     f90_flags := -FR -r8 -O3
   endif
 
-  f90_flags += -DINTEL_COMPILER -fpp -shared-intel -qopenmp -module $(mdir) -I$(mdir)
+  f90_flags += -DINTEL_COMPILER -fpp -shared-intel -module $(mdir) -I$(mdir)
+  ifdef omp
+    f90_flags += -qopenmp
+  endif
 
   # MKL is only used when SHTns is not
   ifndef shtns
@@ -73,7 +79,10 @@ else
       f90_flags := -O3
     endif
 
-    f90_flags += -DGNU_COMPILER -cpp -ffixed-line-length-132 -fopenmp -J$(mdir) -I$(mdir)
+    f90_flags += -DGNU_COMPILER -cpp -ffixed-line-length-132 -J$(mdir) -I$(mdir)
+  ifdef omp
+    f90_flags += -fopenmp
+  endif
 
     # MKL is only used when SHTns is not
     ifndef shtns
@@ -89,7 +98,11 @@ endif
 ifdef shtns
   f90_flags += -DUSE_SHTns
   include_flags += -I$(SHT_PREFIX)/include
-  library_flags += -L$(SHT_PREFIX)/lib -lfftw3_omp -lfftw3 -lm -lshtns_omp
+  ifdef omp
+    library_flags += -L$(SHT_PREFIX)/lib -lfftw3_omp -lfftw3 -lm -lshtns_omp
+  else
+    library_flags += -L$(SHT_PREFIX)/lib -lfftw3 -lm -lshtns
+  endif
   SHT_suf := .SHTns
 endif
 
