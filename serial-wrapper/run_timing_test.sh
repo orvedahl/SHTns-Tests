@@ -11,8 +11,9 @@ usage() {
    echo "    <directory> : required, where to store the timing results"
    echo ""
    echo "Options:"
+   echo "  --grid         Run grid of tests"
    echo "  --high-res     Run test with larger lmax & Nr"
-   echo "  --more-loops   Run tests with slightly more loops"
+   echo "  --more-loops   Increase minimum number of loops to use"
    echo ""
 }
 
@@ -21,6 +22,7 @@ parse_cmd() {
    output=0
    high_res=0
    Nloops=10
+   run_grid=0
 
    # actual parsing of command line:
    for i in "$@"; do
@@ -34,6 +36,9 @@ parse_cmd() {
               ;;
            --more-loops )
               Nloops=30
+              ;;
+           --grid )
+              run_grid=1
               ;;
            --exe=* )
               exe="${i#*=}"  # parse out the "=" and keep the specified option
@@ -63,7 +68,7 @@ run_it() {
    _nloops=$7
    ./$1 --run-timing 1 \
       --nr ${_nr} --lmax ${_lmax} --nfields ${_nf} --nloops ${_nloops} \
-      --output "${_out}" --n-threads ${_nthread} --walltime 600.0
+      --output "${_out}" --n-threads ${_nthread} --min-walltime 35.0 --max-walltime 1800.0
 }
 
 
@@ -92,15 +97,24 @@ if [ "$high_res" = "1" ]; then
    Nrs=( 2 4 8 16 32 64 128 256 )
 else
    lvals=( 15 31 63 127 )
-   Nrs=( 2 4 8 16 32 64 )
+   Nrs=( 4 8 16 32 64 )
 fi
 
-# run timing tests
-for l in "${lvals[@]}"; do
-   run_it ${exe} ${l} 16 10 1 ${output}/timing_fixed_Nrhs.out ${Nloops}
-done
+if [ "$run_grid" = "0" ]; then
+   # run timing tests
+   for l in "${lvals[@]}"; do
+      run_it ${exe} ${l} 16 10 1 ${output}/timing_fixed_Nrhs.out ${Nloops}
+   done
 
-for Nr in "${Nrs[@]}"; do
-   run_it ${exe} 63 ${Nr} 10 1 ${output}/timing_fixed_lmax.out ${Nloops}
-done
+   for Nr in "${Nrs[@]}"; do
+      run_it ${exe} 63 ${Nr} 10 1 ${output}/timing_fixed_lmax.out ${Nloops}
+   done
+else
+   # run grid
+   for l in "${lvals[@]}"; do
+      for Nr in "${Nrs[@]}"; do
+         run_it ${exe} ${l} ${Nr} 20 1 ${output}/timing_grid.out ${Nloops}
+      done
+   done
+fi
 

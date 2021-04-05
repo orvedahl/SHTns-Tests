@@ -19,7 +19,10 @@
 
   ! run timing trials
   run_timing = .true.
-  timing_file = "timing.out"
-  nloops = 100
+  timing_file = "timing.out" ! where to store output data
+  nloops = 10                ! minimum number of loops to complete
   nfields = 20
+
+  min_walltime = 35.0d0  ! minimum walltime for main loop
+  max_walltime = 605.0d0 ! maximum walltime for main loop
 /

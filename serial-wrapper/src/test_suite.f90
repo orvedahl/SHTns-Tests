@@ -399,10 +399,10 @@ Module test_suite
    !-------------------------
    ! Timing information
    !-------------------------
-   subroutine test_timing(nloops, nfields, timing_file, max_walltime)
+   subroutine test_timing(nloops, nfields, timing_file, max_walltime, min_walltime)
       integer, intent(in) :: nloops, nfields
       character(len=1024), intent(in) :: timing_file
-      real*8, intent(in) :: max_walltime
+      real*8, intent(in) :: max_walltime, min_walltime
 
       type(rmcontainer4d), allocatable :: spectral(:)
       real*8, allocatable :: physical(:,:,:)
@@ -440,8 +440,14 @@ Module test_suite
          enddo
       enddo
 
+      ncompleted = 0
+
+      write(*,*)
+      write(*,*) 'l_max=',l_max,'Nr=',nr,'Nfields=',nfields,'Nrhs=',2*nr*nfields
+      write(*,*)
+
       call stopwatch(loop_time)%startclock()
-      do i=1,nloops ! simulate the main timestepping loop
+      do ! simulate the main timestepping loop
 
          ! move to physical space
          call stopwatch(to_physical)%startclock()
@@ -458,9 +464,17 @@ Module test_suite
             spectral(mp)%data(l_max,:,:,:) = 0.0d0
          enddo
 
-         ncompleted = i
+         ! update successful counter
+         ncompleted = ncompleted + 1
 
-         ! stop if time is too long
+         ! stop if time is beyond minimum allowed *and* enough loops have occured
+         call stopwatch(loop_time)%stopclock()
+         if ((stopwatch(loop_time)%delta .gt. min_walltime) .and. &
+             (ncompleted .ge. nloops)) then
+            exit
+         endif
+
+         ! stop if whole code is taking too long
          call stopwatch(wall_time)%stopclock()
          if (stopwatch(wall_time)%delta .gt. max_walltime) then
             write(*,*)

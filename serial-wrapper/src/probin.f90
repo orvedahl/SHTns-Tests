@@ -29,11 +29,12 @@ module input_params
    integer, save, public :: nloops = 100
    character(len=1024), save, public :: timing_file = "timing.out"
    real*8, save, public :: max_walltime = 3600.0 ! seconds
+   real*8, save, public :: min_walltime = 35.0   ! seconds
 
    namelist /input/ n_r, ell_max, n_threads, &
                     eps_polar, on_the_fly, verbose, theta_contiguous, &
                     ntest, &
-                    nfields, run_timing, nloops, timing_file, max_walltime
+                    nfields, run_timing, nloops, timing_file, max_walltime, min_walltime
 
    interface Read_CMD_Line
       module procedure Read_CMD_Integer, Read_CMD_Double
@@ -65,7 +66,8 @@ module input_params
       call Read_CMD_Line("--nloops", nloops)
       call Read_CMD_Line("--nfields", nfields)
       call Read_CMD_Line("--output", timing_file)
-      call Read_CMD_Line("--walltime", max_walltime)
+      call Read_CMD_Line("--max-walltime", max_walltime)
+      call Read_CMD_Line("--min-walltime", min_walltime)
    end subroutine parse_command_line_options
 
    !====================================================================
@@ -89,20 +91,21 @@ module input_params
             write(*,*) '    ./xmain [options]'
             write(*,*)
             write(*,*) 'Options (every option must be given a value):'
-            write(*,*) '    -h,--h,--help     Display this help message'
-            write(*,*) '    --nr <x>          Set radial grid resolution'
-            write(*,*) '    --lmax <x>        Choose maximum spherical harmonic'
-            write(*,*) '    --n-threads <x>   Set number of OpenMP threads'
-            write(*,*) '    --eps-polar <x>   Choose polar optimization value'
-            write(*,*) '    --on-the-fly <x>  Use the on-the-fly algorithm (1) or not (0)'
-            write(*,*) '    --theta-cont <x>  Make theta (1) or phi (0) contiguous in memory'
-            write(*,*) '    --verbose <x>     Choose level of information to print (0,1,2)'
-            write(*,*) '    --ntest <x>       What test to run, no effect when run-timing=1'
-            write(*,*) '    --run-timing <x>  Run the timing test (1) or not (0)'
-            write(*,*) '    --nloops <x>      How many loops of Spec->Phys to complete'
-            write(*,*) '    --nfields <x>     Number of fields to use'
-            write(*,*) '    --output <x>      Name of file to store timing results'
-            write(*,*) '    --walltime <x>    Stop the main loop after <x> seconds'
+            write(*,*) '    -h,--h,--help       Display this help message'
+            write(*,*) '    --nr <x>            Set radial grid resolution'
+            write(*,*) '    --lmax <x>          Choose maximum spherical harmonic'
+            write(*,*) '    --n-threads <x>     Set number of OpenMP threads'
+            write(*,*) '    --eps-polar <x>     Choose polar optimization value'
+            write(*,*) '    --on-the-fly <x>    Use the on-the-fly algorithm (1) or not (0)'
+            write(*,*) '    --theta-cont <x>    Theta (1) or phi (0) contiguous in memory'
+            write(*,*) '    --verbose <x>       Choose level of information to print (0,1,2)'
+            write(*,*) '    --ntest <x>         What test to run, no effect when run-timing=1'
+            write(*,*) '    --run-timing <x>    Run the timing test (1) or not (0)'
+            write(*,*) '    --nloops <x>        Minimum number of loops to complete'
+            write(*,*) '    --nfields <x>       Number of fields to use'
+            write(*,*) '    --output <x>        Name of file to store timing results'
+            write(*,*) '    --max-walltime <x>  Stop the main loop after <x> seconds'
+            write(*,*) '    --min-walltime <x>  Test will run for at least <x> seconds'
             write(*,*)
 
             stop

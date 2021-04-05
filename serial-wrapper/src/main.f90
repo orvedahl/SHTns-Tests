@@ -58,7 +58,7 @@ program sht_example
    write(*,*)
    write(*,*) 'Setup/running tests ...'
    if (run_timing) then
-      call test_timing(nloops, nfields, timing_file, max_walltime)
+      call test_timing(nloops, nfields, timing_file, max_walltime, min_walltime)
    else
 #ifdef USE_SHTns
       call test_SHTns(ntest)
