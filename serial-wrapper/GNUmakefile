@@ -19,6 +19,20 @@ compiler := INTEL
 # run with openmp support --- seems to be necessary???
 omp := t
 
+# use custom library/include commands, defined in "makefile_custom",
+# very useful if building on supercomputers with odd requirements
+#     to override the automatically generated include_flags/library_flags
+#     variables, generate a file called "makefile_custom" with the
+#     following definitions:
+#         ...
+#         force_library := -L<lib_dir> -llibrary_1 ...
+#         ...
+#         force_include := -I<inc_dir>
+#         ...
+# change this to be any non-empty value to use custom library/includes
+custom :=
+
+# access to the SHT_PREFIX variable
 include makefile_SHT_prefix
 
 #######################################################################
@@ -104,6 +118,19 @@ ifdef shtns
     library_flags += -L$(SHT_PREFIX)/lib -lfftw3 -lm -lshtns
   endif
   SHT_suf := .SHTns
+endif
+
+# use custom defined library/include lines instead of automatically generated ones
+ifdef custom
+  -include makefile_custom
+
+  ifdef force_library
+    library_flags := $(force_library)
+  endif
+
+  ifdef force_include
+    include_flags := $(force_include)
+  endif
 endif
 
 ifdef debug
