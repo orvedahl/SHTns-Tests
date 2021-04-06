@@ -34,3 +34,4 @@ Notes/various_notes.pdf
 # Machine dependent makefile utility
 ######################
 serial*/makefile_SHT_prefix
+serial*/makefile_custom
