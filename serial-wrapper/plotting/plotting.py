@@ -92,6 +92,14 @@ def PlotGrid(x, y, data, output, xlabel, ylabel, title, xlog=True, ylog=True, dp
     cbar = fig.colorbar(img, orientation='vertical')
     cbar.ax.tick_params(direction='out', labelsize=label)
 
+    # text
+    xvals = x[:,0]; yvals = y[0,:]
+    xlo = np.min(xvals); ylo = np.min(yvals)
+    for xval in xvals:
+        ax.text(1.3*xval, 0.7*ylo, str(xval), color='k', fontsize='large')
+    for yval in yvals:
+        ax.text(0.6*xlo, 1.3*yval, str(yval), color='k', fontsize='large')
+
     #================================================================
     plt.tight_layout()
 
