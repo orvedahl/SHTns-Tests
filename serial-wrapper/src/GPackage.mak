@@ -9,3 +9,4 @@ f90sources += main.f90
 f90sources += probin.f90
 f90sources += Structures.F90
 f90sources += test_suite.f90
+f90sources += timing.f90

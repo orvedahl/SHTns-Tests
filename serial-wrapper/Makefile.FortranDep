@@ -35,7 +35,7 @@ ifdef shtns
   xtr_f90_flags += -DUSE_SHTns
   pp_macros += USE_SHTns=1
 endif
-SHT_PREFIX := $(HOME)/cueball/local-software/SHTns
+include makefile_SHT_prefix
 SHT_INC := -I$(SHT_PREFIX)/include
 SHT_LIB := -L$(SHT_PREFIX)/lib -lfftw3_omp -lfftw3 -lm -lshtns_omp
 
