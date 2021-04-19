@@ -5,11 +5,12 @@ Usage:
     extract.py [options]
 
 Options:
-    --r-files=<r>  Collection of pure Rayleigh files to process
-    --s-files=<s>  Collection of Rayleigh-using-SHTns files to process
-    --m-files=<m>  Collection of MagIC files to process
-    --output=<o>   Set the output filename [default: scaling.png]
-    --dpi=<d>      Resolution of image [default: 250]
+    --r-files=<r>    Collection of pure Rayleigh files to process
+    --s-files=<s>    Collection of Rayleigh-using-SHTns files to process
+    --m-files=<m>    Collection of MagIC files to process
+    --output=<o>     Set the output filename [default: scaling.png]
+    --dpi=<d>        Resolution of image [default: 250]
+    --single-nr=<n>  Only plot cases with the given Nr
 """
 
 from __future__ import print_function
@@ -114,7 +115,7 @@ def SplitIntoRuns(data, inds):
 
     return results, resolution
 
-def main(Rfiles, Sfiles, Mfiles, output, dpi):
+def main(Rfiles, Sfiles, Mfiles, output, dpi, single_nr):
 
     test = [x is None for x in [Rfiles,Sfiles,Mfiles]]
     if (all(test)):
@@ -151,6 +152,8 @@ def main(Rfiles, Sfiles, Mfiles, output, dpi):
         lstyle = '-'
         c, m = color_marks('slow-color')
 
+        if ((single_nr is not None) and (not(np.allclose(nr, float(single_nr))))): continue
+
         xs.append(x); ys.append(y)
         ls.append(lstyle); colors.append(c); markers.append(m); labels.append(l)
 
@@ -165,6 +168,8 @@ def main(Rfiles, Sfiles, Mfiles, output, dpi):
         lstyle = '-'
         c, m = color_marks('slow-color')
 
+        if ((single_nr is not None) and (not(np.allclose(nr, float(single_nr))))): continue
+
         xs.append(x); ys.append(y)
         ls.append(lstyle); colors.append(c); markers.append(m); labels.append(l)
 
@@ -178,6 +183,8 @@ def main(Rfiles, Sfiles, Mfiles, output, dpi):
 
         lstyle = '-'
         c, m = color_marks('slow-color')
+
+        if ((single_nr is not None) and (not(np.allclose(nr, float(single_nr))))): continue
 
         xs.append(x); ys.append(y)
         ls.append(lstyle); colors.append(c); markers.append(m); labels.append(l)
@@ -201,6 +208,7 @@ if __name__ == "__main__":
     Mfiles  = args['--m-files']
     output  = args['--output']
     dpi     = float(args['--dpi'])
+    single_nr = args['--single-nr']
 
     # expand any glob characters
     if (Rfiles is not None):
@@ -210,5 +218,5 @@ if __name__ == "__main__":
     if (Mfiles is not None):
         Mfiles = glob(Mfiles)
 
-    main(Rfiles, Sfiles, Mfiles, output, dpi)
+    main(Rfiles, Sfiles, Mfiles, output, dpi, single_nr)
 
