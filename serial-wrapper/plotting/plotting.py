@@ -111,7 +111,9 @@ def PlotGrid(x, y, data, output, xlabel, ylabel, title, xlog=True, ylog=True, dp
     return
 
 def MakePlot(xs, ys, labels, title, xlabel, ylabel, output,
-             lstyles, colors, markers, legend=True, ylog=True, dpi=250, **plt_kw):
+             lstyles, colors, markers, legend=True, ylog=True, dpi=250,
+             xlim=None, ylim=None, scaling_line=False,
+             **plt_kw):
 
     fig = plt.figure(dpi=dpi)
     ax = fig.add_subplot(111)
@@ -124,9 +126,10 @@ def MakePlot(xs, ys, labels, title, xlabel, ylabel, output,
     font = 'large'; label = 'large'
 
     #----------------------------------------------------------------
-    xmin = np.min([np.min(i) for i in xs])
-    xmax = np.max([np.max(i) for i in xs])
-    xlim = (0.5*xmin, 2*xmax)
+    if (xlim is None):
+        xmin = np.min([np.min(i) for i in xs])
+        xmax = np.max([np.max(i) for i in xs])
+        xlim = (0.5*xmin, 2*xmax)
     ax.set_xlim(xlim)
     ax.set_xscale('log')
     ax.set_xlabel(xlabel, fontsize=font)
@@ -143,10 +146,11 @@ def MakePlot(xs, ys, labels, title, xlabel, ylabel, output,
     ax.tick_params(axis='x', which='minor', width=w, length=h)
 
     #----------------------------------------------------------------
-    ymin = np.min([np.min(i) for i in ys])
-    ymax = np.max([np.max(i) for i in ys])
-    ylim = (0.5*ymin, 2*ymax)
-    ax.set_ylim(ylim)
+    if (ylim is None):
+        ymin = np.min([np.min(i) for i in ys])
+        ymax = np.max([np.max(i) for i in ys])
+        ylim = (0.5*ymin, 2*ymax)
+        ax.set_ylim(ylim)
     if (ylog):
         ax.set_yscale('log')
     else:
@@ -166,6 +170,10 @@ def MakePlot(xs, ys, labels, title, xlabel, ylabel, output,
 
     #================================================================
     for x,y,l,ls,c,m in zip(xs, ys, labels, lstyles, colors, markers):
+        if (scaling_line):
+            _x = np.linspace(np.min(x), np.max(x), num=50)
+            ind = np.argmin(x)
+            ax.plot(_x, y[ind]*(_x/_x[ind])**-1, ls='--', color='k')
         ax.plot(x, y, label=l, marker=m, ls=ls, color=c, **plt_kw)
 
     #================================================================

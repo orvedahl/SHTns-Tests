@@ -7,6 +7,77 @@ from matplotlib.colors import Normalize, ListedColormap
 import numpy as np
 from numpy import ma
 
+class ColorMarks():
+    """
+    Class to store colors and markers for plotting
+    """
+
+    def __init__(self, colors=None, markers=None):
+
+        if (colors is None):
+            self.colors = ['r', 'b', 'g', 'm', 'k']
+        else:
+            self.colors = list(colors)
+
+        if (markers is None):
+            self.markers = ['d', 'o', 's', '*', '^', 'v', '<', '>', 'D', 'p', 'x']
+        else:
+            self.markers = list(markers)
+
+        self.Ncolors = len(self.colors)
+        self.Nmarkers = len(self.markers)
+
+        # keep track of what to plot next
+        self.ind = 0
+        self.cind = 0
+        self.mind = 0
+
+    def reset_counters(self):
+        self.ind = 0
+        self.cind = 0
+        self.mind = 0
+
+    def __call__(self, method='default'):
+        """
+        Return the i-th color/marker in the sequence.
+
+        method: str, optional
+            'default' = loop through markers/colors at the same rate, which will
+                produce Ncolors*Nmarkers unique marker/color combinations as long
+                as Ncolors != Nmarkers. If Ncolors == Nmarkers, then default
+                sequence produces Ncolors unique marker/color combinations.
+
+            'slow-color' = loop through all markers before changing colors
+
+            'slow-marker' = loop through all colors before changing markers
+
+        returns: color, marker
+        """
+        method = method.lower()
+
+        cind = self.cind % self.Ncolors
+        mind = self.mind % self.Nmarkers
+
+        if ("default" == method): # update color and marker at same rate
+            self.cind += 1
+            self.mind += 1
+
+        elif ("slow-color" == method): # use all markers before changing colors
+            self.mind += 1
+            if (mind == self.Nmarkers-1):
+                self.cind += 1
+
+        elif ("slow-marker" == method): # use all colors before changing markers
+            self.cind += 1
+            if (cind == self.Ncolors-1):
+                self.mind += 1
+
+        col = self.colors[cind]
+        mark = self.markers[mind]
+
+        self.ind += 1
+        return col, mark
+
 def ColorMap(cmap):
     """
     Build a colormap
