@@ -1,0 +1,9 @@
+
+Various scaling data for init_type=mag_init_type=1, max_iterations=50
+
+Interactive/
+	these runs were computed with an interactive session
+
+Separate/
+	these runs all requested separate sessions, i.e., all 512 core jobs
+	only requested 512 cores, all 128 core jobs only requested 128 cores, etc.

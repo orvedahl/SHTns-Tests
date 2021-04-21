@@ -1,0 +1,299 @@
+ //////////////////////////////////////
+ Initializating Rayleigh...
+
+ -- Initalizing MPI...
+ ---- Specified parameters:
+ ---- NCPU  :   1024
+ ---- NPROW :     32
+ ---- NPCOL :     32
+ -- MPI initialized.
+
+
+ -- Initalizing Grid...
+ ---- Specified parameters ----
+ ---- N_R                 :     64
+ ---- N_THETA             :   1536
+ ---- Ell_MAX             :   1023
+ ---- R_MIN               :  5.38462E-01
+ ---- R_MAX               :  1.53846E+00
+ ---- Chebyshev Domains   :      1
+
+        Domain 1
+          Grid points           :  64
+          Dealiased Polynomials :  42
+          Domain Lower Bound    :  5.38462E-01
+          Domain Upper Bound    :  1.53846E+00
+
+ -- Grid initialized.
+
+ -- Initalizing Reference State...
+ ---- Specified parameters:
+ ---- Reference type           :  Boussinesq (Non-dimensional)
+ ---- Rayleigh Number          :  1.00000E+05
+ ---- Ekman Number             :  1.00000E-03
+ ---- Prandtl Number           :  1.00000E+00
+ ---- Magnetic Prandtl Number  :  5.00000E+00
+ -- Reference State initialized.
+
+ -- Initializing Fields...
+ ---- Specified parameters:
+ ---- Hydro Init Type    : Benchmark (Christensen et al. 2001)
+ ---- Magnetic Init Type : Benchmark (Christensen et al. 2001)
+ -- Fields initialized.
+
+ Initialization Complete.
+ //////////////////////////////////////
+
+ Timestep has changed from  0.00000E+00 to  1.00000E-04.
+ Iteration:  00000001   DeltaT:  1.000E-04   Iter/sec:  0.000E+00
+MPT ERROR: Rank 176(g:176) received signal SIGSEGV(11).
+	Process ID: 29211, Host: r621i0n4, Program: /home1/rorvedah/Programs/Rayleigh-Fork/bin/Rayleigh.SHTns.dbg
+	MPT Version: HPE MPT 2.23  09/13/20 02:52:52
+
+MPT: --------stack traceback-------
+MPT ERROR: Rank 80(g:80) received signal SIGSEGV(11).
+	Process ID: 24220, Host: r603i3n8, Program: /home1/rorvedah/Programs/Rayleigh-Fork/bin/Rayleigh.SHTns.dbg
+	MPT Version: HPE MPT 2.23  09/13/20 02:52:52
+
+MPT: --------stack traceback-------
+MPT ERROR: Rank 368(g:368) received signal SIGSEGV(11).
+	Process ID: 29968, Host: r631i5n11, Program: /home1/rorvedah/Programs/Rayleigh-Fork/bin/Rayleigh.SHTns.dbg
+	MPT Version: HPE MPT 2.23  09/13/20 02:52:52
+
+MPT: --------stack traceback-------
+MPT ERROR: Rank 144(g:144) received signal SIGSEGV(11).
+	Process ID: 47965, Host: r605i6n7, Program: /home1/rorvedah/Programs/Rayleigh-Fork/bin/Rayleigh.SHTns.dbg
+	MPT Version: HPE MPT 2.23  09/13/20 02:52:52
+
+MPT: --------stack traceback-------
+MPT ERROR: Rank 272(g:272) received signal SIGSEGV(11).
+	Process ID: 9513, Host: r629i3n17, Program: /home1/rorvedah/Programs/Rayleigh-Fork/bin/Rayleigh.SHTns.dbg
+	MPT Version: HPE MPT 2.23  09/13/20 02:52:52
+
+MPT: --------stack traceback-------
+MPT ERROR: Rank 240(g:240) received signal SIGSEGV(11).
+	Process ID: 67262, Host: r629i3n15, Program: /home1/rorvedah/Programs/Rayleigh-Fork/bin/Rayleigh.SHTns.dbg
+	MPT Version: HPE MPT 2.23  09/13/20 02:52:52
+
+MPT: --------stack traceback-------
+MPT ERROR: Rank 336(g:336) received signal SIGSEGV(11).
+	Process ID: 94123, Host: r631i4n1, Program: /home1/rorvedah/Programs/Rayleigh-Fork/bin/Rayleigh.SHTns.dbg
+	MPT Version: HPE MPT 2.23  09/13/20 02:52:52
+
+MPT: --------stack traceback-------
+MPT ERROR: Rank 48(g:48) received signal SIGSEGV(11).
+	Process ID: 96488, Host: r601i4n16, Program: /home1/rorvedah/Programs/Rayleigh-Fork/bin/Rayleigh.SHTns.dbg
+	MPT Version: HPE MPT 2.23  09/13/20 02:52:52
+
+MPT: --------stack traceback-------
+MPT ERROR: Rank 400(g:400) received signal SIGSEGV(11).
+	Process ID: 65402, Host: r633i2n13, Program: /home1/rorvedah/Programs/Rayleigh-Fork/bin/Rayleigh.SHTns.dbg
+	MPT Version: HPE MPT 2.23  09/13/20 02:52:52
+
+MPT: --------stack traceback-------
+MPT ERROR: Rank 304(g:304) received signal SIGSEGV(11).
+	Process ID: 61226, Host: r629i5n15, Program: /home1/rorvedah/Programs/Rayleigh-Fork/bin/Rayleigh.SHTns.dbg
+	MPT Version: HPE MPT 2.23  09/13/20 02:52:52
+
+MPT: --------stack traceback-------
+MPT ERROR: Rank 432(g:432) received signal SIGSEGV(11).
+	Process ID: 54532, Host: r633i3n1, Program: /home1/rorvedah/Programs/Rayleigh-Fork/bin/Rayleigh.SHTns.dbg
+	MPT Version: HPE MPT 2.23  09/13/20 02:52:52
+
+MPT: --------stack traceback-------
+MPT ERROR: Rank 464(g:464) received signal SIGSEGV(11).
+	Process ID: 94849, Host: r633i3n11, Program: /home1/rorvedah/Programs/Rayleigh-Fork/bin/Rayleigh.SHTns.dbg
+	MPT Version: HPE MPT 2.23  09/13/20 02:52:52
+
+MPT: --------stack traceback-------
+MPT ERROR: Rank 112(g:112) received signal SIGSEGV(11).
+	Process ID: 86389, Host: r605i6n6, Program: /home1/rorvedah/Programs/Rayleigh-Fork/bin/Rayleigh.SHTns.dbg
+	MPT Version: HPE MPT 2.23  09/13/20 02:52:52
+
+MPT: --------stack traceback-------
+MPT ERROR: Rank 208(g:208) received signal SIGSEGV(11).
+	Process ID: 60593, Host: r629i3n13, Program: /home1/rorvedah/Programs/Rayleigh-Fork/bin/Rayleigh.SHTns.dbg
+	MPT Version: HPE MPT 2.23  09/13/20 02:52:52
+
+MPT: --------stack traceback-------
+MPT: Attaching to program: /proc/24220/exe, process 24220
+MPT: (No debugging symbols found in /nasa/intel/Compiler/2020.4.304/compilers_and_libraries_2020.4.304/linux/mkl/lib/intel64_lin/libmkl_intel_lp64.so)
+MPT: (No debugging symbols found in /nasa/intel/Compiler/2020.4.304/compilers_and_libraries_2020.4.304/linux/mkl/lib/intel64_lin/libmkl_intel_thread.so)
+MPT: (No debugging symbols found in /usr/lib64/libstdc++.so.6)
+MPT: (No debugging symbols found in /nasa/intel/Compiler/2020.4.304/compilers_and_libraries_2020.4.304/linux/compiler/lib/intel64_lin/libimf.so)
+MPT: (No debugging symbols found in /lib64/libm.so.6)
+MPT: (No debugging symbols found in /lib64/libpthread.so.0)
+MPT: [Thread debugging using libthread_db enabled]
+MPT: Using host libthread_db library "/lib64/libthread_db.so.1".
+MPT: (No debugging symbols found in /nasa/intel/Compiler/2020.4.304/compilers_and_libraries_2020.4.304/linux/compiler/lib/intel64_lin/libifport.so.5)
+MPT: (No debugging symbols found in /nasa/intel/Compiler/2020.4.304/compilers_and_libraries_2020.4.304/linux/compiler/lib/intel64_lin/libifcoremt.so.5)
+MPT: (No debugging symbols found in /nasa/intel/Compiler/2020.4.304/compilers_and_libraries_2020.4.304/linux/compiler/lib/intel64_lin/libsvml.so)
+MPT: (No debugging symbols found in /nasa/intel/Compiler/2020.4.304/compilers_and_libraries_2020.4.304/linux/compiler/lib/intel64_lin/libintlc.so.5)
+MPT: (No debugging symbols found in /lib64/libdl.so.2)
+MPT: (No debugging symbols found in /lib64/libc.so.6)
+MPT: (No debugging symbols found in /lib64/libgcc_s.so.1)
+MPT: (No debugging symbols found in /lib64/ld-linux-x86-64.so.2)
+MPT: (No debugging symbols found in /lib64/librt.so.1)
+MPT: (No debugging symbols found in /usr/lib64/libibverbs.so.1)
+MPT: (No debugging symbols found in /usr/lib64/libnl-route-3.so.200)
+MPT: (No debugging symbols found in /usr/lib64/libnl-3.so.200)
+MPT: (No debugging symbols found in /usr/lib64/libmthca-rdmav2.so)
+MPT: (No debugging symbols found in /usr/lib64/libmlx5-rdmav2.so)
+MPT: (No debugging symbols found in /usr/lib64/libmlx4-rdmav2.so)
+MPT: (No debugging symbols found in /usr/lib64/libcxgb3-rdmav2.so)
+MPT: (No debugging symbols found in /nasa/intel/Compiler/2020.4.304/compilers_and_libraries_2020.4.304/linux/mkl/lib/intel64_lin/libmkl_avx2.so)
+MPT: (No debugging symbols found in /nasa/intel/Compiler/2020.4.304/compilers_and_libraries_2020.4.304/linux/mkl/lib/intel64_lin/libmkl_vml_avx2.so)
+MPT: 0x00002aaab4a937da in waitpid () from /lib64/libpthread.so.0
+MPT: Missing separate debuginfos, use: zypper install glibc-debuginfo-2.22-109.2.x86_64 libcxgb3-rdmav2-debuginfo-1.3.1-6.2.x86_64 libgcc_s1-debuginfo-9.3.1+git1296-1.7.2.x86_64 libibverbs-debuginfo-41mlnx1-OFED.4.9.0.0.7.49017.x86_64 libmlx4-debuginfo-41mlnx1-OFED.4.7.3.0.3.49017.x86_64 libmlx5-debuginfo-41mlnx1-OFED.4.9.0.1.2.49017.x86_64 libmthca-rdmav2-debuginfo-1.0.6-5.2.x86_64 libstdc++6-debuginfo-9.3.1+git1296-1.7.2.x86_64
+MPT: (gdb) #0  0x00002aaab4a937da in waitpid () from /lib64/libpthread.so.0
+MPT: #1  0x00002aaab4ddb0e6 in mpi_sgi_system (
+MPT: #2  MPI_SGI_stacktraceback (
+MPT:     header=header@entry=0x7fffffff8b90 "MPT ERROR: Rank 80(g:80) received signal SIGSEGV(11).\n\tProcess ID: 24220, Host: r603i3n8, Program: /home1/rorvedah/Programs/Rayleigh-Fork/bin/Rayleigh.SHTns.dbg\n\tMPT Version: HPE MPT 2.23  09/13/20 02"...) at sig.c:340
+MPT: #3  0x00002aaab4ddb2e6 in first_arriver_handler (signo=signo@entry=11, 
+MPT:     stack_trace_sem=stack_trace_sem@entry=0x2aaabc240080) at sig.c:489
+MPT: #4  0x00002aaab4ddb573 in slave_sig_handler (signo=11, 
+MPT:     siginfo=<optimized out>, extra=<optimized out>) at sig.c:565
+MPT: #5  <signal handler called>
+MPT: #6  rml::internal::LocalLOCImpl<8, 32>::put (this=<optimized out>, 
+MPT:     object=0x2ae1f939b040, 
+MPT:     extMemPool=0x2aaab3cff910 <rml::internal::defaultMemPool_space+16>)
+MPT:     at ../../src/tbbmalloc/frontend.cpp:2201
+MPT: #7  rml::internal::MemoryPool::putToLLOCache (
+MPT:     this=0x2aaab3cff910 <rml::internal::defaultMemPool_space+16>, 
+MPT:     tls=0x2ae1e419fc80, object=0x1c) at ../../src/tbbmalloc/frontend.cpp:2327
+MPT: #8  0x00002aaaaab9886d in for_deallocate ()
+MPT:    from /nasa/intel/Compiler/2020.4.304/compilers_and_libraries_2020.4.304/linux/compiler/lib/intel64_lin/libifcoremt.so.5
+MPT: #9  0x0000000000458af9 in spherical_buffer::deallocate_spherical_buffer (
+MPT:     self=0x1640540 <fields_mp_wsp_>, config=..., 
+MPT:     override=<error reading variable: Cannot access memory at address 0x0>, 
+MPT:     .tmp.CONFIG.len_V$14ab=3) at Spherical_Buffer.F90:1035
+MPT: #10 0x0000000001011df7 in sphere_hybrid_space::rlm_spacea ()
+MPT:     at Sphere_Hybrid_Space.F90:101
+MPT: #11 0x0000000001110178 in sphere_driver::main_loop_sphere ()
+MPT:     at Sphere_Driver.F90:175
+MPT: #12 0x00000000011720bb in main () at Main.F90:74
+MPT: #13 0x0000000000404142 in main ()
+MPT: (gdb) A debugging session is active.
+MPT: 
+MPT: 	Inferior 1 [process 24220] will be detached.
+MPT: 
+MPT: Quit anyway? (y or n) [answered Y; input not from terminal]
+MPT: Detaching from program: /proc/24220/exe, process 24220
+MPT: [Inferior 1 (process 24220) detached]
+
+MPT: -----stack traceback ends-----
+MPT: On host r603i3n8, Program /home1/rorvedah/Programs/Rayleigh-Fork/bin/Rayleigh.SHTns.dbg, Rank 80, Process 24220: Dumping core on signal SIGSEGV(11) into directory /nobackupp8/rorvedah/SHTns-vs-Rayleigh/Scaling/1024-cores
+MPT: Attaching to program: /proc/29211/exe, process 29211
+MPT: (No debugging symbols found in /nasa/intel/Compiler/2020.4.304/compilers_and_libraries_2020.4.304/linux/mkl/lib/intel64_lin/libmkl_intel_lp64.so)
+MPT: (No debugging symbols found in /nasa/intel/Compiler/2020.4.304/compilers_and_libraries_2020.4.304/linux/mkl/lib/intel64_lin/libmkl_intel_thread.so)
+MPT: (No debugging symbols found in /usr/lib64/libstdc++.so.6)
+MPT: (No debugging symbols found in /nasa/intel/Compiler/2020.4.304/compilers_and_libraries_2020.4.304/linux/compiler/lib/intel64_lin/libimf.so)
+MPT: (No debugging symbols found in /lib64/libm.so.6)
+MPT: (No debugging symbols found in /lib64/libpthread.so.0)
+MPT: [Thread debugging using libthread_db enabled]
+MPT: Using host libthread_db library "/lib64/libthread_db.so.1".
+MPT: (No debugging symbols found in /nasa/intel/Compiler/2020.4.304/compilers_and_libraries_2020.4.304/linux/compiler/lib/intel64_lin/libifport.so.5)
+MPT: (No debugging symbols found in /nasa/intel/Compiler/2020.4.304/compilers_and_libraries_2020.4.304/linux/compiler/lib/intel64_lin/libifcoremt.so.5)
+MPT: (No debugging symbols found in /nasa/intel/Compiler/2020.4.304/compilers_and_libraries_2020.4.304/linux/compiler/lib/intel64_lin/libsvml.so)
+MPT: (No debugging symbols found in /nasa/intel/Compiler/2020.4.304/compilers_and_libraries_2020.4.304/linux/compiler/lib/intel64_lin/libintlc.so.5)
+MPT: (No debugging symbols found in /lib64/libdl.so.2)
+MPT: (No debugging symbols found in /lib64/libc.so.6)
+MPT: (No debugging symbols found in /lib64/libgcc_s.so.1)
+MPT: (No debugging symbols found in /lib64/ld-linux-x86-64.so.2)
+MPT: (No debugging symbols found in /lib64/librt.so.1)
+MPT: (No debugging symbols found in /usr/lib64/libibverbs.so.1)
+MPT: (No debugging symbols found in /usr/lib64/libnl-route-3.so.200)
+MPT: (No debugging symbols found in /usr/lib64/libnl-3.so.200)
+MPT: (No debugging symbols found in /usr/lib64/libmthca-rdmav2.so)
+MPT: (No debugging symbols found in /usr/lib64/libmlx5-rdmav2.so)
+MPT: (No debugging symbols found in /usr/lib64/libmlx4-rdmav2.so)
+MPT: (No debugging symbols found in /usr/lib64/libcxgb3-rdmav2.so)
+MPT: (No debugging symbols found in /nasa/intel/Compiler/2020.4.304/compilers_and_libraries_2020.4.304/linux/mkl/lib/intel64_lin/libmkl_avx2.so)
+MPT: (No debugging symbols found in /nasa/intel/Compiler/2020.4.304/compilers_and_libraries_2020.4.304/linux/mkl/lib/intel64_lin/libmkl_vml_avx2.so)
+MPT: 0x00002aaab4a937da in waitpid () from /lib64/libpthread.so.0
+MPT: Missing separate debuginfos, use: zypper install glibc-debuginfo-2.22-109.2.x86_64 libcxgb3-rdmav2-debuginfo-1.3.1-6.2.x86_64 libgcc_s1-debuginfo-9.3.1+git1296-1.7.2.x86_64 libibverbs-debuginfo-41mlnx1-OFED.4.9.0.0.7.49017.x86_64 libmlx4-debuginfo-41mlnx1-OFED.4.7.3.0.3.49017.x86_64 libmlx5-debuginfo-41mlnx1-OFED.4.9.0.1.2.49017.x86_64 libmthca-rdmav2-debuginfo-1.0.6-5.2.x86_64 libstdc++6-debuginfo-9.3.1+git1296-1.7.2.x86_64
+MPT: (gdb) #0  0x00002aaab4a937da in waitpid () from /lib64/libpthread.so.0
+MPT: #1  0x00002aaab4ddb0e6 in mpi_sgi_system (
+MPT: #2  MPI_SGI_stacktraceback (
+MPT:     header=header@entry=0x7fffffff8b90 "MPT ERROR: Rank 176(g:176) received signal SIGSEGV(11).\n\tProcess ID: 29211, Host: r621i0n4, Program: /home1/rorvedah/Programs/Rayleigh-Fork/bin/Rayleigh.SHTns.dbg\n\tMPT Version: HPE MPT 2.23  09/13/20 "...) at sig.c:340
+MPT: #3  0x00002aaab4ddb2e6 in first_arriver_handler (signo=signo@entry=11, 
+MPT:     stack_trace_sem=stack_trace_sem@entry=0x2aaabc240080) at sig.c:489
+MPT: #4  0x00002aaab4ddb573 in slave_sig_handler (signo=11, 
+MPT:     siginfo=<optimized out>, extra=<optimized out>) at sig.c:565
+MPT: #5  <signal handler called>
+MPT: #6  rml::internal::LocalLOCImpl<8, 32>::put (this=<optimized out>, 
+MPT:     object=0x2ae1f939b040, 
+MPT:     extMemPool=0x2aaab3cff910 <rml::internal::defaultMemPool_space+16>)
+MPT:     at ../../src/tbbmalloc/frontend.cpp:2201
+MPT: #7  rml::internal::MemoryPool::putToLLOCache (
+MPT:     this=0x2aaab3cff910 <rml::internal::defaultMemPool_space+16>, 
+MPT:     tls=0x2ae1e419fc80, object=0x1c) at ../../src/tbbmalloc/frontend.cpp:2327
+MPT: #8  0x00002aaaaab9886d in for_deallocate ()
+MPT:    from /nasa/intel/Compiler/2020.4.304/compilers_and_libraries_2020.4.304/linux/compiler/lib/intel64_lin/libifcoremt.so.5
+MPT: #9  0x0000000000458af9 in spherical_buffer::deallocate_spherical_buffer (
+MPT:     self=0x1640540 <fields_mp_wsp_>, config=..., 
+MPT:     override=<error reading variable: Cannot access memory at address 0x0>, 
+MPT:     .tmp.CONFIG.len_V$14ab=3) at Spherical_Buffer.F90:1035
+MPT: #10 0x0000000001011df7 in sphere_hybrid_space::rlm_spacea ()
+MPT:     at Sphere_Hybrid_Space.F90:101
+MPT: #11 0x0000000001110178 in sphere_driver::main_loop_sphere ()
+MPT:     at Sphere_Driver.F90:175
+MPT: #12 0x00000000011720bb in main () at Main.F90:74
+MPT: #13 0x0000000000404142 in main ()
+MPT: (gdb) A debugging session is active.
+MPT: 
+MPT: 	Inferior 1 [process 29211] will be detached.
+MPT: 
+MPT: Quit anyway? (y or n) [answered Y; input not from terminal]
+MPT: Detaching from program: /proc/29211/exe, process 29211
+MPT: [Inferior 1 (process 29211) detached]
+
+MPT: -----stack traceback ends-----
+MPT: On host r621i0n4, Program /home1/rorvedah/Programs/Rayleigh-Fork/bin/Rayleigh.SHTns.dbg, Rank 176, Process 29211: Dumping core on signal SIGSEGV(11) into directory /nobackupp8/rorvedah/SHTns-vs-Rayleigh/Scaling/1024-cores
+MPT: Attaching to program: /proc/96488/exe, process 96488
+MPT: (No debugging symbols found in /nasa/intel/Compiler/2020.4.304/compilers_and_libraries_2020.4.304/linux/mkl/lib/intel64_lin/libmkl_intel_lp64.so)
+MPT: (No debugging symbols found in /nasa/intel/Compiler/2020.4.304/compilers_and_libraries_2020.4.304/linux/mkl/lib/intel64_lin/libmkl_intel_thread.so)
+MPT: (No debugging symbols found in /usr/lib64/libstdc++.so.6)
+MPT: (No debugging symbols found in /nasa/intel/Compiler/2020.4.304/compilers_and_libraries_2020.4.304/linux/compiler/lib/intel64_lin/libimf.so)
+MPT: (No debugging symbols found in /lib64/libm.so.6)
+MPT: (No debugging symbols found in /lib64/libpthread.so.0)
+MPT: [Thread debugging using libthread_db enabled]
+MPT: Using host libthread_db library "/lib64/libthread_db.so.1".
+MPT: (No debugging symbols found in /nasa/intel/Compiler/2020.4.304/compilers_and_libraries_2020.4.304/linux/compiler/lib/intel64_lin/libifport.so.5)
+MPT: (No debugging symbols found in /nasa/intel/Compiler/2020.4.304/compilers_and_libraries_2020.4.304/linux/compiler/lib/intel64_lin/libifcoremt.so.5)
+MPT: (No debugging symbols found in /nasa/intel/Compiler/2020.4.304/compilers_and_libraries_2020.4.304/linux/compiler/lib/intel64_lin/libsvml.so)
+MPT: (No debugging symbols found in /nasa/intel/Compiler/2020.4.304/compilers_and_libraries_2020.4.304/linux/compiler/lib/intel64_lin/libintlc.so.5)
+MPT: (No debugging symbols found in /lib64/libdl.so.2)
+MPT: (No debugging symbols found in /lib64/libc.so.6)
+MPT: (No debugging symbols found in /lib64/libgcc_s.so.1)
+MPT: (No debugging symbols found in /lib64/ld-linux-x86-64.so.2)
+MPT: (No debugging symbols found in /lib64/librt.so.1)
+MPT: (No debugging symbols found in /usr/lib64/libibverbs.so.1)
+MPT: (No debugging symbols found in /usr/lib64/libnl-route-3.so.200)
+MPT: (No debugging symbols found in /usr/lib64/libnl-3.so.200)
+MPT: (No debugging symbols found in /usr/lib64/libmthca-rdmav2.so)
+MPT: (No debugging symbols found in /usr/lib64/libmlx5-rdmav2.so)
+MPT: (No debugging symbols found in /usr/lib64/libmlx4-rdmav2.so)
+MPT: (No debugging symbols found in /usr/lib64/libcxgb3-rdmav2.so)
+MPT: (No debugging symbols found in /nasa/intel/Compiler/2020.4.304/compilers_and_libraries_2020.4.304/linux/mkl/lib/intel64_lin/libmkl_avx2.so)
+MPT: (No debugging symbols found in /nasa/intel/Compiler/2020.4.304/compilers_and_libraries_2020.4.304/linux/mkl/lib/intel64_lin/libmkl_vml_avx2.so)
+MPT: 0x00002aaab4a937da in waitpid () from /lib64/libpthread.so.0
+MPT: Missing separate debuginfos, use: zypper install glibc-debuginfo-2.22-109.2.x86_64 libcxgb3-rdmav2-debuginfo-1.3.1-6.2.x86_64 libgcc_s1-debuginfo-9.3.1+git1296-1.7.2.x86_64 libibverbs-debuginfo-41mlnx1-OFED.4.9.0.0.7.49017.x86_64 libmlx4-debuginfo-41mlnx1-OFED.4.7.3.0.3.49017.x86_64 libmlx5-debuginfo-41mlnx1-OFED.4.9.0.1.2.49017.x86_64 libmthca-rdmav2-debuginfo-1.0.6-5.2.x86_64 libstdc++6-debuginfo-9.3.1+git1296-1.7.2.x86_64
+MPT: (gdb) #0  0x00002aaab4a937da in waitpid () from /lib64/libpthread.so.0
+MPT: #1  0x00002aaab4ddb0e6 in mpi_sgi_system (
+MPT: #2  MPI_SGI_stacktraceback (
+MPT:     header=header@entry=0x7fffffff8b90 "MPT ERROR: Rank 48(g:48) received signal SIGSEGV(11).\n\tProcess ID: 96488, Host: r601i4n16, Program: /home1/rorvedah/Programs/Rayleigh-Fork/bin/Rayleigh.SHTns.dbg\n\tMPT Version: HPE MPT 2.23  09/13/20 0"...) at sig.c:340
+MPT: #3  0x00002aaab4ddb2e6 in first_arriver_handler (signo=signo@entry=11, 
+MPT:     stack_trace_sem=stack_trace_sem@entry=0x2aaabc240080) at sig.c:489
+MPT: #4  0x00002aaab4ddb573 in slave_sig_handler (signo=11, 
+MPT:     siginfo=<optimized out>, extra=<optimized out>) at sig.c:565
+MPT: #5  <signal handler called>
+MPT: #6  rml::internal::LocalLOCImpl<8, 32>::put (this=<optimized out>, 
+MPT:     object=0x2ae1f939b040, 
+MPT:     extMemPool=0x2aaab3cff910 <rml::internal::defaultMemPool_space+16>)
+MPT:     at ../../src/tbbmalloc/frontend.cpp:2201
+MPT: #7  rml::internal::MemoryPool::putToLLOCache (
+MPT:     this=0x2aaab3cff910 <rml::internal::defaultMemPool_space+16>, 
+MPT:     tls=0x2ae1e419fc80, object=0x1c) at ../../src/tMPT ERROR: MPI_COMM_WORLD rank 80 has terminated without calling MPI_Finalize()
+	aborting job
+MPT: Received signal 11

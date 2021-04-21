@@ -1,0 +1,1074 @@
+ //////////////////////////////////////
+ Initializating Rayleigh...
+
+ -- Initalizing MPI...
+ ---- Specified parameters:
+ ---- NCPU  :    128
+ ---- NPROW :     16
+ ---- NPCOL :      8
+ -- MPI initialized.
+
+
+ -- Initalizing Grid...
+ ---- Specified parameters ----
+ ---- N_R                 :    128
+ ---- N_THETA             :    768
+ ---- Ell_MAX             :    511
+ ---- R_MIN               :  5.38462E-01
+ ---- R_MAX               :  1.53846E+00
+ ---- Chebyshev Domains   :      1
+
+        Domain 1
+          Grid points           :  128
+          Dealiased Polynomials :  85
+          Domain Lower Bound    :  5.38462E-01
+          Domain Upper Bound    :  1.53846E+00
+
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using Gauss nodes
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using Gauss nodes
+ -- Grid initialized.
+
+        + polar optimization threshold = 1.0e-08
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+        finding optimal algorithm        + polar optimization threshold = 1.0e-08
+        finding optimal algorithm[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, [SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+[SHTns 3.4.5] built Apr 19 2021, 13:29:57, id: avx,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+        => using Gauss nodes
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using Gauss nodes
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using Gauss nodes
+        => using Gauss nodes
+        + polar optimization threshold = 1.0e-08
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        + polar optimization threshold = 1.0e-08
+        => using Gauss nodes
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        + polar optimization threshold = 1.0e-08
+        => using Gauss nodes
+        => using Gauss nodes
+        => using Gauss nodes
+        + polar optimization threshold = 1.0e-08
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        finding optimal algorithm        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using Gauss nodes
+        => using Gauss nodes
+        => using Gauss nodes
+        finding optimal algorithm        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using Gauss nodes
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        finding optimal algorithm        => using Gauss nodes
+        => using Gauss nodes
+        => using Gauss nodes
+        => using Gauss nodes
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        finding optimal algorithm        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using Gauss nodes
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using Gauss nodes
+        => using Gauss nodes
+        => using Gauss nodes
+        => using Gauss nodes
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using Gauss nodes
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using Gauss nodes
+        => using Gauss nodes
+        => using Gauss nodes
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using Gauss nodes
+        => using Gauss nodes
+        => using Gauss nodes
+        => using Gauss nodes
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using Gauss nodes
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using Gauss nodes
+        => using Gauss nodes
+        => using Gauss nodes
+        => using Gauss nodes
+        => using Gauss nodes
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using Gauss nodes
+        => using Gauss nodes
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using Gauss nodes
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using Gauss nodes
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using Gauss nodes
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using Gauss nodes
+        => using Gauss nodes
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using Gauss nodes
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using Gauss nodes
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using Gauss nodes
+        => using Gauss nodes
+        => using Gauss nodes
+        => using Gauss nodes
+        => using Gauss nodes
+        => using Gauss nodes
+        => using Gauss nodes
+        => using Gauss nodes
+        => using Gauss nodes
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using Gauss nodes
+        => using Gauss nodes
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using Gauss nodes
+        => using Gauss nodes
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using Gauss nodes
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using Gauss nodes
+        => using Gauss nodes
+        => using Gauss nodes
+        => using Gauss nodes
+        => using Gauss nodes
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using Gauss nodes
+        => using Gauss nodes
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using Gauss nodes
+        => using Gauss nodes
+        => using Gauss nodes
+        => using Gauss nodes
+        => using Gauss nodes
+        => using Gauss nodes
+        => using Gauss nodes
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using Gauss nodes
+        => using Gauss nodes
+        => using Gauss nodes
+        => using Gauss nodes
+        => using Gauss nodes
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using Gauss nodes
+        => using Gauss nodes
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using Gauss nodes
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using Gauss nodes
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using Gauss nodes
+        => using Gauss nodes
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using Gauss nodes
+        => using Gauss nodes
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using Gauss nodes
+        => using Gauss nodes
+        => using Gauss nodes
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using Gauss nodes
+        => using Gauss nodes
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using Gauss nodes
+        => using Gauss nodes
+        => using Gauss nodes
+        => using Gauss nodes
+        => using Gauss nodes
+        => using Gauss nodes
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using Gauss nodes
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using Gauss nodes
+        => using Gauss nodes
+        => using Gauss nodes
+        => using Gauss nodes
+        => using Gauss nodes
+        => using Gauss nodes
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using Gauss nodes
+        => using Gauss nodes
+        => using Gauss nodes
+        => using Gauss nodes
+        => using Gauss nodes
+        => using Gauss nodes
+        => using Gauss nodes
+        => using Gauss nodes
+        => using Gauss nodes
+        => using Gauss nodes
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        + polar optimization threshold = 1.0e-08
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        + polar optimization threshold = 1.0e-08
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using Gauss nodes
+        => using Gauss nodes
+        => using Gauss nodes
+        => using Gauss nodes
+        => using Gauss nodes
+        => using Gauss nodes
+        => using Gauss nodes
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using Gauss nodes
+        => using Gauss nodes
+        => using Gauss nodes
+        + polar optimization threshold = 1.0e-08
+        + polar optimization threshold = 1.0e-08
+        => using Gauss nodes
+        + polar optimization threshold = 1.0e-08
+        + polar optimization threshold = 1.0e-08
+        + polar optimization threshold = 1.0e-08
+        + polar optimization threshold = 1.0e-08
+        + polar optimization threshold = 1.0e-08
+        finding optimal algorithm        + polar optimization threshold = 1.0e-08
+        finding optimal algorithm        + polar optimization threshold = 1.0e-08
+        + polar optimization threshold = 1.0e-08
+        finding optimal algorithm        finding optimal algorithm        finding optimal algorithm        finding optimal algorithm        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        + polar optimization threshold = 1.0e-08
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        + polar optimization threshold = 1.0e-08
+        finding optimal algorithm        + polar optimization threshold = 1.0e-08
+        + polar optimization threshold = 1.0e-08
+        => using Gauss nodes
+        => using Gauss nodes
+        + polar optimization threshold = 1.0e-08
+        + polar optimization threshold = 1.0e-08
+        finding optimal algorithm        finding optimal algorithm        + polar optimization threshold = 1.0e-08
+        + polar optimization threshold = 1.0e-08
+        finding optimal algorithm        + polar optimization threshold = 1.0e-08
+        + polar optimization threshold = 1.0e-08
+        + polar optimization threshold = 1.0e-08
+        + polar optimization threshold = 1.0e-08
+        + polar optimization threshold = 1.0e-08
+        + polar optimization threshold = 1.0e-08
+        + polar optimization threshold = 1.0e-08
+        + polar optimization threshold = 1.0e-08
+        + polar optimization threshold = 1.0e-08
+        + polar optimization threshold = 1.0e-08
+        + polar optimization threshold = 1.0e-08
+        + polar optimization threshold = 1.0e-08
+        + polar optimization threshold = 1.0e-08
+        + polar optimization threshold = 1.0e-08
+        + polar optimization threshold = 1.0e-08
+        + polar optimization threshold = 1.0e-08
+        + polar optimization threshold = 1.0e-08
+        + polar optimization threshold = 1.0e-08
+        + polar optimization threshold = 1.0e-08
+        finding optimal algorithm        finding optimal algorithm        finding optimal algorithm        finding optimal algorithm        + polar optimization threshold = 1.0e-08
+        + polar optimization threshold = 1.0e-08
+        + polar optimization threshold = 1.0e-08
+        + polar optimization threshold = 1.0e-08
+        finding optimal algorithm        + polar optimization threshold = 1.0e-08
+        + polar optimization threshold = 1.0e-08
+        + polar optimization threshold = 1.0e-08
+        + polar optimization threshold = 1.0e-08
+        + polar optimization threshold = 1.0e-08
+        + polar optimization threshold = 1.0e-08
+        + polar optimization threshold = 1.0e-08
+        finding optimal algorithm        + polar optimization threshold = 1.0e-08
+        + polar optimization threshold = 1.0e-08
+        + polar optimization threshold = 1.0e-08
+        finding optimal algorithm        + polar optimization threshold = 1.0e-08
+        finding optimal algorithm        finding optimal algorithm        finding optimal algorithm        + polar optimization threshold = 1.0e-08
+        + polar optimization threshold = 1.0e-08
+        + polar optimization threshold = 1.0e-08
+        + polar optimization threshold = 1.0e-08
+        finding optimal algorithm        finding optimal algorithm        finding optimal algorithm        finding optimal algorithm        finding optimal algorithm        + polar optimization threshold = 1.0e-08
+        finding optimal algorithm        + polar optimization threshold = 1.0e-08
+        + polar optimization threshold = 1.0e-08
+        + polar optimization threshold = 1.0e-08
+        + polar optimization threshold = 1.0e-08
+        finding optimal algorithm        + polar optimization threshold = 1.0e-08
+        finding optimal algorithm        finding optimal algorithm        + polar optimization threshold = 1.0e-08
+        + polar optimization threshold = 1.0e-08
+        + polar optimization threshold = 1.0e-08
+        + polar optimization threshold = 1.0e-08
+        finding optimal algorithm        finding optimal algorithm        finding optimal algorithm        + polar optimization threshold = 1.0e-08
+        finding optimal algorithm        + polar optimization threshold = 1.0e-08
+        finding optimal algorithm        finding optimal algorithm        finding optimal algorithm        + polar optimization threshold = 1.0e-08
+        + polar optimization threshold = 1.0e-08
+        + polar optimization threshold = 1.0e-08
+        + polar optimization threshold = 1.0e-08
+        + polar optimization threshold = 1.0e-08
+        + polar optimization threshold = 1.0e-08
+        + polar optimization threshold = 1.0e-08
+        finding optimal algorithm        finding optimal algorithm        finding optimal algorithm        finding optimal algorithm        + polar optimization threshold = 1.0e-08
+        finding optimal algorithm        finding optimal algorithm        + polar optimization threshold = 1.0e-08
+        + polar optimization threshold = 1.0e-08
+        finding optimal algorithm        + polar optimization threshold = 1.0e-08
+        finding optimal algorithm        finding optimal algorithm        finding optimal algorithm        + polar optimization threshold = 1.0e-08
+        finding optimal algorithm        + polar optimization threshold = 1.0e-08
+        finding optimal algorithm        + polar optimization threshold = 1.0e-08
+        + polar optimization threshold = 1.0e-08
+        + polar optimization threshold = 1.0e-08
+        + polar optimization threshold = 1.0e-08
+        + polar optimization threshold = 1.0e-08
+        finding optimal algorithm        + polar optimization threshold = 1.0e-08
+        + polar optimization threshold = 1.0e-08
+        + polar optimization threshold = 1.0e-08
+        + polar optimization threshold = 1.0e-08
+        finding optimal algorithm        + polar optimization threshold = 1.0e-08
+        finding optimal algorithm        + polar optimization threshold = 1.0e-08
+        + polar optimization threshold = 1.0e-08
+        finding optimal algorithm        finding optimal algorithm        + polar optimization threshold = 1.0e-08
+        finding optimal algorithm        + polar optimization threshold = 1.0e-08
+        + polar optimization threshold = 1.0e-08
+        + polar optimization threshold = 1.0e-08
+        finding optimal algorithm        finding optimal algorithm        finding optimal algorithm        finding optimal algorithm        finding optimal algorithm        finding optimal algorithm        finding optimal algorithm        finding optimal algorithm        finding optimal algorithm        + polar optimization threshold = 1.0e-08
+        finding optimal algorithm        + polar optimization threshold = 1.0e-08
+        finding optimal algorithm        + polar optimization threshold = 1.0e-08
+        + polar optimization threshold = 1.0e-08
+        finding optimal algorithm        finding optimal algorithm        finding optimal algorithm        + polar optimization threshold = 1.0e-08
+        + polar optimization threshold = 1.0e-08
+        + polar optimization threshold = 1.0e-08
+        + polar optimization threshold = 1.0e-08
+        + polar optimization threshold = 1.0e-08
+        finding optimal algorithm        finding optimal algorithm        finding optimal algorithm        finding optimal algorithm        finding optimal algorithm        finding optimal algorithm        finding optimal algorithm        finding optimal algorithm        finding optimal algorithm        finding optimal algorithm        finding optimal algorithm        finding optimal algorithm        finding optimal algorithm        + polar optimization threshold = 1.0e-08
+        finding optimal algorithm        finding optimal algorithm        finding optimal algorithm        finding optimal algorithm        finding optimal algorithm        finding optimal algorithm        finding optimal algorithm        finding optimal algorithm        finding optimal algorithm        finding optimal algorithm        finding optimal algorithm        finding optimal algorithm        finding optimal algorithm        + polar optimization threshold = 1.0e-08
+        + polar optimization threshold = 1.0e-08
+        finding optimal algorithm        finding optimal algorithm        finding optimal algorithm        + polar optimization threshold = 1.0e-08
+        + polar optimization threshold = 1.0e-08
+        finding optimal algorithm        + polar optimization threshold = 1.0e-08
+        + polar optimization threshold = 1.0e-08
+        finding optimal algorithm        finding optimal algorithm        finding optimal algorithm        finding optimal algorithm        + polar optimization threshold = 1.0e-08
+        finding optimal algorithm        finding optimal algorithm        finding optimal algorithm        finding optimal algorithm        finding optimal algorithm        finding optimal algorithm        finding optimal algorithm        + polar optimization threshold = 1.0e-08
+        + polar optimization threshold = 1.0e-08
+        finding optimal algorithm        + polar optimization threshold = 1.0e-08
+        + polar optimization threshold = 1.0e-08
+        + polar optimization threshold = 1.0e-08
+        + polar optimization threshold = 1.0e-08
+        finding optimal algorithm        finding optimal algorithm        finding optimal algorithm        finding optimal algorithm        finding optimal algorithm        finding optimal algorithm        finding optimal algorithm        finding optimal algorithm        finding optimal algorithm        finding optimal algorithm        finding optimal algorithm        finding optimal algorithm......................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................
+.
+        + SHT accuracy = 1.78e-12
+        => SHTns is ready.
+        + SHT accuracy = 1.78e-12
+        => SHTns is ready.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+        + SHT accuracy = 1.78e-12
+        => SHTns is ready.
+.
+.
+.
+.
+.
+        + SHT accuracy = 1.78e-12
+        => SHTns is ready.
+.
+.
+.
+.
+.
+.
+.
+.
+        + SHT accuracy = 1.78e-12
+        => SHTns is ready.
+.
+        + SHT accuracy = 1.78e-12
+        => SHTns is ready.
+        + SHT accuracy = 1.78e-12
+        => SHTns is ready.
+        + SHT accuracy = 1.78e-12
+        => SHTns is ready.
+        + SHT accuracy = 1.78e-12
+        => SHTns is ready.
+.
+        + SHT accuracy = 1.78e-12
+        => SHTns is ready.
+        + SHT accuracy = 1.78e-12
+        => SHTns is ready.
+.
+.
+        + SHT accuracy = 1.78e-12
+        => SHTns is ready.
+        + SHT accuracy = 1.78e-12
+        => SHTns is ready.
+.
+.
+.
+        + SHT accuracy = 1.78e-12
+        => SHTns is ready.
+.
+.
+        + SHT accuracy = 3.05e-12
+        => SHTns is ready.
+.
+        + SHT accuracy = 3.05e-12
+        => SHTns is ready.
+.
+        + SHT accuracy = 3.05e-12
+        => SHTns is ready.
+.
+.
+        + SHT accuracy = 3.05e-12
+        => SHTns is ready.
+        + SHT accuracy = 3.05e-12
+        => SHTns is ready.
+        + SHT accuracy = 3.05e-12
+        => SHTns is ready.
+        + SHT accuracy = 3.05e-12
+        => SHTns is ready.
+        + SHT accuracy = 3.05e-12
+        => SHTns is ready.
+        + SHT accuracy = 3.05e-12
+        => SHTns is ready.
+.
+        + SHT accuracy = 3.05e-12
+        => SHTns is ready.
+ -- Initalizing Reference State...
+ ---- Specified parameters:
+ ---- Reference type           :  Boussinesq (Non-dimensional)
+ ---- Rayleigh Number          :  1.00000E+05
+ ---- Ekman Number             :  1.00000E-03
+ ---- Prandtl Number           :  1.00000E+00
+ ---- Magnetic Prandtl Number  :  5.00000E+00
+ -- Reference State initialized.
+
+        + SHT accuracy = 3.05e-12
+        => SHTns is ready.
+.
+        + SHT accuracy = 3.05e-12
+        => SHTns is ready.
+        + SHT accuracy = 3.05e-12
+        => SHTns is ready.
+.
+        + SHT accuracy = 3.05e-12
+        => SHTns is ready.
+        + SHT accuracy = 3.05e-12
+        => SHTns is ready.
+        + SHT accuracy = 3.05e-12
+        => SHTns is ready.
+.
+.
+.
+.
+.
+        + SHT accuracy = 3.05e-12
+        => SHTns is ready.
+.
+.
+        + SHT accuracy = 3.05e-12
+        => SHTns is ready.
+        + SHT accuracy = 3.05e-12
+        => SHTns is ready.
+        + SHT accuracy = 3.05e-12
+        => SHTns is ready.
+        + SHT accuracy = 3.05e-12
+        => SHTns is ready.
+.
+        + SHT accuracy = 3.05e-12
+        => SHTns is ready.
+        + SHT accuracy = 3.05e-12
+        => SHTns is ready.
+        + SHT accuracy = 3.05e-12
+        => SHTns is ready.
+        + SHT accuracy = 3.05e-12
+        => SHTns is ready.
+        + SHT accuracy = 3.05e-12
+        => SHTns is ready.
+.
+.
+        + SHT accuracy = 3.05e-12
+        => SHTns is ready.
+        + SHT accuracy = 3.05e-12
+        => SHTns is ready.
+.
+        + SHT accuracy = 3.05e-12
+        => SHTns is ready.
+.
+        + SHT accuracy = 3.05e-12
+        => SHTns is ready.
+        + SHT accuracy = 3.05e-12
+        => SHTns is ready.
+.
+.
+.
+        + SHT accuracy = 3.05e-12
+        => SHTns is ready.
+.
+.
+.
+        + SHT accuracy = 3.05e-12
+        => SHTns is ready.
+.
+        + SHT accuracy = 3.05e-12
+        => SHTns is ready.
+        + SHT accuracy = 3.05e-12
+        => SHTns is ready.
+.
+        + SHT accuracy = 3.05e-12
+        => SHTns is ready.
+        + SHT accuracy = 3.05e-12
+        => SHTns is ready.
+        + SHT accuracy = 3.05e-12
+        => SHTns is ready.
+.
+        + SHT accuracy = 3.05e-12
+        => SHTns is ready.
+.
+.
+        + SHT accuracy = 3.05e-12
+        => SHTns is ready.
+.
+        + SHT accuracy = 3.05e-12
+        => SHTns is ready.
+        + SHT accuracy = 3.05e-12
+        => SHTns is ready.
+        + SHT accuracy = 3.05e-12
+        => SHTns is ready.
+        + SHT accuracy = 3.05e-12
+        => SHTns is ready.
+.
+.
+.
+        + SHT accuracy = 3.05e-12
+        => SHTns is ready.
+        + SHT accuracy = 3.05e-12
+        => SHTns is ready.
+        + SHT accuracy = 3.05e-12
+        => SHTns is ready.
+.
+.
+        + SHT accuracy = 3.05e-12
+        => SHTns is ready.
+.
+        + SHT accuracy = 3.05e-12
+        => SHTns is ready.
+        + SHT accuracy = 3.05e-12
+        => SHTns is ready.
+.
+        + SHT accuracy = 3.05e-12
+        => SHTns is ready.
+        + SHT accuracy = 3.05e-12
+        => SHTns is ready.
+        + SHT accuracy = 3.05e-12
+        => SHTns is ready.
+        + SHT accuracy = 3.05e-12
+        => SHTns is ready.
+        + SHT accuracy = 3.05e-12
+        => SHTns is ready.
+        + SHT accuracy = 3.05e-12
+        => SHTns is ready.
+        + SHT accuracy = 3.05e-12
+        => SHTns is ready.
+        + SHT accuracy = 3.05e-12
+        => SHTns is ready.
+.
+.
+.
+        + SHT accuracy = 3.05e-12
+        => SHTns is ready.
+        + SHT accuracy = 3.05e-12
+        => SHTns is ready.
+        + SHT accuracy = 3.05e-12
+        => SHTns is ready.
+        + SHT accuracy = 3.05e-12
+        => SHTns is ready.
+        + SHT accuracy = 3.05e-12
+        => SHTns is ready.
+        + SHT accuracy = 3.05e-12
+        => SHTns is ready.
+        + SHT accuracy = 3.05e-12
+        => SHTns is ready.
+        + SHT accuracy = 3.05e-12
+        => SHTns is ready.
+        + SHT accuracy = 3.05e-12
+        => SHTns is ready.
+        + SHT accuracy = 3.05e-12
+        => SHTns is ready.
+        + SHT accuracy = 3.05e-12
+        => SHTns is ready.
+        + SHT accuracy = 3.05e-12
+        => SHTns is ready.
+        + SHT accuracy = 3.05e-12
+        => SHTns is ready.
+        + SHT accuracy = 3.05e-12
+        => SHTns is ready.
+        + SHT accuracy = 3.05e-12
+        => SHTns is ready.
+        + SHT accuracy = 3.05e-12
+        => SHTns is ready.
+        + SHT accuracy = 3.05e-12
+        => SHTns is ready.
+        + SHT accuracy = 3.05e-12
+        => SHTns is ready.
+        + SHT accuracy = 3.05e-12
+        => SHTns is ready.
+        + SHT accuracy = 3.05e-12
+        => SHTns is ready.
+        + SHT accuracy = 3.05e-12
+        => SHTns is ready.
+        + SHT accuracy = 3.05e-12
+        => SHTns is ready.
+        + SHT accuracy = 3.05e-12
+        => SHTns is ready.
+..................................
+        + SHT accuracy = 3.88e-12
+        => SHTns is ready.
+.
+.
+.
+.
+        + SHT accuracy = 3.88e-12
+        => SHTns is ready.
+        + SHT accuracy = 3.88e-12
+        => SHTns is ready.
+        + SHT accuracy = 3.88e-12
+        => SHTns is ready.
+        + SHT accuracy = 3.88e-12
+        => SHTns is ready.
+.
+.
+.
+.
+.
+.
+        + SHT accuracy = 3.88e-12
+        => SHTns is ready.
+        + SHT accuracy = 3.88e-12
+        => SHTns is ready.
+.
+        + SHT accuracy = 3.88e-12
+        => SHTns is ready.
+        + SHT accuracy = 3.88e-12
+        => SHTns is ready.
+.
+.
+        + SHT accuracy = 3.88e-12
+        => SHTns is ready.
+        + SHT accuracy = 3.88e-12
+        => SHTns is ready.
+        + SHT accuracy = 3.88e-12
+        => SHTns is ready.
+        + SHT accuracy = 3.88e-12
+        => SHTns is ready.
+        + SHT accuracy = 3.88e-12
+        => SHTns is ready.
+.
+.
+        + SHT accuracy = 3.88e-12
+        => SHTns is ready.
+        + SHT accuracy = 3.88e-12
+        => SHTns is ready.
+.
+.
+        + SHT accuracy = 3.88e-12
+        => SHTns is ready.
+.
+        + SHT accuracy = 3.88e-12
+        => SHTns is ready.
+        + SHT accuracy = 3.88e-12
+        => SHTns is ready.
+.
+.
+.
+.
+.
+.
+.
+        + SHT accuracy = 3.88e-12
+        => SHTns is ready.
+.
+        + SHT accuracy = 3.88e-12
+        => SHTns is ready.
+        + SHT accuracy = 3.88e-12
+        => SHTns is ready.
+        + SHT accuracy = 3.88e-12
+        => SHTns is ready.
+.
+        + SHT accuracy = 3.88e-12
+        => SHTns is ready.
+        + SHT accuracy = 3.88e-12
+        => SHTns is ready.
+        + SHT accuracy = 3.88e-12
+        => SHTns is ready.
+        + SHT accuracy = 3.88e-12
+        => SHTns is ready.
+        + SHT accuracy = 3.88e-12
+        => SHTns is ready.
+.
+.
+        + SHT accuracy = 3.88e-12
+        => SHTns is ready.
+.
+        + SHT accuracy = 3.88e-12
+        => SHTns is ready.
+        + SHT accuracy = 3.88e-12
+        => SHTns is ready.
+.
+.
+        + SHT accuracy = 2.71e-12
+        => SHTns is ready.
+        + SHT accuracy = 2.71e-12
+        => SHTns is ready.
+ -- Initializing Fields...
+ ---- Specified parameters:
+ ---- Hydro Init Type    : Benchmark (Christensen et al. 2001)
+ ---- Magnetic Init Type : Benchmark (Christensen et al. 2001)
+ -- Fields initialized.
+
+ Initialization Complete.
+ //////////////////////////////////////
+
+ Timestep has changed from  0.00000E+00 to  1.00000E-04.
+ Iteration:  00000001   DeltaT:  1.000E-04   Iter/sec:  0.000E+00
+ Timestep has changed from  1.00000E-04 to  2.55562E-06.
+ Iteration:  00000002   DeltaT:  2.556E-06   Iter/sec:  8.239E-02
