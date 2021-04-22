@@ -1,0 +1,4 @@
+#
+# l_max    Nr    Nfields    Nloops    MaxError    TotalTime    ToPhysTime    ToSpecTime    Rayleigh/SHTns
+#----------------------------------------------------------------------------------------------
+  15     16    10          30    0.1254E-10    0.0000E+00    0.0000E+00    0.0000E+00    SHTns

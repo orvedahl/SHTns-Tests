@@ -124,11 +124,13 @@ def main(Rfiles, Sfiles, Mfiles, output, dpi, single_nr):
 
     # set data and indices
     ind = {'lmax':0, 'nr':1, 'iter':2, 'time':3, 'cores':4, 'nprow':5, 'npcol':6}
+    print("\nParsing data files...")
     Rdata = ParseFiles(Rfiles) # (Nruns, Nentry)
     Sdata = ParseFiles(Sfiles) # (Nruns, Nentry)
     Mdata = ParseFiles(Mfiles, magic=True) # (Nruns, Nentry)
 
     # split into unique runs, i.e., same resolution but different core count
+    print("Reorganizing data...")
     Rruns, Rres = SplitIntoRuns(Rdata, ind)
     Sruns, Sres = SplitIntoRuns(Sdata, ind)
     Mruns, Mres = SplitIntoRuns(Mdata, ind)
@@ -140,6 +142,7 @@ def main(Rfiles, Sfiles, Mfiles, output, dpi, single_nr):
 
     xs = []; ys = []; labels = []; ls = []; colors = []; markers = []
 
+    print("Adding data to plot...")
     color_marks = ColorMarks()
     ic = ind['cores']; it = ind['time']
     for i in range(len(Rruns)):
@@ -193,6 +196,7 @@ def main(Rfiles, Sfiles, Mfiles, output, dpi, single_nr):
     xmax = np.max([np.max(i) for i in xs])
     xlim = (0.5*xmin, 200*xmax)
 
+    print("Drawing plot...\n")
     MakePlot(xs, ys, labels, title, xlabel, ylabel, output, ls, colors, markers,
              dpi=dpi, legend=True, ylog=True, xlim=xlim, scaling_line=True)
 

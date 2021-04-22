@@ -2,8 +2,23 @@
 Various scaling data for init_type=mag_init_type=1, max_iterations=50
 
 Interactive/
-	these runs were computed with an interactive session
+	these runs were computed with an interactive session:
+		-request 1024 cores
+		-run all problem sizes and core counts = (16,32,...,512,1024)
+		 using a bash script to avoid wasting time
+
+Together/
+	these runs were computed with separate compute-job sessions:
+		-request 512 cores
+		-run all problem sizes and core counts = (16,32,...,256,512)
 
 Separate/
-	these runs all requested separate sessions, i.e., all 512 core jobs
-	only requested 512 cores, all 128 core jobs only requested 128 cores, etc.
+	these runs all requested their own separate compute-job sessions:
+		-each core count had its own jobscript
+			-jobscript_16.sh
+			-jobscript_32.sh
+			...
+			-jobscript_512.sh
+			-jobscript_1024.sh
+		-each jobscript ran all problem sizes at the given core count
+
