@@ -11,6 +11,7 @@ Options:
     --output=<o>     Set the output filename [default: scaling.png]
     --dpi=<d>        Resolution of image [default: 250]
     --single-nr=<n>  Only plot cases with the given Nr
+    --method=<m>     Choose what to plot, best, mean, median [default: median]
 """
 
 from __future__ import print_function
@@ -77,18 +78,18 @@ def ParseFiles(files, magic=False):
 
     return np.array(results)
 
-def SplitIntoRuns(data, inds):
+def SplitIntoRuns(data, inds, method='best'):
     """
     Reorganize data into collection of (run vs core) entries
-    data is (N_all_runs, Nentries), inds is dictionary of indices.
+    data is (N_all_runs, Nentries), inds is dictionary of indices into data
 
     returns:
-        -list of (Nrun, Nentries) arrays at a particular [lmax, nr]
+        -list of (Nrun, 3) arrays at a particular [lmax, nr], 0=Ncore, 1=time, 2=iter/sec
         -list of [lmax, Nr] items for each array
     """
     if (data is None): return [], []
 
-    ir = inds['nr']; il = inds['lmax']; ic = inds['cores']
+    ir = inds['nr']; il = inds['lmax']; ic = inds['cores']; it = inds['time']; ii = inds['iter/sec']
     all_nr = data[:,ir]
     all_lmax = data[:,il]
 
@@ -113,9 +114,55 @@ def SplitIntoRuns(data, inds):
                 results.append(entry[i])
                 resolution.append([l, r])
 
+    # choose best result for each core count & resolution
+    for i, entry in enumerate(results):
+        lmax = resolution[i][0]
+        nr   = resolution[i][1]
+
+        all_nc = list(set(entry[:,ic])) # unique/sorted list of core counts
+        all_nc.sort()
+        Nc = len(all_nc)
+
+        # allocate storage
+        result = np.zeros((Nc,3))
+
+        for k, nc in enumerate(all_nc):
+            K = np.where((entry[:,ic] == nc))[0] # pull out all entries at this lmax/nr/n_core
+
+            vals = entry[K,:] # (Nrun, Nq)
+
+            time  = vals[:,it] # all walltimes for this lmax/nr/n_core
+            iters = vals[:,ii] # all iter/sec for this lmax/nr/n_core
+
+            # choose best value for this lmax/nr/n_core
+            if (method in ['best']):
+                j = np.argmin(time)
+                best_time = vals[j,it]
+
+                j = np.argmax(iters)
+                best_iter = vals[j,ii]
+
+            elif (method in ['mean', 'avg']):
+                best_time = np.mean(time)
+                best_iter = np.mean(iters)
+
+            elif (method in ['median']):
+                best_time = np.median(time)
+                best_iter = np.median(iters)
+
+            else:
+                raise ValueError("Unrecognized method = {}".format(method))
+
+            result[k,0] = nc
+            result[k,1] = best_time
+            result[k,2] = best_iter
+
+        # overwrite this entry
+        results[i] = result
+
     return results, resolution
 
-def main(Rfiles, Sfiles, Mfiles, output, dpi, single_nr):
+def main(Rfiles, Sfiles, Mfiles, output, dpi, single_nr, method):
 
     test = [x is None for x in [Rfiles,Sfiles,Mfiles]]
     if (all(test)):
@@ -123,7 +170,7 @@ def main(Rfiles, Sfiles, Mfiles, output, dpi, single_nr):
         return
 
     # set data and indices
-    ind = {'lmax':0, 'nr':1, 'iter':2, 'time':3, 'cores':4, 'nprow':5, 'npcol':6}
+    ind = {'lmax':0, 'nr':1, 'iter/sec':2, 'time':3, 'cores':4, 'nprow':5, 'npcol':6}
     print("\nParsing data files...")
     Rdata = ParseFiles(Rfiles) # (Nruns, Nentry)
     Sdata = ParseFiles(Sfiles) # (Nruns, Nentry)
@@ -131,9 +178,9 @@ def main(Rfiles, Sfiles, Mfiles, output, dpi, single_nr):
 
     # split into unique runs, i.e., same resolution but different core count
     print("Reorganizing data...")
-    Rruns, Rres = SplitIntoRuns(Rdata, ind)
-    Sruns, Sres = SplitIntoRuns(Sdata, ind)
-    Mruns, Mres = SplitIntoRuns(Mdata, ind)
+    Rruns, Rres = SplitIntoRuns(Rdata, ind, method=method)
+    Sruns, Sres = SplitIntoRuns(Sdata, ind, method=method)
+    Mruns, Mres = SplitIntoRuns(Mdata, ind, method=method)
 
     # make plot
     xlabel = r"$N_\mathrm{cores}$"
@@ -144,7 +191,7 @@ def main(Rfiles, Sfiles, Mfiles, output, dpi, single_nr):
 
     print("Adding data to plot...")
     color_marks = ColorMarks()
-    ic = ind['cores']; it = ind['time']
+    ic = 0; it = 1
     for i in range(len(Rruns)):
         x = Rruns[i][:,ic]
         y = Rruns[i][:,it]
@@ -194,11 +241,11 @@ def main(Rfiles, Sfiles, Mfiles, output, dpi, single_nr):
 
     xmin = np.min([np.min(i) for i in xs])
     xmax = np.max([np.max(i) for i in xs])
-    xlim = (0.5*xmin, 200*xmax)
+    xlim = (0.5*xmin, 400*xmax)
 
     print("Drawing plot...\n")
     MakePlot(xs, ys, labels, title, xlabel, ylabel, output, ls, colors, markers,
-             dpi=dpi, legend=True, ylog=True, xlim=xlim, scaling_line=True)
+             dpi=dpi, legend=True, ylog=True, xlim=xlim, scaling_line=True, width=6, height=None)
 
 if __name__ == "__main__":
 
@@ -213,6 +260,7 @@ if __name__ == "__main__":
     output  = args['--output']
     dpi     = float(args['--dpi'])
     single_nr = args['--single-nr']
+    method = args['--method']
 
     # expand any glob characters
     if (Rfiles is not None):
@@ -222,5 +270,5 @@ if __name__ == "__main__":
     if (Mfiles is not None):
         Mfiles = glob(Mfiles)
 
-    main(Rfiles, Sfiles, Mfiles, output, dpi, single_nr)
+    main(Rfiles, Sfiles, Mfiles, output, dpi, single_nr, method)
 

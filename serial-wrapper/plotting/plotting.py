@@ -112,10 +112,14 @@ def PlotGrid(x, y, data, output, xlabel, ylabel, title, xlog=True, ylog=True, dp
 
 def MakePlot(xs, ys, labels, title, xlabel, ylabel, output,
              lstyles, colors, markers, legend=True, ylog=True, dpi=250,
-             xlim=None, ylim=None, scaling_line=False,
+             xlim=None, ylim=None, scaling_line=False, width=None, height=None,
              **plt_kw):
 
-    fig = plt.figure(dpi=dpi)
+    if (width is None or height is None):
+        figsize = None
+    else:
+        figsize = (width, height)
+    fig = plt.figure(dpi=dpi, figsize=figsize)
     ax = fig.add_subplot(111)
 
     ax.set_title(title)
