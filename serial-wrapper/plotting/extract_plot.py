@@ -223,7 +223,7 @@ def main(Rfiles, Sfiles, Mfiles, output, dpi, single_nr, method):
         xs.append(x); ys.append(y)
         ls.append(lstyle); colors.append(c); markers.append(m); labels.append(l)
 
-    color_marks.reset_counters(); color_marks.cind += 1
+    color_marks.reset_counters(); color_marks.cind += 2
     for i in range(len(Mruns)):
         x = Mruns[i][:,ic]
         y = Mruns[i][:,it]
