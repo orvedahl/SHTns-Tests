@@ -1,0 +1,126 @@
+ //////////////////////////////////////
+ Initializating Rayleigh...
+
+ -- Initalizing MPI...
+ ---- Specified parameters:
+ ---- NCPU  :    256
+ ---- NPROW :     32
+ ---- NPCOL :      8
+ -- MPI initialized.
+
+
+ -- Initalizing Grid...
+ ---- Specified parameters ----
+ ---- N_R                 :     64
+ ---- N_THETA             :    768
+ ---- Ell_MAX             :    511
+ ---- R_MIN               :  5.38462E-01
+ ---- R_MAX               :  1.53846E+00
+ ---- Chebyshev Domains   :      1
+
+        Domain 1
+          Grid points           :  64
+          Dealiased Polynomials :  42
+          Domain Lower Bound    :  5.38462E-01
+          Domain Upper Bound    :  1.53846E+00
+
+ -- Grid initialized.
+
+[SHTns 3.4.5] built Apr 30 2021, 15:49:24, id: avx2,ishioka
+        Lmax=511, Mmax*Mres=511, Mres=1, Nlm=131328  [1 threads, orthonormalized]
+        => using FFTW : Mmax=511, Nphi=1536, Nlat=768  (data layout : phi_inc=768, theta_inc=1, phi_embed=1536)
+        => using Gauss nodes
+        + polar optimization threshold = 1.0e-08
+        finding optimal algorithm........
+        + SHT accuracy = 3.96e-13
+        => SHTns is ready.
+ -- Initalizing Reference State...
+ ---- Specified parameters:
+ ---- Reference type           :  Boussinesq (Non-dimensional)
+ ---- Rayleigh Number          :  1.00000E+05
+ ---- Ekman Number             :  1.00000E-03
+ ---- Prandtl Number           :  1.00000E+00
+ ---- Magnetic Prandtl Number  :  5.00000E+00
+ -- Reference State initialized.
+
+ -- Initializing Fields...
+ ---- Specified parameters:
+ ---- Hydro Init Type    : Benchmark (Christensen et al. 2001)
+ ---- Magnetic Init Type : Benchmark (Christensen et al. 2001)
+ -- Fields initialized.
+
+ Initialization Complete.
+ //////////////////////////////////////
+
+ Timestep has changed from  0.00000E+00 to  1.00000E-04.
+ Iteration:  00000001   DeltaT:  1.000E-04   Iter/sec:  0.000E+00
+ Timestep has changed from  1.00000E-04 to  8.93257E-06.
+ Iteration:  00000002   DeltaT:  8.933E-06   Iter/sec:  1.272E-01
+ Iteration:  00000003   DeltaT:  8.933E-06   Iter/sec:  1.465E+00
+ Iteration:  00000004   DeltaT:  8.933E-06   Iter/sec:  1.543E+00
+ Iteration:  00000005   DeltaT:  8.933E-06   Iter/sec:  1.531E+00
+ Iteration:  00000006   DeltaT:  8.933E-06   Iter/sec:  1.526E+00
+ Iteration:  00000007   DeltaT:  8.933E-06   Iter/sec:  1.515E+00
+ Iteration:  00000008   DeltaT:  8.933E-06   Iter/sec:  1.518E+00
+ Iteration:  00000009   DeltaT:  8.933E-06   Iter/sec:  1.516E+00
+ Iteration:  00000010   DeltaT:  8.933E-06   Iter/sec:  1.552E+00
+ Iteration:  00000011   DeltaT:  8.933E-06   Iter/sec:  1.494E+00
+ Iteration:  00000012   DeltaT:  8.933E-06   Iter/sec:  1.536E+00
+ Iteration:  00000013   DeltaT:  8.933E-06   Iter/sec:  1.532E+00
+ Iteration:  00000014   DeltaT:  8.933E-06   Iter/sec:  1.591E+00
+ Iteration:  00000015   DeltaT:  8.933E-06   Iter/sec:  1.526E+00
+ Iteration:  00000016   DeltaT:  8.933E-06   Iter/sec:  1.525E+00
+ Iteration:  00000017   DeltaT:  8.933E-06   Iter/sec:  1.478E+00
+ Iteration:  00000018   DeltaT:  8.933E-06   Iter/sec:  1.614E+00
+ Iteration:  00000019   DeltaT:  8.933E-06   Iter/sec:  1.463E+00
+ Iteration:  00000020   DeltaT:  8.933E-06   Iter/sec:  1.571E+00
+ Iteration:  00000021   DeltaT:  8.933E-06   Iter/sec:  1.500E+00
+ Iteration:  00000022   DeltaT:  8.933E-06   Iter/sec:  1.509E+00
+ Iteration:  00000023   DeltaT:  8.933E-06   Iter/sec:  1.526E+00
+ Iteration:  00000024   DeltaT:  8.933E-06   Iter/sec:  1.557E+00
+ Iteration:  00000025   DeltaT:  8.933E-06   Iter/sec:  1.562E+00
+ Iteration:  00000026   DeltaT:  8.933E-06   Iter/sec:  1.525E+00
+ Iteration:  00000027   DeltaT:  8.933E-06   Iter/sec:  1.589E+00
+ Iteration:  00000028   DeltaT:  8.933E-06   Iter/sec:  1.547E+00
+ Iteration:  00000029   DeltaT:  8.933E-06   Iter/sec:  1.489E+00
+ Iteration:  00000030   DeltaT:  8.933E-06   Iter/sec:  1.523E+00
+ Iteration:  00000031   DeltaT:  8.933E-06   Iter/sec:  1.482E+00
+ Iteration:  00000032   DeltaT:  8.933E-06   Iter/sec:  1.532E+00
+ Iteration:  00000033   DeltaT:  8.933E-06   Iter/sec:  1.551E+00
+ Iteration:  00000034   DeltaT:  8.933E-06   Iter/sec:  1.510E+00
+ Iteration:  00000035   DeltaT:  8.933E-06   Iter/sec:  1.571E+00
+ Iteration:  00000036   DeltaT:  8.933E-06   Iter/sec:  1.529E+00
+ Iteration:  00000037   DeltaT:  8.933E-06   Iter/sec:  1.562E+00
+ Iteration:  00000038   DeltaT:  8.933E-06   Iter/sec:  1.542E+00
+ Iteration:  00000039   DeltaT:  8.933E-06   Iter/sec:  1.490E+00
+ Iteration:  00000040   DeltaT:  8.933E-06   Iter/sec:  1.464E+00
+ Iteration:  00000041   DeltaT:  8.933E-06   Iter/sec:  1.585E+00
+ Iteration:  00000042   DeltaT:  8.933E-06   Iter/sec:  1.506E+00
+ Iteration:  00000043   DeltaT:  8.933E-06   Iter/sec:  1.571E+00
+ Iteration:  00000044   DeltaT:  8.933E-06   Iter/sec:  1.473E+00
+ Iteration:  00000045   DeltaT:  8.933E-06   Iter/sec:  1.567E+00
+ Iteration:  00000046   DeltaT:  8.933E-06   Iter/sec:  1.462E+00
+ Iteration:  00000047   DeltaT:  8.933E-06   Iter/sec:  1.553E+00
+ Iteration:  00000048   DeltaT:  8.933E-06   Iter/sec:  1.529E+00
+ Iteration:  00000049   DeltaT:  8.933E-06   Iter/sec:  1.507E+00
+ Iteration:  00000050   DeltaT:  8.933E-06   Iter/sec:  1.580E+00
+
+
+//////////////////////////////////////////////
+   Measured Timings for Process 0  (seconds)
+
+ Elapsed time:        36.7336
+  Column time:         7.7250
+     Row time:        11.1508
+Legendre time:         3.8795
+     FFT time:         1.8935
+   Solve time:         0.5045
+    rlma time:         0.4091
+    rlmb time:         0.1739
+  pspace time:         3.7894
+  psolve time:         2.8781
+    dphi time:         0.1519
+captured time:        32.5558
+
+     iter/sec:         1.3612
+//////////////////////////////////////////////
