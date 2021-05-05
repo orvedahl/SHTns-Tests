@@ -20,6 +20,7 @@ plt.rcParams.update({"text.usetex":True})
 import numpy as np
 from plotting import MakePlot
 from utils import ColorMarks
+from glob import glob
 
 def ParseMagic(f):
     """
@@ -247,10 +248,20 @@ def main(Rfiles, Sfiles, Mfiles, output, dpi, single_nr, method):
     MakePlot(xs, ys, labels, title, xlabel, ylabel, output, ls, colors, markers,
              dpi=dpi, legend=True, ylog=True, xlim=xlim, scaling_line=True, width=6, height=None)
 
+def Unglob(filenames):
+    if ("," in filenames):
+        files = []
+        entries = filenames.split(",")
+        for e in entries:
+            files.extend(glob(e))
+    else:
+        files = glob(filenames)
+
+    return files
+
 if __name__ == "__main__":
 
     from docopt import docopt
-    from glob import glob
 
     args = docopt(__doc__)
 
@@ -264,11 +275,11 @@ if __name__ == "__main__":
 
     # expand any glob characters
     if (Rfiles is not None):
-        Rfiles = glob(Rfiles)
+        Rfiles = Unglob(Rfiles)
     if (Sfiles is not None):
-        Sfiles = glob(Sfiles)
+        Sfiles = Unglob(Sfiles)
     if (Mfiles is not None):
-        Mfiles = glob(Mfiles)
+        Mfiles = Unglob(Mfiles)
 
     main(Rfiles, Sfiles, Mfiles, output, dpi, single_nr, method)
 
