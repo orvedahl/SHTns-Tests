@@ -23,6 +23,7 @@
  checkpoint_interval = 10000
  cflmin = 0.4d0
  cflmax = 0.6d0
+ save_last_timestep = .false.
 /
 &io_controls_namelist
 /
